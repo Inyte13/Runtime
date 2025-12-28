@@ -7,6 +7,7 @@ from app.core.database import create_db_and_tables
 from app.models.actividad import Actividad  # noqa: F401
 from app.models.bloque import Bloque  # noqa: F401
 from app.models.dia import Dia  # noqa: F401
+from app.routers.actividad_router import actividad_router  
 
 
 @asynccontextmanager
@@ -16,6 +17,7 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(lifespan=lifespan, title="Runtime App")
+app.include_router(actividad_router)
 
 origins = [
   "http://localhost:5173",  # Tu futuro Frontend React
@@ -29,8 +31,3 @@ app.add_middleware(
   allow_methods=["*"],
   allow_headers=["*"],
 )
-
-
-@app.get("/")
-def read_root():
-  return {"msg": "Runtime API funcionando"}
