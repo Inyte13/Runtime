@@ -1,8 +1,16 @@
 from fastapi import APIRouter
 
 from app.core.database import SessionDep
-from app.crud.actividad_crud import read_actividades_activas
-from app.schemas.actividad_schema import ActividadRead
+from app.crud.actividad_crud import (
+  read_actividades_activas,
+)
+from app.schemas.actividad_schema import ActividadCreate, ActividadRead, ActividadUpdate
+from app.services.actividad_service import (
+  actualizar_actividad,
+  buscar_actividad,
+  eliminar_actividad_soft,
+  registrar_actividad,
+)
 
 actividad_router = APIRouter(tags=["Actividades"])
 
@@ -10,3 +18,25 @@ actividad_router = APIRouter(tags=["Actividades"])
 @actividad_router.get("/actividades", response_model=list[ActividadRead])
 def get_actividades(session: SessionDep):
   return read_actividades_activas(session)
+
+
+@actividad_router.get("/actividades/{id}", response_model=ActividadRead)
+def get_actividad(session: SessionDep, id: int):
+  return buscar_actividad(session, id)
+
+
+@actividad_router.post("/actividades", status_code=201, response_model=ActividadRead)
+def post_actividad(actividad: ActividadCreate, session: SessionDep):
+  return registrar_actividad(session, actividad)
+
+
+@actividad_router.patch("/actividades/{id}", response_model=ActividadRead)
+def patch_actividad(session: SessionDep, actividad: ActividadUpdate, id: int):
+  return actualizar_actividad(session, id, actividad)
+
+
+# Aunque sea soft delete, igual va delete
+@actividad_router.delete("/actividades/{id}", status_code=204)
+def delete_actividad(session: SessionDep, id: int):
+  eliminar_actividad_soft(session, id)
+  return
