@@ -1,0 +1,57 @@
+# --- Entorno Virtual y Variables de Entorno ---
+venv/
+env/
+.env
+.env.*
+!.env.example
+
+# --- Python ---
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pdb
+*.egg-info/
+*.egg
+
+# --- Type Checking (Mypy) ---
+# Importante si usas SQLModel ya que usa mucho tipado
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# --- Configuración de IDEs ---
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# --- Logs y Depuración ---
+*.log
+*.pid
+
+# --- Pruebas y Coverage ---
+.coverage
+htmlcov/
+.pytest_cache/
+
+# --- Bases de Datos Locales ---
+*.db
+*.sqlite3
+# Si haces dumps de tu MySQL
+*.sql
+
+# --- DOCKER (Ajustado) ---
+# OJO: Generalmente SÍ quieres subir el Dockerfile al repo.
+# Solo ignoramos los overrides que tienen contraseñas locales.
+docker-compose.override.yml
+
+# Volúmenes de datos de Docker (IMPORTANTE)
+# Si mapeas la data de MySQL a una carpeta local para que no se borre
+mysql_data/
+postgres_data/
+data/
+
+# --- Archivos del Sistema Operativo (Basura) ---
+.DS_Store
+Thumbs.db
