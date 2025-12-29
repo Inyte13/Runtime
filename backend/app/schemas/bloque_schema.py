@@ -1,8 +1,8 @@
-from datetime import time
+from datetime import date, time
 
 from sqlmodel import Field, SQLModel
 
-from app.models.bloque import BloqueBase
+from app.schemas.actividad_schema import ActividadRead
 
 
 # No copiamos tal cual el BloqueBase solo sin la fecha,
@@ -14,5 +14,17 @@ class BloqueCreate(SQLModel):
   id_actividad: int
 
 
-class BloqueRead(BloqueBase):
+class BloqueRead(SQLModel):
   id: int
+  fecha: date
+  hora: time
+  descripcion: str | None = None
+  id_actividad: int
+  actividad: ActividadRead | None = None
+
+
+class BloqueUpdate(SQLModel):
+  hora: time | None = None
+  descripcion: str | None = None
+  id_actividad: int | None = None
+  
