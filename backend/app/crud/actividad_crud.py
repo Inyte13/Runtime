@@ -14,9 +14,7 @@ def create_actividad(session: Session, actividad: Actividad) -> Actividad:
 
 
 # Sequence, una lista solo de lectura
-def read_actividades(
-  session: Session,
-) -> Sequence[Actividad]:
+def read_actividades(session: Session) -> Sequence[Actividad]:
   statement = select(Actividad)
   return session.exec(statement).all()
 
