@@ -1,9 +1,12 @@
 from datetime import date, time
+from typing import TYPE_CHECKING
 
 from sqlmodel import Field, Relationship, SQLModel
 
 from app.models.actividad import Actividad
-from app.models.dia import Dia
+
+if TYPE_CHECKING:
+  from app.models.dia import Dia
 
 
 class BloqueBase(SQLModel):
