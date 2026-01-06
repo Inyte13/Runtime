@@ -9,9 +9,11 @@ from app.crud.bloque_crud import (
   read_bloque_by_id,
   update_bloque,
 )
+from app.crud.dia_crud import read_dia
 from app.models.actividad import Actividad
 from app.models.bloque import Bloque
 from app.schemas.bloque_schema import BloqueCreate, BloqueUpdate
+from app.services.dia_services import generar_dia
 
 
 def _validar_actividad(session: Session, id: int) -> None:
@@ -61,9 +63,12 @@ def buscar_bloque(session: Session, id: int) -> Bloque:
 def registrar_bloque(session: Session, bloque: BloqueCreate) -> Bloque:
   _validar_actividad(session, bloque.id_actividad)
   _validar_hora_granulidad(bloque.hora, unidad_bloque=30)
-  fecha_actual = date.today()
-  _validar_hora_superior(session, fecha_actual, bloque.hora)
-  new_bloque = Bloque.model_validate({**bloque.model_dump(), "fecha": fecha_actual})
+  fecha = bloque.fecha or date.today()
+  _validar_hora_superior(session, fecha, bloque.hora)
+  dia = read_dia(session, fecha)
+  if not dia:
+    dia = generar_dia(session, fecha)
+  new_bloque = Bloque.model_validate({**bloque.model_dump(), "fecha": dia.fecha})
   return create_bloque(session, new_bloque)
 
 
@@ -74,9 +79,8 @@ def actualizar_bloque(session: Session, id: int, bloque: BloqueUpdate) -> Bloque
     # Validamos la actividad ingresada
     _validar_actividad(session, bloque.id_actividad)
   # Si la hora se ingresó
-  if bloque.hora: 
+  if bloque.hora:
     _validar_hora_granulidad(bloque.hora, unidad_bloque=30)
-    _validar_hora_superior(session, bloque_bd.fecha, bloque.hora)
   return update_bloque(session, bloque_bd, bloque)
 
 
