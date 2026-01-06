@@ -1,11 +1,15 @@
-from datetime import date
-
-from app.models.dia import DiaBase
+from sqlmodel import SQLModel
+from app.models.dia import Dia, DiaBase, Estado
 
 
 class DiaCreate(DiaBase):
   pass
 
 
-class DiaRead(DiaBase):
-  fecha: date
+class DiaRead(Dia):
+  pass
+
+
+class DiaUpdate(SQLModel):
+  titulo: str | None = None
+  estado: Estado | None = None

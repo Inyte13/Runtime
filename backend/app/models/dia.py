@@ -1,7 +1,8 @@
 from datetime import date
 from enum import IntEnum
 
-from sqlmodel import Field, SQLModel
+from backend.app.models.bloque import Bloque
+from sqlmodel import Field, Relationship, SQLModel
 
 
 class Estado(IntEnum):
@@ -17,3 +18,4 @@ class DiaBase(SQLModel):
 
 class Dia(DiaBase, table=True):
   fecha: date = Field(primary_key=True)
+  bloques: list["Bloque"] = Relationship(back_populates="dia")
