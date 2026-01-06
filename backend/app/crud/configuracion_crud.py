@@ -1,5 +1,6 @@
-from backend.app.models.configuracion import DiaDefault
 from sqlmodel import Session, select
+
+from app.models.configuracion import DiaDefault
 
 
 def read_configuracion(session: Session) -> DiaDefault | None:

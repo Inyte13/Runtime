@@ -1,7 +1,8 @@
-from backend.app.crud.configuracion_crud import read_configuracion, save_configuracion
-from backend.app.models.configuracion import DiaDefault
-from backend.app.schemas.configuracion_schema import DiaDefaultUpdate
 from sqlmodel import Session
+
+from app.crud.configuracion_crud import read_configuracion, save_configuracion
+from app.models.configuracion import DiaDefault
+from app.schemas.configuracion_schema import DiaDefaultUpdate
 
 
 def buscar_configuracion(session: Session) -> DiaDefault:

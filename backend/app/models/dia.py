@@ -1,8 +1,9 @@
 from datetime import date
 from enum import IntEnum
 
-from backend.app.models.bloque import Bloque
 from sqlmodel import Field, Relationship, SQLModel
+
+from app.models.bloque import Bloque
 
 
 class Estado(IntEnum):

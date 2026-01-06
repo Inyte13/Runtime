@@ -1,12 +1,12 @@
 from datetime import date
 
-from backend.app.crud.bloque_crud import (
-  read_bloques_by_fecha,
-  read_bloques_by_range,
-)
 from fastapi import APIRouter, HTTPException
 
 from app.core.database import SessionDep
+from app.crud.bloque_crud import (
+  read_bloques_by_fecha,
+  read_bloques_by_range,
+)
 from app.schemas.bloque_schema import BloqueCreate, BloqueRead, BloqueUpdate
 from app.services.bloque_service import (
   actualizar_bloque,

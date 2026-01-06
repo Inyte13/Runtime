@@ -1,6 +1,7 @@
-from backend.app.models.configuracion import DiaDefaultBase
-from backend.app.models.dia import Estado
 from sqlmodel import SQLModel
+
+from app.models.configuracion import DiaDefaultBase
+from app.models.dia import Estado
 
 
 class DiaDefaultRead(DiaDefaultBase):

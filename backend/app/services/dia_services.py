@@ -1,37 +1,23 @@
 from datetime import date
 from typing import Sequence
 
-from backend.app.crud.dia_crud import create_dia, read_dia, read_dias, update_dia
-from backend.app.models.dia import Dia
-from backend.app.schemas.dia_schema import DiaUpdate
 from fastapi import HTTPException, status
 from sqlmodel import Session
 
-from backend.app.services.configuracion_service import buscar_configuracion
+from app.crud.dia_crud import create_dia, read_dia, read_dias, update_dia
+from app.models.dia import Dia
+from app.schemas.dia_schema import DiaUpdate
+from app.services.configuracion_service import buscar_configuracion
 
 
-
-def __generar_dia(session: Session, fecha: date) -> Dia:
+def generar_dia(session: Session, fecha: date) -> Dia:
   if buscar_dia(session, fecha):
     raise HTTPException(
-      status_code=status.HTTP_400_BAD_REQUEST, detail='El día ya existe'
+      status_code=status.HTTP_400_BAD_REQUEST, detail="El día ya existe"
     )
   config = buscar_configuracion(session)
-  new_dia = Dia(
-    fecha=fecha,
-    titulo=config.titulo_default,
-    estado=config.estado_default
-  )
+  new_dia = Dia(fecha=fecha, titulo=config.titulo_default, estado=config.estado_default)
   return create_dia(session, new_dia)
-
-
-def mostrar_dias(session: Session) -> Sequence[Dia]:
-  dias = read_dias(session)
-  if not dias:
-    raise HTTPException(
-      status_code=status.HTTP_404_NOT_FOUND, detail="No se registro ningún día"
-    )
-  return dias
 
 
 def buscar_dia(session: Session, fecha: date) -> Dia:
@@ -41,6 +27,15 @@ def buscar_dia(session: Session, fecha: date) -> Dia:
       status_code=status.HTTP_404_NOT_FOUND, detail="No se encontró el día"
     )
   return dia
+
+
+def mostrar_dias(session: Session) -> Sequence[Dia]:
+  dias = read_dias(session)
+  if not dias:
+    raise HTTPException(
+      status_code=status.HTTP_404_NOT_FOUND, detail="No se registro ningún día"
+    )
+  return dias
 
 
 def actualizar_dia(session: Session, fecha: date, dia: DiaUpdate) -> Dia:

@@ -1,9 +1,10 @@
 from datetime import date
 from typing import Sequence
 
-from backend.app.models.dia import Dia
-from backend.app.schemas.dia_schema import DiaUpdate
 from sqlmodel import Session, select
+
+from app.models.dia import Dia
+from app.schemas.dia_schema import DiaUpdate
 
 
 def create_dia(session: Session, dia: Dia) -> Dia:
