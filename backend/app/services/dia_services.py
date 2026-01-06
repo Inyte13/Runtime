@@ -11,7 +11,8 @@ from app.services.configuracion_service import buscar_configuracion
 
 
 def generar_dia(session: Session, fecha: date) -> Dia:
-  if buscar_dia(session, fecha):
+  # No se utiliza buscar_dia, por que sale la exception
+  if read_dia(session, fecha):
     raise HTTPException(
       status_code=status.HTTP_400_BAD_REQUEST, detail="El día ya existe"
     )
