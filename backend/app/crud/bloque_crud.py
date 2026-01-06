@@ -7,6 +7,13 @@ from app.models.bloque import Bloque
 from app.schemas.bloque_schema import BloqueUpdate
 
 
+def create_bloque(session: Session, bloque: Bloque) -> Bloque:
+  session.add(bloque)
+  session.commit()
+  session.refresh(bloque)
+  return bloque
+
+
 def read_bloque_by_id(session: Session, id: int) -> Bloque | None:
   return session.get(Bloque, id)
 
@@ -21,13 +28,6 @@ def read_bloques_by_range(
 ) -> Sequence[Bloque]:
   statement = select(Bloque).where(Bloque.fecha >= inicio, Bloque.fecha <= final)
   return session.exec(statement).all()
-
-
-def create_bloque(session: Session, bloque: Bloque) -> Bloque:
-  session.add(bloque)
-  session.commit()
-  session.refresh(bloque)
-  return bloque
 
 
 def update_bloque(session: Session, bloque_bd: Bloque, bloque: BloqueUpdate) -> Bloque:

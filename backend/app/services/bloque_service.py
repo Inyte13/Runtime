@@ -74,7 +74,7 @@ def actualizar_bloque(session: Session, id: int, bloque: BloqueUpdate) -> Bloque
     # Validamos la actividad ingresada
     _validar_actividad(session, bloque.id_actividad)
   # Si la hora se ingresó
-  if bloque.hora:
+  if bloque.hora: 
     _validar_hora_granulidad(bloque.hora, unidad_bloque=30)
     _validar_hora_superior(session, bloque_bd.fecha, bloque.hora)
   return update_bloque(session, bloque_bd, bloque)
