@@ -12,6 +12,7 @@ class BloqueCreate(SQLModel):
   # Aquí si va porque es validación de datos, no indicaciones para la bd
   descripcion: str | None = Field(default=None, max_length=255)
   id_actividad: int
+  fecha: date | None = None
 
 
 class BloqueRead(SQLModel):
@@ -19,12 +20,13 @@ class BloqueRead(SQLModel):
   fecha: date
   hora: time
   descripcion: str | None = None
-  id_actividad: int
   actividad: ActividadRead | None = None
+
+  class Config:
+    orm_mode = True
 
 
 class BloqueUpdate(SQLModel):
   hora: time | None = None
   descripcion: str | None = None
   id_actividad: int | None = None
-  
