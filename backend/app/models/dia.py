@@ -1,9 +1,11 @@
 from datetime import date
 from enum import IntEnum
+from typing import TYPE_CHECKING
 
 from sqlmodel import Field, Relationship, SQLModel
 
-from app.models.bloque import Bloque
+if TYPE_CHECKING:
+  from app.models.bloque import Bloque
 
 
 class Estado(IntEnum):
