@@ -1,7 +1,0 @@
-node_modules
-dist
-build
-coverage
-.eslintrc.js
-vite.config.js
-*.config.js
