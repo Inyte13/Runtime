@@ -1,57 +1,68 @@
-# --- Entorno Virtual y Variables de Entorno ---
-venv/
-env/
+# ────────────────
+# Node / React
+# ────────────────
+node_modules/
+dist/
+build/
 .env
-.env.*
-!.env.example
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.vite/
+.vscode/
 
-# --- Python ---
+# ────────────────
+# Python / FastAPI
+# ────────────────
 __pycache__/
-*.pyc
+*.py[cod]
 *.pyo
 *.pyd
-*.pdb
-*.egg-info/
+*.so
 *.egg
-
-# --- Type Checking (Mypy) ---
-# Importante si usas SQLModel ya que usa mucho tipado
+*.egg-info/
+dist/
+build/
+*.log
+*.sqlite3
+*.db
+*.env
+*.bak
+*.tmp
+*.coverage
+.coverage.*
+.cache/
 .mypy_cache/
-.dmypy.json
-dmypy.json
+.pytest_cache/
+pip-wheel-metadata/
+site/
+htmlcov/
+*.spec
+*.lock
+*.cfg
+*.ini
 
-# --- Configuración de IDEs ---
+# Virtual environments
+venv/
+env/
+.venv/
+.envrc
+
+# ────────────────
+# IDEs / Editors
+# ────────────────
 .vscode/
 .idea/
-*.swp
-*.swo
+*.sublime-project
+*.sublime-workspace
 
-# --- Logs y Depuración ---
-*.log
-*.pid
-
-# --- Pruebas y Coverage ---
-.coverage
-htmlcov/
-.pytest_cache/
-
-# --- Bases de Datos Locales ---
-*.db
-*.sqlite3
-# Si haces dumps de tu MySQL
-*.sql
-
-# --- DOCKER (Ajustado) ---
-# OJO: Generalmente SÍ quieres subir el Dockerfile al repo.
-# Solo ignoramos los overrides que tienen contraseñas locales.
-docker-compose.override.yml
-
-# Volúmenes de datos de Docker (IMPORTANTE)
-# Si mapeas la data de MySQL a una carpeta local para que no se borre
-mysql_data/
-postgres_data/
-data/
-
-# --- Archivos del Sistema Operativo (Basura) ---
+# ────────────────
+# OS-specific
+# ────────────────
 .DS_Store
 Thumbs.db
