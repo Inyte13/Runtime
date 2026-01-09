@@ -1,42 +1,115 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+*{
+  margin: 0;
+  padding: 0;
+}
+*, *::before, *::after {
+  box-sizing: border-box;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+
+
+:root{
+  --text-muted: #677;
+  --border-color: #cc9476;
+  --border-radius: 9px;
+  --border: 1px solid var(--gris-negro-4);  
+  --blanco:#f6f6f6;
+  --blanco-gris-1:#e7e7e7;
+  --blanco-gris-2:#d1d1d1;
+  --blanco-gris-3:#b0b0b0;
+  --blanco-gris-4:#888888;
+  --gris:#6d6d6d; 
+  --gris-negro-1:#5d5d5d;
+  --gris-negro-2:#4f4f4f;
+  --gris-negro-3:#454545;
+  --gris-negro-4:#3d3d3d;
+  --gris-negro-5:#212121;
+  --negro:#1a1a1a; 
+
+  
+  
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+body{
+  background-color: var(--negro);
+  color: var(--blanco-gris-1);
+  font-family: system-ui, sans-serif;
+  main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 3rem;
+    display: flex;
+    justify-content: space-around;
+    gap: 2rem
+  } 
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+button {
+  all: unset;
+  font: inherit;
+  color: inherit;
+}
+
+.iconA {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  line-height: 1;
+  text-decoration: none;
+  background: var(--blanco-gris-1);
+  line-height: 0;
+  border-radius: var(--border-radius);
+  svg {
+    width: 24px;
+    height: 24px;
+    display: block;
+    color: var(--gris-negro-4);
   }
-  to {
-    transform: rotate(360deg);
+  &:hover {
+    background: var(--blanco-gris-2)
   }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
+.iconBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: none;
+  border-radius: var(--border-radius);
+  background: var(--blanco-gris-1);
+  &:hover {
+    background: var(--blanco-gris-2);
+  }
+  svg {
+    display: block;
+    color: var(--gris-negro-4)
   }
 }
 
-.card {
-  padding: 2em;
-}
 
-.read-the-docs {
-  color: #888;
+.btn {
+  display: inline-flex;
+  align-items: center;
+  height: 40px;
+  padding: 0 1rem;
+  border-radius: var(--border-radius);
+  background: var(--blanco-gris-1);
+  cursor: pointer;
+  color: var(--gris-negro-4);  
+  font-weight: 500;
+  &:hover {
+    background: var(--blanco-gris-2);
+  }
 }

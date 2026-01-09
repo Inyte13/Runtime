@@ -1,0 +1,10 @@
+.listaBloques {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+  article {
+    h2 {
+      font-weight: 300;
+    }
+  }
+}

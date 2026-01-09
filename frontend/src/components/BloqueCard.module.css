@@ -1,0 +1,19 @@
+.bloque {
+  display: flex;
+  flex-direction: column;
+  gap: .3rem;
+  padding: .2rem 1rem;
+  border: var(--border);
+  border-radius: var(--border-radius);
+  time {
+    color: var(--blanco-gris-3);
+  }
+  button {
+    color: var(--blanco-gris-3);
+    &:hover {
+      text-decoration: underline;
+      color: var(--blanco-gris-2);
+    }
+  }
+  
+}

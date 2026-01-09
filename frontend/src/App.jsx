@@ -1,10 +1,19 @@
+import { Header } from './components/Header.jsx'
 import './App.css'
+import { Route, Routes } from 'react-router'
+import { lazy } from 'react'
 
-function App () {
+const Home = lazy(() => import('./pages/Home.jsx'))
+
+export default function App () {
   return (
     <>
+      <Header />
+      <main>
+        <Routes>
+          <Route path='/' element={<Home />} />
+        </Routes>
+      </main>
     </>
   )
 }
-
-export default App

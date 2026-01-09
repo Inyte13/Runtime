@@ -1,0 +1,33 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: 1rem;
+  .titleWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: .6rem;
+    p {
+      color: var(--blanco-gris-3);
+    }
+  }
+  .toolbarWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .5rem;
+    .viewBtn {
+      background: var(--gris-negro-4);
+      padding: .4rem;
+      display: flex;
+      gap: .5rem;
+      border-radius: var(--border-radius);
+    }
+    .navBtn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: .3rem;
+    }
+  }
+}

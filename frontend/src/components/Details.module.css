@@ -1,0 +1,8 @@
+.header {
+  border-bottom: var(--border);
+  padding: .5rem 2rem;
+  margin-bottom: 1.2rem;
+  h2 {
+    font-weight: 400;
+  }
+}
