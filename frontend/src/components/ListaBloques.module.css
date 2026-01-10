@@ -1,10 +1,9 @@
 .listaBloques {
   display: flex;
   flex-direction: column;
-  gap: .5rem;
-  article {
-    h2 {
-      font-weight: 300;
-    }
+  gap: .7rem;
+  button{
+    height: 2.2rem;
+    align-self: center;
   }
 }
