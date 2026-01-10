@@ -14,6 +14,7 @@ export default function ListaBloques ({ bloques, loading }) {
         {bloques.map(bloque => (
           <BloqueCard key={bloque.id} bloque={bloque} />
         ))}
+        <button className='btn'>Añadir</button>
       </div>
     </>
   )
