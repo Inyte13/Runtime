@@ -21,6 +21,7 @@ class BloqueRead(SQLModel):
   hora: time
   descripcion: str | None = None
   actividad: ActividadRead | None = None
+  duracion: float | None = None
 
   class Config:
     orm_mode = True

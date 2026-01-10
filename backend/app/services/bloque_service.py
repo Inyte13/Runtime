@@ -1,4 +1,4 @@
-from datetime import date, time
+from datetime import date, datetime, time
 
 from fastapi import HTTPException, status
 from sqlmodel import Session, desc, select
@@ -14,6 +14,38 @@ from app.models.actividad import Actividad
 from app.models.bloque import Bloque
 from app.schemas.bloque_schema import BloqueCreate, BloqueUpdate
 from app.services.dia_services import generar_dia
+
+
+# Horas: 3600, minutos: 60
+def _calcular_duracion(session: Session, bloque: Bloque, unidad_tiempo=3600) -> None:
+  statement = (
+    select(Bloque)
+    .where(Bloque.fecha == bloque.fecha, Bloque.hora > bloque.hora)
+    .order_by(Bloque.hora)  # type: ignore
+  )
+  siguiente = session.exec(statement).first()
+
+  if siguiente:
+    inicio = datetime.combine(bloque.fecha, bloque.hora)
+    fin = datetime.combine(siguiente.fecha, siguiente.hora)
+    bloque.duracion = (fin - inicio).total_seconds() / unidad_tiempo
+  else:
+    bloque.duracion = None
+  session.add(bloque)
+  
+  statement = (
+    select(Bloque)
+    .where(Bloque.fecha == bloque.fecha, Bloque.hora < bloque.hora)
+    .order_by(Bloque.hora.desc()) # type: ignore
+  )
+  anterior = session.exec(statement).first()
+
+  if anterior:
+    inicio = datetime.combine(anterior.fecha, anterior.hora)
+    fin = datetime.combine(bloque.fecha, bloque.hora)
+    anterior.duracion = (fin - inicio).total_seconds() / unidad_tiempo
+    session.add(anterior)
+  session.commit()
 
 
 def _validar_actividad(session: Session, id: int) -> None:
@@ -69,7 +101,9 @@ def registrar_bloque(session: Session, bloque: BloqueCreate) -> Bloque:
   if not dia:
     dia = generar_dia(session, fecha)
   new_bloque = Bloque.model_validate({**bloque.model_dump(), "fecha": dia.fecha})
-  return create_bloque(session, new_bloque)
+  bloque_bd = create_bloque(session, new_bloque)
+  _calcular_duracion(session, bloque_bd)
+  return create_bloque(session, bloque_bd)
 
 
 def actualizar_bloque(session: Session, id: int, bloque: BloqueUpdate) -> Bloque:
@@ -81,7 +115,10 @@ def actualizar_bloque(session: Session, id: int, bloque: BloqueUpdate) -> Bloque
   # Si la hora se ingresó
   if bloque.hora:
     _validar_hora_granulidad(bloque.hora, unidad_bloque=30)
-  return update_bloque(session, bloque_bd, bloque)
+
+  bloque_bd = update_bloque(session, bloque_bd, bloque)
+  _calcular_duracion(session, bloque_bd)
+  return bloque_bd
 
 
 def eliminar_bloque(session: Session, id: int) -> None:
