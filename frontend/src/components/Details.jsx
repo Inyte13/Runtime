@@ -16,11 +16,13 @@ function DetailHeader ({ date }) {
   )
 }
 
-export default function Details ({ fecha, bloques, loading }) {
+export default function Details ({ fecha }) {
   return (
     <article>
       <DetailHeader date={fecha} />
-      <ListaBloques bloques={bloques} loading={loading} />
+      <ListaBloques
+        fecha={fecha}
+      />
     </article>
   )
 }
