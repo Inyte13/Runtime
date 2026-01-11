@@ -24,7 +24,8 @@
   --gris-negro-3:#454545;
   --gris-negro-4:#3d3d3d;
   --gris-negro-5:#212121;
-  --negro:#1a1a1a; 
+  --negro:#1a1a1a;
+  --red:rgb(129, 16, 16);
 
   
   
@@ -55,7 +56,15 @@ button {
   font: inherit;
   color: inherit;
 }
-
+textarea {
+  resize: none; /* evita que el usuario cambie el tamaño */
+  border: none;
+  outline: none; /* sin contorno azul al hacer foco */
+  background: transparent;
+  font: inherit;
+  color: inherit;
+  overflow: hidden;
+}
 .iconA {
   display: inline-flex;
   align-items: center;
@@ -96,7 +105,7 @@ button {
     display: block;
     color: var(--gris-negro-4)
   }
-}
+} 
 
 
 .btn {
