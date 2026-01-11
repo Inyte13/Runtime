@@ -1,4 +1,4 @@
-from datetime import date, datetime, time
+from datetime import date, datetime, time, timedelta
 
 from fastapi import HTTPException, status
 from sqlmodel import Session, desc, select
@@ -12,7 +12,8 @@ from app.crud.bloque_crud import (
 from app.crud.dia_crud import read_dia
 from app.models.actividad import Actividad
 from app.models.bloque import Bloque
-from app.schemas.bloque_schema import BloqueCreate, BloqueUpdate
+from app.schemas.actividad_schema import ActividadRead
+from app.schemas.bloque_schema import BloqueCreate, BloqueRead, BloqueUpdate
 from app.services.dia_services import generar_dia
 
 
@@ -32,11 +33,11 @@ def _calcular_duracion(session: Session, bloque: Bloque, unidad_tiempo=3600) -> 
   else:
     bloque.duracion = None
   session.add(bloque)
-  
+
   statement = (
     select(Bloque)
     .where(Bloque.fecha == bloque.fecha, Bloque.hora < bloque.hora)
-    .order_by(Bloque.hora.desc()) # type: ignore
+    .order_by(Bloque.hora.desc())  # type: ignore
   )
   anterior = session.exec(statement).first()
 
@@ -83,6 +84,23 @@ def _validar_hora_superior(session: Session, fecha: date, hora: time) -> None:
   return
 
 
+def calcular_hora_fin(bloque: Bloque) -> BloqueRead:
+  hora_fin = None
+  if bloque.duracion:
+    inicio = datetime.combine(bloque.fecha, bloque.hora)
+    fin = inicio + timedelta(hours=bloque.duracion)
+    hora_fin = fin.time()
+  return BloqueRead(
+    id=bloque.id,
+    fecha=bloque.fecha,
+    hora=bloque.hora,
+    descripcion=bloque.descripcion,
+    duracion=bloque.duracion,
+    hora_fin=hora_fin,
+    actividad=ActividadRead.model_validate(bloque.actividad),
+  )
+
+
 def buscar_bloque(session: Session, id: int) -> Bloque:
   bloque = read_bloque_by_id(session, id)
   if not bloque:
@@ -115,6 +133,9 @@ def actualizar_bloque(session: Session, id: int, bloque: BloqueUpdate) -> Bloque
   # Si la hora se ingresó
   if bloque.hora:
     _validar_hora_granulidad(bloque.hora, unidad_bloque=30)
+
+  if bloque.descripcion == '':
+    bloque.descripcion = None
 
   bloque_bd = update_bloque(session, bloque_bd, bloque)
   _calcular_duracion(session, bloque_bd)
