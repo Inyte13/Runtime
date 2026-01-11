@@ -1,5 +1,6 @@
 from datetime import date, time
 
+from pydantic import field_serializer
 from sqlmodel import Field, SQLModel
 
 from app.schemas.actividad_schema import ActividadRead
@@ -16,13 +17,19 @@ class BloqueCreate(SQLModel):
 
 
 class BloqueRead(SQLModel):
-  id: int
+  id: int | None
   fecha: date
-  hora: time
+  hora: time | None 
   descripcion: str | None = None
-  actividad: ActividadRead | None = None
+  actividad: ActividadRead | None
   duracion: float | None = None
+  # Se define en router
+  hora_fin: time | None = None
 
+  @field_serializer('hora', 'hora_fin')
+  def formatear_hora(self, value: time | None) -> str | None:
+    return value.strftime('%H:%M') if value else None
+  
   class Config:
     orm_mode = True
 
