@@ -1,5 +1,5 @@
 import useBloques from '../hooks/useBloques'
-import BloqueCard from './BloqueCard'
+import Card from './Card.jsx'
 import styles from './ListaBloques.module.css'
 
 export default function ListaBloques ({ fecha }) {
@@ -30,7 +30,7 @@ export default function ListaBloques ({ fecha }) {
           <p>Este día no tiene ningún bloque</p>
         )}
         {bloques.map(bloque => (
-          <BloqueCard
+          <Card
             key={bloque.id}
             bloque={bloque}
             manejarEliminacion={() => eliminarBloque(bloque.id)}

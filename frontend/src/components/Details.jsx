@@ -18,7 +18,7 @@ function DetailHeader ({ date }) {
 
 export default function Details ({ fecha }) {
   return (
-    <article>
+    <article className={styles.details}>
       <DetailHeader date={fecha} />
       <ListaBloques
         fecha={fecha}
