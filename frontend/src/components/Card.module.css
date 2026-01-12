@@ -1,0 +1,41 @@
+.bloque {
+  display: flex;
+  flex-direction: column;
+  gap: .4rem;
+  padding: .3rem 1rem .4rem 1rem;
+  border-radius: var(--border-radius);
+  border: var(--border);
+  border-left: 3px solid color-mix(in srgb, var(--color-bloque) 50%, transparent);
+  position: relative;
+
+  div {
+    display: flex;
+    align-items: center;
+    gap: .4rem;
+    time {
+      color: var(--blanco-gris-3);
+    }
+    .timeBtn {
+      display: flex;
+      height: 14px;
+      svg {
+        width: 14px;
+        height: 14px;
+      }
+    }
+  }
+  button {
+    color: var(--blanco-gris-3);
+    &:hover {
+      text-decoration: underline;
+      color: var(--blanco-gris-2);
+    }
+  }
+  .descripcion {
+    height: 1.6rem;
+    font-style: italic;
+    &:focus {
+      border-bottom: 1px solid var(--color-bloque, #000);
+    }
+  }
+}

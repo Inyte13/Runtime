@@ -2,8 +2,12 @@
   display: flex;
   flex-direction: column;
   gap: .7rem;
+  width: 100%;
   button{
     height: 2.2rem;
+    align-self: center;
+  }
+  p {
     align-self: center;
   }
 }
