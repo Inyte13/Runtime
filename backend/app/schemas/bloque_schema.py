@@ -14,6 +14,7 @@ class BloqueCreate(SQLModel):
   descripcion: str | None = Field(default=None, max_length=255)
   id_actividad: int
   fecha: date | None = None
+  duracion: float | None = None
 
 
 class BloqueRead(SQLModel):
@@ -23,7 +24,6 @@ class BloqueRead(SQLModel):
   descripcion: str | None = None
   actividad: ActividadRead | None
   duracion: float | None = None
-  # Se define en router
   hora_fin: time | None = None
 
   @field_serializer('hora', 'hora_fin')
@@ -38,3 +38,4 @@ class BloqueUpdate(SQLModel):
   hora: time | None = None
   descripcion: str | None = None
   id_actividad: int | None = None
+  duracion: float | None = None

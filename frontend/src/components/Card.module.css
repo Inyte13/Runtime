@@ -11,16 +11,13 @@
   div {
     display: flex;
     align-items: center;
-    gap: .4rem;
-    time {
-      color: var(--blanco-gris-3);
-    }
-    .timeBtn {
-      display: flex;
-      height: 14px;
-      svg {
-        width: 14px;
-        height: 14px;
+    justify-content: flex-start;
+    color: var(--blanco-gris-3);
+    gap: .2rem;
+    input {
+      &::-webkit-calendar-picker-indicator {
+        display: none;
+        -webkit-appearance: none;
       }
     }
   }

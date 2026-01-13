@@ -11,7 +11,6 @@ from app.schemas.bloque_schema import BloqueCreate, BloqueRead, BloqueUpdate
 from app.services.bloque_service import (
   actualizar_bloque,
   buscar_bloque,
-  calcular_hora_fin,
   eliminar_bloque,
   registrar_bloque,
 )
@@ -21,8 +20,7 @@ bloque_router = APIRouter(tags=["Bloques"])
 
 @bloque_router.get("/bloques/{id}", response_model=BloqueRead)
 def get_bloque(session: SessionDep, id: int):
-  bloque = buscar_bloque(session, id)
-  return calcular_hora_fin(bloque)
+  return buscar_bloque(session, id)
 
 
 @bloque_router.get("/bloques/", response_model=list[BloqueRead])
@@ -33,11 +31,9 @@ def get_bloques(
   final: date | None = None,
 ):
   if fecha:
-    bloques = read_bloques_by_fecha(session, fecha)
-    return [calcular_hora_fin(b) for b in bloques]
+    return read_bloques_by_fecha(session, fecha)
   if inicio and final:
-    bloques = read_bloques_by_range(session, inicio, final)
-    return [calcular_hora_fin(b) for b in bloques]
+    return read_bloques_by_range(session, inicio, final)
   raise HTTPException(
     status_code=400, detail="Debes indicar fecha o inicio/final como parámetros"
   )
@@ -45,14 +41,12 @@ def get_bloques(
 
 @bloque_router.post("/bloques", status_code=201, response_model=BloqueRead)
 def post_bloque(session: SessionDep, bloque: BloqueCreate):
-  bloque_bd = registrar_bloque(session, bloque)
-  return calcular_hora_fin(bloque_bd)
+  return registrar_bloque(session, bloque)
 
 
 @bloque_router.patch("/bloques/{id}", response_model=BloqueRead)
 def patch_bloque(session: SessionDep, bloque: BloqueUpdate, id: int):
-  bloque_bd = actualizar_bloque(session, id, bloque)
-  return calcular_hora_fin(bloque_bd)
+  return actualizar_bloque(session, id, bloque)
 
 
 @bloque_router.delete("/bloques/{id}", status_code=204)

@@ -15,6 +15,7 @@ class BloqueBase(SQLModel):
   # Foreign key, relación 1-1
   id_actividad: int = Field(foreign_key="actividad.id", nullable=False)
   duracion: float | None = Field(default=None)
+  hora_fin: time | None = Field(default=None)
 
 
 class Bloque(BloqueBase, table=True):

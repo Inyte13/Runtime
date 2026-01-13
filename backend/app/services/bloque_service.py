@@ -12,8 +12,7 @@ from app.crud.bloque_crud import (
 from app.crud.dia_crud import read_dia
 from app.models.actividad import Actividad
 from app.models.bloque import Bloque
-from app.schemas.actividad_schema import ActividadRead
-from app.schemas.bloque_schema import BloqueCreate, BloqueRead, BloqueUpdate
+from app.schemas.bloque_schema import BloqueCreate, BloqueUpdate
 from app.services.dia_services import generar_dia
 
 
@@ -43,33 +42,35 @@ def _bloque_siguiente(session: Session, fecha: date, hora: time) -> Bloque | Non
 
 # Horas: 3600, minutos: 60
 def _calcular_duracion(session: Session, actual: Bloque, unidad_tiempo=3600) -> None:
-  """Calcula la duración de un bloque y ajusta la del bloque anterior"""
-  # Seleccionamos el bloque siguiente sino None
-  siguiente = _bloque_siguiente(session, actual.fecha, actual.hora)
-  if siguiente:
-    # Recuperamos la hora inicial del bloque actual
-    inicio = datetime.combine(actual.fecha, actual.hora)
-    # Recuperamos la hora inicial del bloque siguiente
-    fin = datetime.combine(siguiente.fecha, siguiente.hora)
-    # Lo convertimos a horas
-    actual.duracion = (fin - inicio).total_seconds() / unidad_tiempo
+  """Calcula la duración y hora_fin de un bloque y ajusta la del bloque anterior"""
+  inicio = datetime.combine(actual.fecha, actual.hora)
+
+  if actual.duracion:
+    fin = inicio + timedelta(hours=actual.duracion)
+    actual.hora_fin = fin.time()
   else:
-    actual.duracion = None
+    siguiente = _bloque_siguiente(session, actual.fecha, actual.hora)
+    if siguiente:
+      fin = datetime.combine(siguiente.fecha, siguiente.hora)
+      actual.duracion = (fin - inicio).total_seconds() / unidad_tiempo
+      actual.hora_fin = fin.time()
+    else:
+      actual.duracion = None
+      actual.hora_fin = None
+
   session.add(actual)
 
-  # Seleccionamos el bloque anterior sino None
   anterior = _bloque_anterior(session, actual.fecha, actual.hora)
   if anterior:
-    # Recuperamos la hora inicial del bloque anterior
-    inicio = datetime.combine(anterior.fecha, anterior.hora)
-    # Recuperamos la hora inicial del bloque actual
-    fin = datetime.combine(actual.fecha, actual.hora)
-    # Lo convertimos a horas
-    anterior.duracion = (fin - inicio).total_seconds() / unidad_tiempo
+    inicio_ant = datetime.combine(anterior.fecha, anterior.hora)
+    fin_ant = datetime.combine(actual.fecha, actual.hora)
+    anterior.duracion = (fin_ant - inicio_ant).total_seconds() / unidad_tiempo
+    anterior.hora_fin = actual.hora
     session.add(anterior)
 
   session.commit()
   return
+
 
 def _validar_hora(session: Session, fecha: date, hora: time) -> None:
   anterior = _bloque_anterior(session, fecha, hora)
@@ -110,23 +111,6 @@ def _validar_hora_granulidad(hora: time, unidad_bloque: int = 30) -> None:
   return
 
 
-def calcular_hora_fin(bloque: Bloque) -> BloqueRead:
-  hora_fin = None
-  if bloque.duracion:
-    inicio = datetime.combine(bloque.fecha, bloque.hora)
-    fin = inicio + timedelta(hours=bloque.duracion)
-    hora_fin = fin.time()
-  return BloqueRead(
-    id=bloque.id,
-    fecha=bloque.fecha,
-    hora=bloque.hora,
-    descripcion=bloque.descripcion,
-    duracion=bloque.duracion,
-    hora_fin=hora_fin,
-    actividad=ActividadRead.model_validate(bloque.actividad),
-  )
-
-
 def buscar_bloque(session: Session, id: int) -> Bloque:
   bloque = read_bloque_by_id(session, id)
   if not bloque:
@@ -141,13 +125,19 @@ def registrar_bloque(session: Session, bloque: BloqueCreate) -> Bloque:
   _validar_hora_granulidad(bloque.hora, unidad_bloque=30)
   fecha = bloque.fecha or date.today()
   _validar_hora(session, fecha, bloque.hora)
+
   dia = read_dia(session, fecha)
   if not dia:
     dia = generar_dia(session, fecha)
+    
+  if bloque.descripcion == "":
+    bloque.descripcion = None
+
   new_bloque = Bloque.model_validate({**bloque.model_dump(), "fecha": dia.fecha})
   bloque_bd = create_bloque(session, new_bloque)
+
   _calcular_duracion(session, bloque_bd)
-  return create_bloque(session, bloque_bd)
+  return bloque_bd
 
 
 def actualizar_bloque(session: Session, id: int, bloque: BloqueUpdate) -> Bloque:

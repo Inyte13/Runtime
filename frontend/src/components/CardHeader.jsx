@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import styles from './CardHeader.module.css'
 
-export default function CardHeader ({ bloque, setColor, color, manejarEliminacion }) {
+export default function CardHeader ({ bloque, setColor, color, manejarEliminacion, actualizarDatosBloque }) {
   // Uppercase para el primer char
   const nombreBd = bloque.actividad.nombre
   const nombre = nombreBd.charAt(0).toUpperCase() + nombreBd.slice(1)
@@ -62,6 +62,29 @@ export default function CardHeader ({ bloque, setColor, color, manejarEliminacio
     })
   }
 
+  const [duracion, setDuracion] = useState(bloque.duracion || 0)
+  const manejarDuracion = async (newDuracion) => {
+    const response = await fetch(`/bloques/${bloque.id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ duracion: newDuracion })
+    })
+    if (response.ok) {
+      const updated = await response.json()
+      setDuracion(updated.duracion)
+      actualizarDatosBloque(updated)
+    }
+  }
+  const nextTime = () => {
+    const newDuracion = parseFloat(duracion) + 0.5
+    setDuracion(newDuracion)
+    manejarDuracion(newDuracion)
+  }
+  const prevTime = () => {
+    const newDuracion = Math.max(0, parseFloat(duracion) - 0.5)
+    setDuracion(newDuracion)
+    manejarDuracion(newDuracion)
+  }
   return (
     <header>
       <h2 className={styles.h2} ref={modalRef}>
@@ -81,26 +104,39 @@ export default function CardHeader ({ bloque, setColor, color, manejarEliminacio
           onClick={manejarClick}
         >
           <svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' className='icon icon-tabler icons-tabler-outline icon-tabler-menu-2'><path stroke='none' d='M0 0h24v24H0z' fill='none' /><path d='M4 6l16 0' /><path d='M4 12l16 0' /><path d='M4 18l16 0' /></svg>
+          {selector && (
+            <div className={styles.modal}>
+              <ul>
+                {actividades.map(act => (
+                  <li key={act.id} onClick={() => manejarSeleccionActividad(act)}>
+                    <span style={{ background: act.color }} />
+                    <a>
+                      {act.nombre.charAt(0).toUpperCase() + act.nombre.slice(1)}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </button>
-        {selector && (
-          <div className={styles.modal}>
-            <ul>
-              {actividades.map(act => (
-                <li key={act.id} onClick={() => manejarSeleccionActividad(act)}>
-                  <span style={{ background: act.color }} />
-                  <a>
-                    {act.nombre.charAt(0).toUpperCase() + act.nombre.slice(1)}
-                  </a>
-                </li>
-              ))}
-            </ul>
+
+        <div className={styles.duracion}>
+          <input
+            type='number'
+            value={duracion}
+            readOnly
+          />
+          <span>h</span>
+          <div className={styles.stepper}>
+            <button onClick={prevTime}>
+              <svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' className='icon icon-tabler icons-tabler-outline icon-tabler-chevron-up'><path stroke='none' d='M0 0h24v24H0z' fill='none' /><path d='M6 15l6 -6l6 6' /></svg>
+            </button>
+            <button onClick={nextTime}>
+              <svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' className='icon icon-tabler icons-tabler-outline icon-tabler-chevron-down'><path stroke='none' d='M0 0h24v24H0z' fill='none' /><path d='M6 9l6 6l6 -6' /></svg>
+            </button>
           </div>
-        )}
-        {bloque.duracion && (
-          <span className={styles.duracion}>
-            {bloque.duracion}h
-          </span>
-        )}
+        </div>
+
         <button
           className={styles.eliminarBtn}
           onClick={manejarEliminacion}

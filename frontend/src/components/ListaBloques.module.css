@@ -3,10 +3,28 @@
   flex-direction: column;
   gap: .7rem;
   width: 100%;
-  button{
+  max-height: 700px;
+  overflow-y: auto;
+  padding-right: .5rem;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--gris-negro-4);
+    border-radius: var(--border-radius)
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: var(--gris-negro-1);
+  }
+
+  button {
     height: 2.2rem;
     align-self: center;
   }
+
   p {
     align-self: center;
   }
