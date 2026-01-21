@@ -23,7 +23,7 @@ def get_bloque(session: SessionDep, id: int):
   return buscar_bloque(session, id)
 
 
-@bloque_router.get("/bloques/", response_model=list[BloqueRead])
+@bloque_router.get("/bloques", response_model=list[BloqueRead])
 def get_bloques(
   session: SessionDep,
   fecha: date | None = None,
