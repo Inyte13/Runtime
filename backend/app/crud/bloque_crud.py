@@ -42,3 +42,5 @@ def update_bloque(session: Session, bloque_bd: Bloque, bloque: BloqueUpdate) -> 
 def delete_bloque(session: Session, bloque: Bloque) -> None:
   session.delete(bloque)
   session.commit()
+  # TODO: esperando al backend que retorne al menos algo
+  return
