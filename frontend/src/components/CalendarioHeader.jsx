@@ -1,7 +1,9 @@
+import { useFechaStore } from '../store/fechaStore'
 import styles from './CalendarioHeader.module.css'
 
-function CalendarioTitle ({ date }) {
-  const fecha = date
+function CalendarioTitle () {
+  const { fecha } = useFechaStore()
+  const date = fecha
     .toLocaleDateString('es-ES', {
       month: 'long',
       year: 'numeric'
@@ -11,13 +13,14 @@ function CalendarioTitle ({ date }) {
     .replace(/ de /g, ' ')
   return (
     <>
-      <h2>{fecha}</h2>
+      <h2>{date}</h2>
       <p>Gestiona tus bloques de actividad diaria.</p>
     </>
   )
 }
 
-function CalendarioToolbar ({ prevDia, nextDia, irHoy }) {
+function CalendarioToolbar () {
+  const { prevDia, nextDia, irHoy } = useFechaStore()
   return (
     <>
       <div role='group' className={styles.viewBtn}>
@@ -37,19 +40,15 @@ function CalendarioToolbar ({ prevDia, nextDia, irHoy }) {
   )
 }
 
-export default function CalendarioHeader ({ fecha, prevDia, nextDia, irHoy }) {
+export default function CalendarioHeader () {
   return (
     <>
       <header className={styles.header}>
         <div className={styles.titleWrapper}>
-          <CalendarioTitle date={fecha} />
+          <CalendarioTitle />
         </div>
         <div className={styles.toolbarWrapper}>
-          <CalendarioToolbar
-            prevDia={prevDia}
-            nextDia={nextDia}
-            irHoy={irHoy}
-          />
+          <CalendarioToolbar />
         </div>
       </header>
     </>
