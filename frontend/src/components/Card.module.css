@@ -14,21 +14,8 @@
     justify-content: flex-start;
     color: var(--blanco-gris-3);
     gap: .2rem;
-    input {
-      &::-webkit-calendar-picker-indicator {
-        display: none;
-        -webkit-appearance: none;
-      }
-    }
   }
-  button {
-    color: var(--blanco-gris-3);
-    &:hover {
-      text-decoration: underline;
-      color: var(--blanco-gris-2);
-    }
-  }
-  .descripcion {
+  textarea {
     height: 1.6rem;
     font-style: italic;
     &:focus {
