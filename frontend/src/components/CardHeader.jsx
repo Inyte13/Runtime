@@ -5,8 +5,10 @@ import SelectorActividad from './SelectorActividad'
 import { useState } from 'react'
 
 export default function CardHeader ({ bloque, color, setColor }) {
-  const { actualizarBloque, eliminarBloque } = useBloquesStore()
+  const actualizarBloque = useBloquesStore(state => state.actualizarBloque)
+  const eliminarBloque = useBloquesStore(state => state.eliminarBloque)
   const [duracion, setDuracion] = useState(bloque.duracion || 0)
+
   // Uppercase para el primer char
   const nombreBd = bloque.actividad.nombre
   const nombre = nombreBd.charAt(0).toUpperCase() + nombreBd.slice(1)
@@ -23,7 +25,6 @@ export default function CardHeader ({ bloque, color, setColor }) {
     const newDuracion = Math.max(0, parseFloat(duracion) - 0.5)
     manejarDuracion(newDuracion)
   }
-  console.log('hola')
   return (
     <header>
       <h2 className={styles.h2}>
@@ -40,7 +41,13 @@ export default function CardHeader ({ bloque, color, setColor }) {
         <div className={styles.duracion}>
           <span>{duracion || '0'}h</span>
           <div className={styles.stepper}>
-            <button onClick={prevTime}>
+            <button
+              onClick={prevTime}
+              disabled={duracion === 0}
+              className={
+                `${styles.stepBtn} ${duracion === 0 ? styles.disabledBtn : ''}`
+              }
+            >
               <svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' className='icon icon-tabler icons-tabler-outline icon-tabler-chevron-up'><path stroke='none' d='M0 0h24v24H0z' fill='none' /><path d='M6 15l6 -6l6 6' /></svg>
             </button>
             <button onClick={nextTime}>

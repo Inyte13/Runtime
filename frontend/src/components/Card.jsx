@@ -4,7 +4,7 @@ import { useBloquesStore } from '../store/bloquesStore'
 import { useState } from 'react'
 
 export default function Card ({ bloque }) {
-  const { actualizarBloque } = useBloquesStore()
+  const actualizarBloque = useBloquesStore(state => state.actualizarBloque)
   const [color, setColor] = useState(bloque.actividad.color)
   const manejarDescripcion = async (e) => {
     await actualizarBloque(bloque.id, { descripcion: e.target.value })

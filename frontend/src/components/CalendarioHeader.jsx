@@ -2,7 +2,7 @@ import { useFechaStore } from '../store/fechaStore'
 import styles from './CalendarioHeader.module.css'
 
 function CalendarioTitle () {
-  const { fecha } = useFechaStore()
+  const fecha = useFechaStore(state => state.fecha)
   const date = fecha
     .toLocaleDateString('es-ES', {
       month: 'long',

@@ -4,8 +4,9 @@ import { useBloquesStore } from '../store/bloquesStore'
 import './SelectorActividad.module.css'
 
 export default function SelectorActividad ({ bloque, setColor }) {
-  const { actualizarBloque } = useBloquesStore()
-  const { actividades, traerActividades } = useActividadesStore()
+  const actualizarBloque = useBloquesStore(state => state.actualizarBloque)
+  const actividades = useActividadesStore(state => state.actividades)
+  const traerActividades = useActividadesStore(state => state.traerActividades)
   const [selector, setSelector] = useState(false)
   const modalRef = useRef(null)
 

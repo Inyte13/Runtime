@@ -4,18 +4,14 @@ import { useFechaStore } from './fechaStore'
 
 export const useBloquesStore = create((set, get) => ({
   bloques: [],
-  loading: false,
 
   traerBloques: async () => {
     const { fecha } = useFechaStore.getState()
     try {
-      set({ loading: true })
       const data = await readBloques(fecha)
       set({ bloques: data })
     } catch (err) {
       console.error('Error trayendo bloques:', err)
-    } finally {
-      set({ loading: false })
     }
   },
 
@@ -23,7 +19,6 @@ export const useBloquesStore = create((set, get) => ({
     const { bloques } = get()
     const { fecha } = useFechaStore.getState()
     try {
-      set({ loading: true })
       let bloque
       if (bloques.length === 0) {
         bloque = {
@@ -45,32 +40,24 @@ export const useBloquesStore = create((set, get) => ({
       await get().traerBloques()
     } catch (err) {
       console.error('Error al crear el bloque', err)
-    } finally {
-      set({ loading: false })
     }
   },
 
   actualizarBloque: async (id, cambios) => {
     try {
-      set({ loading: true })
       await updateBloque(id, cambios)
       await get().traerBloques()
     } catch (err) {
       console.error('Error actualizando el bloque', err)
-    } finally {
-      set({ loading: false })
     }
   },
 
   eliminarBloque: async (id) => {
     try {
-      set({ loading: true })
       await deleteBloque(id)
       await get().traerBloques()
     } catch (err) {
       console.error('Error eliminando el bloque', err)
-    } finally {
-      set({ loading: false })
     }
   }
 }))

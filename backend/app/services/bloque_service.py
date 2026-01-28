@@ -40,24 +40,31 @@ def _bloque_siguiente(session: Session, fecha: date, hora: time) -> Bloque | Non
   return siguiente
 
 
+def _calcular_hora_fin(fecha: date, hora: time, duracion: float | None) -> time | None:
+  if duracion is None:
+    return None
+  inicio = datetime.combine(fecha, hora)
+  fin = inicio + timedelta(hours=duracion)
+  return fin.time()
+
+
 # Horas: 3600, minutos: 60
 def _calcular_duracion(session: Session, actual: Bloque, unidad_tiempo=3600) -> None:
-  """Calcula la duración y hora_fin de un bloque y ajusta la del bloque anterior"""
   inicio = datetime.combine(actual.fecha, actual.hora)
-
+  # Si ya tiene una duración, solo calculo la hora_fin
   if actual.duracion:
-    fin = inicio + timedelta(hours=actual.duracion)
-    actual.hora_fin = fin.time()
+    actual.hora_fin = _calcular_hora_fin(actual.fecha, actual.hora, actual.duracion)
   else:
+    # Si no hay duración uso al siguiente para calcularla
     siguiente = _bloque_siguiente(session, actual.fecha, actual.hora)
     if siguiente:
       fin = datetime.combine(siguiente.fecha, siguiente.hora)
       actual.duracion = (fin - inicio).total_seconds() / unidad_tiempo
       actual.hora_fin = fin.time()
     else:
+      # Si no hay siguiente
       actual.duracion = None
       actual.hora_fin = None
-
   session.add(actual)
 
   anterior = _bloque_anterior(session, actual.fecha, actual.hora)
@@ -72,19 +79,27 @@ def _calcular_duracion(session: Session, actual: Bloque, unidad_tiempo=3600) -> 
   return
 
 
-def _validar_hora(session: Session, fecha: date, hora: time) -> None:
+def _validar_hora(
+  session: Session, fecha: date, hora: time, duracion: float | None
+) -> None:
+  hora_fin = _calcular_hora_fin(fecha, hora, duracion)
   anterior = _bloque_anterior(session, fecha, hora)
-  if anterior and hora <= anterior.hora:
-    raise HTTPException(
-      status_code=status.HTTP_400_BAD_REQUEST,
-      detail=f"La hora debe ser posterior a {anterior.hora.strftime('%H:%M')}",
-    )
-
+  if anterior:
+    if anterior.hora_fin and hora < anterior.hora_fin:
+      raise HTTPException(
+        status_code=status.HTTP_400_BAD_REQUEST,
+        detail=f"La hora debe ser posterior a {anterior.hora.strftime('%H:%M')}",
+      )
+    if anterior.hora_fin and hora != anterior.hora_fin:
+      raise HTTPException(
+        status_code=status.HTTP_400_BAD_REQUEST,
+        detail=f"La hora final debe ser igual a la hora inicio del anterior bloque ({anterior.hora_fin.strftime('%H:%M')})",
+      )
   siguiente = _bloque_siguiente(session, fecha, hora)
-  if siguiente and hora >= siguiente.hora:
+  if siguiente and hora_fin and hora_fin > siguiente.hora:
     raise HTTPException(
       status_code=status.HTTP_400_BAD_REQUEST,
-      detail=f"La hora debe ser anterior a {siguiente.hora.strftime('%H:%M')}",
+      detail=f"La hora_fin debe ser anterior a {siguiente.hora.strftime('%H:%M')}",
     )
   return
 
@@ -124,12 +139,12 @@ def registrar_bloque(session: Session, bloque: BloqueCreate) -> Bloque:
   _validar_actividad(session, bloque.id_actividad)
   _validar_hora_granulidad(bloque.hora, unidad_bloque=30)
   fecha = bloque.fecha or date.today()
-  _validar_hora(session, fecha, bloque.hora)
+  _validar_hora(session, fecha, bloque.hora, bloque.duracion)
 
   dia = read_dia(session, fecha)
   if not dia:
     dia = generar_dia(session, fecha)
-    
+
   if bloque.descripcion == "":
     bloque.descripcion = None
 
@@ -148,7 +163,8 @@ def actualizar_bloque(session: Session, id: int, bloque: BloqueUpdate) -> Bloque
   # Si la hora se ingresó
   if bloque.hora:
     _validar_hora_granulidad(bloque.hora, unidad_bloque=30)
-    _validar_hora(session, bloque_bd.fecha, bloque.hora)
+
+    _validar_hora(session, bloque_bd.fecha, bloque.hora, bloque.duracion)
   # Si la descripción es '' como lo manda el frontend para la bd será None
   if bloque.descripcion == "":
     bloque.descripcion = None

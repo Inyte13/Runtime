@@ -2,7 +2,7 @@ import { useActividadesStore } from '../store/actividadesStore'
 import './ColorPicker.module.css'
 
 export default function ColorPicker ({ bloque, color, setColor }) {
-  const { actualizarActividad } = useActividadesStore()
+  const actualizarActividad = useActividadesStore(state => state.actualizarActividad)
   const manejarCambioColor = async (e) => {
     await actualizarActividad(bloque.actividad.id, { color: e.target.value })
   }
