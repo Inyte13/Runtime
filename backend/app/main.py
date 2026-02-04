@@ -23,7 +23,7 @@ app.include_router(configuracion_router)
 app.include_router(dia_router)
 
 origins = [
-  "http://localhost:5173",  # Tu futuro Frontend React
+  "http://localhost:5173", 
   "*",  # Para pruebas, permitimos todo
 ]
 
