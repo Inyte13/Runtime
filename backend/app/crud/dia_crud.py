@@ -1,7 +1,7 @@
 from datetime import date
 from typing import Sequence
 
-from sqlmodel import Session, select
+from sqlmodel import Session, col, select
 
 from app.models.dia import Dia
 from app.schemas.dia_schema import DiaUpdate
