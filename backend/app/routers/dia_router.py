@@ -24,9 +24,9 @@ def get_dia_detail(session: SessionDep, fecha: date):
   return buscar_dia(session, fecha)
 
 
-@dia_router.post("/dias/generar", response_model=DiaRead)
-def generate_dia(fecha: date, session: SessionDep):
-  return generar_dia(session, fecha)
+@dia_router.post("/dias", response_model=DiaRead)
+def post_dia(session: SessionDep, dia: DiaCreate):
+  return registrar_dia(session, dia)
 
 
 @dia_router.patch("/dias/{fecha}", response_model=DiaRead)
