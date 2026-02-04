@@ -16,8 +16,8 @@ actividad_router = APIRouter(tags=["Actividades"])
 
 
 @actividad_router.get("/actividades", response_model=list[ActividadRead])
-def get_actividades(session: SessionDep):
-  return read_actividades_activas(session)
+def get_actividades(session: SessionDep, is_active: bool | None = None):
+  return read_actividades(session, is_active)
 
 
 @actividad_router.get("/actividades/{id}", response_model=ActividadRead)
