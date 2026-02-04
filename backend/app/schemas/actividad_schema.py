@@ -5,11 +5,10 @@ from app.models.actividad import ActividadBase
 
 
 class ActividadCreate(ActividadBase):
-  # Validador en Pydantic/SQLModel
-  # cls = la clase
-  # v = value
   @field_validator("nombre")
-  def to_lowercase(cls, v: str) -> str:
+  def to_lowercase_and_not_empty(cls, v: str) -> str:
+    if v.strip() == "":
+      raise ValueError("El nombre no puede estar vacío")
     return v.lower()
 
 
