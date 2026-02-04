@@ -21,5 +21,6 @@ class DiaBase(SQLModel):
 
 
 class Dia(DiaBase, table=True):
-  fecha: date = Field(primary_key=True)
-  bloques: list["Bloque"] = Relationship(back_populates="dia")
+  bloques: list["Bloque"] = Relationship(
+    back_populates="dia", sa_relationship_kwargs={"cascade": "all, delete-orphan"}
+  )
