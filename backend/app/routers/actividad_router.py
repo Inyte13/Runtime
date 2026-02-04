@@ -40,3 +40,7 @@ def patch_actividad(session: SessionDep, actividad: ActividadUpdate, id: int):
 def delete_actividad(session: SessionDep, id: int):
   eliminar_actividad_soft(session, id)
   return
+@actividad_router.delete("/actividades/{id}/hard", status_code=204)
+def delete_actividad_hard(session: SessionDep, id: int):
+  eliminar_actividad_hard(session, id)
+  return
