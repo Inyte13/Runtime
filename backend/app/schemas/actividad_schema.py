@@ -11,6 +11,11 @@ class ActividadCreate(ActividadBase):
       raise ValueError("El nombre no puede estar vacío")
     return v.lower()
 
+  @field_validator("color")
+  def color_not_empty(cls, v: str) -> str:
+    if v.strip() == "":
+      raise ValueError("El color no puede estar vacío")
+    return v
 
 class ActividadRead(ActividadBase):
   id: int
