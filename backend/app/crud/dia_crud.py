@@ -18,8 +18,14 @@ def read_dia(session: Session, fecha: date) -> Dia | None:
   return session.get(Dia, fecha)
 
 
-def read_dias(session: Session) -> Sequence[Dia]:
-  return session.exec(select(Dia)).all()
+def read_dias(session: Session, fecha_inicio: date, fecha_fin: date) -> Sequence[Dia]:
+  statement = (
+    select(Dia)
+    .where(fecha_inicio <= Dia.fecha)
+    .where(Dia.fecha <= fecha_fin)
+    .order_by(col(Dia.fecha))
+  )
+  return session.exec(statement).all()
 
 
 def update_dia(session: Session, dia_bd: Dia, dia: DiaUpdate) -> Dia:
