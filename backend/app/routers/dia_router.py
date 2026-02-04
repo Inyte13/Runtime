@@ -15,8 +15,8 @@ dia_router = APIRouter(tags=["Dia"])
 
 
 @dia_router.get("/dias", response_model=list[DiaRead])
-def get_dias(session: SessionDep):
-  return mostrar_dias(session)
+def get_dias_range(session: SessionDep, fecha_inicio: date, fecha_final: date):
+  return mostrar_dias(session, fecha_inicio, fecha_final)
 
 
 @dia_router.get("/dias/{fecha}", response_model=DiaRead)
