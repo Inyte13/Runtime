@@ -3,12 +3,13 @@ from datetime import date
 from fastapi import APIRouter
 
 from app.core.database import SessionDep
-from app.schemas.dia_schema import DiaRead, DiaUpdate
+from app.schemas.dia_schema import DiaCreate, DiaRead, DiaReadDetail, DiaUpdate
 from app.services.dia_services import (
   actualizar_dia,
   buscar_dia,
-  generar_dia,
+  eliminar_dia,
   mostrar_dias,
+  registrar_dia,
 )
 
 dia_router = APIRouter(tags=["Dia"])
@@ -32,6 +33,7 @@ def post_dia(session: SessionDep, dia: DiaCreate):
 @dia_router.patch("/dias/{fecha}", response_model=DiaRead)
 def patch_dia(session: SessionDep, fecha: date, dia: DiaUpdate):
   return actualizar_dia(session, fecha, dia)
+
 @dia_router.delete('/dias/{fecha}', status_code=204)
 def delete_dia(session: SessionDep, fecha: date):
   eliminar_dia(session, fecha)

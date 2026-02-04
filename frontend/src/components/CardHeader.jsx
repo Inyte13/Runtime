@@ -1,12 +1,12 @@
 import styles from './CardHeader.module.css'
-import { useBloquesStore } from '../store/bloquesStore'
+import { useDiasStore } from '../store/diasStore'
 import ColorPicker from './ColorPicker'
 import SelectorActividad from './SelectorActividad'
 import { useState } from 'react'
 
 export default function CardHeader ({ bloque, color, setColor }) {
-  const actualizarBloque = useBloquesStore(state => state.actualizarBloque)
-  const eliminarBloque = useBloquesStore(state => state.eliminarBloque)
+  const actualizarBloque = useDiasStore(state => state.actualizarBloque)
+  const eliminarBloque = useDiasStore(state => state.eliminarBloque)
   const [duracion, setDuracion] = useState(bloque.duracion || 0)
 
   // Uppercase para el primer char

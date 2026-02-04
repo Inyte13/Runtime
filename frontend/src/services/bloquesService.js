@@ -10,14 +10,6 @@ export async function createBloque (bloque) {
   return res.json()
 }
 
-export async function readBloques (fecha) {
-  // Convierte la fecha a ISO (2026-01-07)
-  const fechaISO = fecha.toLocaleDateString('sv-SE') // Hora local
-  const res = await fetch(`${URL}?fecha=${fechaISO}`)
-  if (!res.ok) throw new Error('Error al cargar los bloques por fecha')
-  return res.json()
-}
-
 export async function updateBloque (id, cambios) {
   const res = await fetch(`${URL}/${id}`, {
     method: 'PATCH',
@@ -31,5 +23,5 @@ export async function updateBloque (id, cambios) {
 export async function deleteBloque (id) {
   const res = await fetch(`${URL}/${id}`, { method: 'DELETE' })
   if (!res.ok) throw new Error('Error al eliminar el bloque por id')
-  // TODO: esperando al backend que retorne al menos algo
+  // TODO: esperando al backend que retorne algo
 }

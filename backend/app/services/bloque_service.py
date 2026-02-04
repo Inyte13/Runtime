@@ -13,7 +13,8 @@ from app.crud.dia_crud import read_dia
 from app.models.actividad import Actividad
 from app.models.bloque import Bloque
 from app.schemas.bloque_schema import BloqueCreate, BloqueUpdate
-from app.services.dia_services import generar_dia
+from app.schemas.dia_schema import DiaCreate
+from app.services.dia_services import registrar_dia
 
 
 def _bloque_anterior(session: Session, fecha: date, hora: time) -> Bloque | None:
@@ -136,19 +137,44 @@ def buscar_bloque(session: Session, id: int) -> Bloque:
 
 
 def registrar_bloque(session: Session, bloque: BloqueCreate) -> Bloque:
-  _validar_actividad(session, bloque.id_actividad)
-  _validar_hora_granulidad(bloque.hora, unidad_bloque=30)
   fecha = bloque.fecha or date.today()
-  _validar_hora(session, fecha, bloque.hora, bloque.duracion)
-
+  # Primero revisaremos si existe un dia
   dia = read_dia(session, fecha)
+  # Si no existe creamos uno
   if not dia:
-    dia = generar_dia(session, fecha)
+    dia = registrar_dia(session, DiaCreate(fecha=fecha))
+  
+  # Segundo revisamos el último bloque del día
+  statement = select(Bloque).where(Bloque.fecha == fecha).order_by(desc(Bloque.hora))
+  ultimo_bloque = session.exec(statement).first()
+  
+  # Si el usuario manda 
+  id_actividad = bloque.id_actividad
+  
+  # Si no hay ningún bloque
+  if not ultimo_bloque:
+    # Le ponemos hora 00:00
+    hora = time(0, 0)
+    if id_actividad is None:
+      id_actividad = 1
+  else:
+    if ultimo_bloque.hora_fin is None:
+      raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail='No se puede crear un bloque sin antes definir la duración del anterior')
+    hora = ultimo_bloque.hora_fin
+    if id_actividad is None:
+      id_actividad = 2
 
-  if bloque.descripcion == "":
-    bloque.descripcion = None
+  _validar_actividad(session, id_actividad)
+  _validar_hora_granulidad(hora, unidad_bloque=30)
+  _validar_hora(session, fecha, hora, bloque.duracion)
 
-  new_bloque = Bloque.model_validate({**bloque.model_dump(), "fecha": dia.fecha})
+  new_bloque = Bloque(
+    hora=hora,
+    descripcion=bloque.descripcion,
+    id_actividad=id_actividad,
+    fecha=fecha,
+    duracion=bloque.duracion,
+  )
   bloque_bd = create_bloque(session, new_bloque)
 
   _calcular_duracion(session, bloque_bd)

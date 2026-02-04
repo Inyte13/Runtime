@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
 import { useActividadesStore } from '../store/actividadesStore'
-import { useBloquesStore } from '../store/bloquesStore'
+import { useDiasStore } from '../store/diasStore'
 import './SelectorActividad.module.css'
 
 export default function SelectorActividad ({ bloque, setColor }) {
-  const actualizarBloque = useBloquesStore(state => state.actualizarBloque)
+  const actualizarBloque = useDiasStore(state => state.actualizarBloque)
   const actividades = useActividadesStore(state => state.actividades)
   const traerActividades = useActividadesStore(state => state.traerActividades)
   const [selector, setSelector] = useState(false)

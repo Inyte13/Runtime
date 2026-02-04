@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  # 1. Servicio de Base de Datos (MySQL)
+  # bd
   db:
     image: mysql:8.0
     container_name: runtime-db
@@ -10,11 +10,20 @@ services:
       MYSQL_DATABASE: runtime_db
       MYSQL_ROOT_PASSWORD: root
     ports:
+      # puerto_pc:puerto_contenedor
       - "3306:3306" # Mapeamos el puerto al localhost
     volumes:
       - mysql_data:/var/lib/mysql # Persistencia de datos (para no perderlos al apagar)
-
-  # 2. Servicio de phpMyAdmin (Interfaz visual)
+  # bd para testing
+  db_test:
+    image: mysql:8.0
+    container_name: runtime-db-test
+    restart: always
+    environment:
+      MYSQL_DATABASE: runtime_test
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3307:3306"
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     container_name: runtime-pma

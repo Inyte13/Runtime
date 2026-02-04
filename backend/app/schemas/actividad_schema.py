@@ -3,7 +3,7 @@ from sqlmodel import SQLModel
 
 from app.models.actividad import ActividadBase
 
-
+# TODO: Validar el regex para mayor seguridad
 class ActividadCreate(ActividadBase):
   @field_validator("nombre")
   def to_lowercase_and_not_empty(cls, v: str) -> str:
@@ -16,6 +16,7 @@ class ActividadCreate(ActividadBase):
     if v.strip() == "":
       raise ValueError("El color no puede estar vacío")
     return v
+
 
 class ActividadRead(ActividadBase):
   id: int

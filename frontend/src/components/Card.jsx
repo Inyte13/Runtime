@@ -1,10 +1,10 @@
 import styles from './Card.module.css'
 import CardHeader from './CardHeader'
-import { useBloquesStore } from '../store/bloquesStore'
+import { useDiasStore } from '../store/diasStore'
 import { useState } from 'react'
 
 export default function Card ({ bloque }) {
-  const actualizarBloque = useBloquesStore(state => state.actualizarBloque)
+  const actualizarBloque = useDiasStore(state => state.actualizarBloque)
   const [color, setColor] = useState(bloque.actividad.color)
   const manejarDescripcion = async (e) => {
     await actualizarBloque(bloque.id, { descripcion: e.target.value })

@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 
-export const useFechaStore = create((set) => ({
+export const useFechaStore = create((set, get) => ({
   fecha: new Date(),
   setFecha: (date) => set({ fecha: date }),
   prevDia: () => set(state => {
@@ -23,5 +23,28 @@ export const useFechaStore = create((set) => ({
   }),
   irHoy: () => set({
     fecha: new Date()
-  })
+  }),
+  getFechaISO: () => {
+    return get().fecha.toLocaleDateString('sv-SE')
+  },
+  getFechaTitle: () => {
+    return get().fecha
+      .toLocaleDateString('es-ES', {
+        month: 'long',
+        year: 'numeric'
+      })
+    // El primer char a uppercase
+      .replace(/^./, c => c.toUpperCase())
+      .replace(/ de /g, ' ')
+  },
+  getFechaDetail: () => {
+    return get().fecha
+      .toLocaleDateString('es-ES', {
+        weekday: 'long',
+        day: 'numeric',
+        month: 'short'
+      })
+      .replace(/^./, c => c.toUpperCase())
+  }
+
 }))

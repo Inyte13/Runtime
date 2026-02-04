@@ -1,9 +1,8 @@
-from datetime import date
-
-from app.schemas.bloque_schema import BloqueRead
+from pydantic import ConfigDict
 from sqlmodel import SQLModel
 
 from app.models.dia import DiaBase, Estado
+from app.schemas.bloque_schema import BloqueRead
 
 
 class DiaCreate(DiaBase):
@@ -11,13 +10,13 @@ class DiaCreate(DiaBase):
 
 
 class DiaRead(DiaBase):
-  fecha: date
+  model_config = ConfigDict(from_attributes=True) # type: ignore
+  # class Config:
+  #   orm_mode = True
+
+class DiaReadDetail(DiaBase):
   bloques: list[BloqueRead] = []
-
-  class Config:
-    orm_mode = True
-
-
+  
 class DiaUpdate(SQLModel):
   titulo: str | None = None
   estado: Estado | None = None

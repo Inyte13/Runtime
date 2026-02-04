@@ -1,13 +1,12 @@
 from fastapi import APIRouter
 
 from app.core.database import SessionDep
-from app.crud.actividad_crud import (
-  read_actividades_activas,
-)
+from app.crud.actividad_crud import read_actividades
 from app.schemas.actividad_schema import ActividadCreate, ActividadRead, ActividadUpdate
 from app.services.actividad_service import (
   actualizar_actividad,
   buscar_actividad,
+  eliminar_actividad_hard,
   eliminar_actividad_soft,
   registrar_actividad,
 )
@@ -40,6 +39,8 @@ def patch_actividad(session: SessionDep, actividad: ActividadUpdate, id: int):
 def delete_actividad(session: SessionDep, id: int):
   eliminar_actividad_soft(session, id)
   return
+
+
 @actividad_router.delete("/actividades/{id}/hard", status_code=204)
 def delete_actividad_hard(session: SessionDep, id: int):
   eliminar_actividad_hard(session, id)

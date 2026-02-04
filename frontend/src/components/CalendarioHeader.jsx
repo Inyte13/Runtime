@@ -2,18 +2,10 @@ import { useFechaStore } from '../store/fechaStore'
 import styles from './CalendarioHeader.module.css'
 
 function CalendarioTitle () {
-  const fecha = useFechaStore(state => state.fecha)
-  const date = fecha
-    .toLocaleDateString('es-ES', {
-      month: 'long',
-      year: 'numeric'
-    })
-    // El primer char a uppercase
-    .replace(/^./, c => c.toUpperCase())
-    .replace(/ de /g, ' ')
+  const FechaTitle = useFechaStore(state => state.getFechaTitle())
   return (
     <>
-      <h2>{date}</h2>
+      <h2>{FechaTitle}</h2>
       <p>Gestiona tus bloques de actividad diaria.</p>
     </>
   )
