@@ -27,11 +27,6 @@ def read_actividad_by_id(session: Session, id: int) -> Actividad | None:
   return session.get(Actividad, id)
 
 
-def read_actividad_by_nombre(session: Session, nombre: str) -> Actividad | None:
-  statement = select(Actividad).where(Actividad.nombre == nombre)
-  return session.exec(statement).first()
-
-
 def search_actividad_by_nombre(
   session: Session, texto_busqueda: str
 ) -> Sequence[Actividad]:
