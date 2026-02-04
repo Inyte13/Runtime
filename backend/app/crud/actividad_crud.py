@@ -14,13 +14,12 @@ def create_actividad(session: Session, actividad: Actividad) -> Actividad:
 
 
 # Sequence, una lista solo de lectura
-def read_actividades(session: Session) -> Sequence[Actividad]:
+def read_actividades(
+  session: Session, is_active: bool | None = None
+) -> Sequence[Actividad]:
   statement = select(Actividad)
-  return session.exec(statement).all()
-
-
-def read_actividades_activas(session: Session) -> Sequence[Actividad]:
-  statement = select(Actividad).where(Actividad.is_active)
+  if is_active is not None:
+    statement = statement.where(Actividad.is_active == is_active)
   return session.exec(statement).all()
 
 
