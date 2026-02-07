@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { readActividades, updateActividad } from '../services/actividadesServices'
 
-export const useActividadesStore = create((set, get) => ({
+export const useActividadesStore = create((set) => ({
   actividades: [],
   traerActividades: async () => {
     try {
@@ -15,7 +15,7 @@ export const useActividadesStore = create((set, get) => ({
     try {
       await updateActividad(id, cambios)
     } catch (err) {
-      console.error('Error actualizando la actividad')
+      console.error('Error actualizando la actividad', err)
     }
   }
 }))
