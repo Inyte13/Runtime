@@ -2,8 +2,8 @@ import ListaBloques from './ListaBloques'
 import styles from './Details.module.css'
 import { useFechaStore } from '../store/fechaStore.ts'
 
-export default function Details () {
-  const FechaDetail = useFechaStore(state => state.getFechaDetail())
+export default function Details() {
+  const FechaDetail = useFechaStore((state) => state.getFechaDetail())
   return (
     <article className={styles.details}>
       <header className={styles.header}>

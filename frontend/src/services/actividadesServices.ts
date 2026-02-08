@@ -1,7 +1,7 @@
 import { ActividadRead, ActividadUpdate } from '../types/Actividad'
 
 const URL = '/actividades'
-export async function readActividades (isActive?: boolean): Promise<ActividadRead[]> {
+export async function readActividades(isActive?: boolean): Promise<ActividadRead[]> {
   const params = new URLSearchParams()
   if (isActive !== undefined) {
     params.append('is_active', String(isActive))
@@ -11,7 +11,7 @@ export async function readActividades (isActive?: boolean): Promise<ActividadRea
   return res.json() as Promise<ActividadRead[]>
 }
 
-export async function updateActividad (
+export async function updateActividad(
   id: number,
   actividad: ActividadUpdate
 ): Promise<ActividadRead> {

@@ -7,8 +7,8 @@ export enum Estado {
 }
 
 export interface DiaBase {
-  titulo?: string | null,
-  estado: Estado,
+  titulo?: string | null
+  estado: Estado
   fecha: string
 }
 
@@ -24,6 +24,6 @@ export interface DiaReadDetail extends DiaRead {
   bloques: BloqueRead[]
 }
 export interface DiaUpdate {
-  titulo?: string | null,
+  titulo?: string | null
   estado?: Estado | null
 }

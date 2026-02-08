@@ -1,6 +1,6 @@
 export interface ActividadBase {
-  nombre: string,
-  color: string,
+  nombre: string
+  color: string
   is_active: boolean
 }
 
@@ -15,7 +15,7 @@ export interface ActividadRead extends ActividadBase {
 }
 
 export interface ActividadUpdate {
-  nombre?: string | null,
-  color?: string | null,
+  nombre?: string | null
+  color?: string | null
   is_active?: boolean | null
 }

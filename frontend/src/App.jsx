@@ -5,7 +5,7 @@ import { lazy } from 'react'
 
 const Home = lazy(() => import('./pages/Home.jsx'))
 
-export default function App () {
+export default function App() {
   return (
     <>
       <Header />

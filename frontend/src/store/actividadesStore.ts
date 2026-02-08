@@ -6,7 +6,6 @@ interface ActividadState {
   actividades: ActividadRead[]
   traerActividades: () => Promise<void>
   actualizarActividad: (id: number, actividad: ActividadUpdate) => Promise<void>
-
 }
 
 export const useActividadesStore = create<ActividadState>((set) => ({
