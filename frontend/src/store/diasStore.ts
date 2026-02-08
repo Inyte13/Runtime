@@ -2,8 +2,18 @@ import { create } from 'zustand'
 import { useFechaStore } from './fechaStore'
 import { readDiaDetail } from '../services/diasService'
 import { createBloque, deleteBloque, updateBloque } from '../services/bloquesService'
+import { DiaReadDetail } from '../types/Dia'
+import { BloqueUpdate } from '../types/Bloque'
 
-export const useDiasStore = create((set, get) => ({
+interface DiasState {
+  dia: DiaReadDetail | null
+  traerDia: () => Promise<void>
+  crearBloque: () => Promise<void>
+  actualizarBloque: (id: number, bloque: BloqueUpdate) => Promise<void>
+  eliminarBloque: (id: number) => Promise<void>
+}
+
+export const useDiasStore = create<DiasState>((set, get) => ({
   dia: null,
 
   traerDia: async () => {
@@ -27,9 +37,9 @@ export const useDiasStore = create((set, get) => ({
     }
   },
 
-  actualizarBloque: async (id, cambios) => {
+  actualizarBloque: async (id, bloque) => {
     try {
-      await updateBloque(id, cambios)
+      await updateBloque(id, bloque)
       await get().traerDia()
     } catch (err) {
       console.error('Error actualizando el bloque', err)

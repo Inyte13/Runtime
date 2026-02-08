@@ -1,7 +1,15 @@
 import { create } from 'zustand'
 import { readActividades, updateActividad } from '../services/actividadesServices'
+import { ActividadRead, ActividadUpdate } from '../types/Actividad'
 
-export const useActividadesStore = create((set) => ({
+interface ActividadState {
+  actividades: ActividadRead[]
+  traerActividades: () => Promise<void>
+  actualizarActividad: (id: number, actividad: ActividadUpdate) => Promise<void>
+
+}
+
+export const useActividadesStore = create<ActividadState>((set) => ({
   actividades: [],
   traerActividades: async () => {
     try {

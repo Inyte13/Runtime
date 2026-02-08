@@ -13,4 +13,5 @@ class ActividadBase(SQLModel):
 
 
 class Actividad(ActividadBase, table=True):
-  id: int = Field(default=None, primary_key=True)
+  # Puede estar vacío en memoria antes de persistir
+  id: int | None = Field(default=None, primary_key=True)

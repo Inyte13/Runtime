@@ -1,4 +1,4 @@
-import { useFechaStore } from '../store/fechaStore'
+import { useFechaStore } from '../store/fechaStore.ts'
 import styles from './CalendarioHeader.module.css'
 
 function CalendarioTitle () {

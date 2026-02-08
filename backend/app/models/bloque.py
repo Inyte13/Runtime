@@ -19,6 +19,7 @@ class BloqueBase(SQLModel):
 
 
 class Bloque(BloqueBase, table=True):
+  # Puede estar vacío en memoria antes de persistir
   id: int | None = Field(default=None, primary_key=True)
   # Foreign key, heredamos la fecha de día
   fecha: date = Field(foreign_key="dia.fecha", nullable=False)

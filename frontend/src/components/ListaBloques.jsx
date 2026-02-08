@@ -1,8 +1,8 @@
 import { useEffect } from 'react'
-import { useFechaStore } from '../store/fechaStore.js'
+import { useFechaStore } from '../store/fechaStore.ts'
 import Card from './Card.jsx'
 import styles from './ListaBloques.module.css'
-import { useDiasStore } from '../store/diasStore.js'
+import { useDiasStore } from '../store/diasStore.ts'
 
 export default function ListaBloques () {
   const fecha = useFechaStore(state => state.fecha)

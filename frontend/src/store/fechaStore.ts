@@ -1,6 +1,17 @@
 import { create } from 'zustand'
 
-export const useFechaStore = create((set, get) => ({
+export interface FechaState {
+  fecha: Date
+  setFecha: (date: Date) => void
+  prevDia: () => void
+  nextDia: () => void
+  irHoy: () => void
+  getFechaISO: () => string
+  getFechaTitle: () => string
+  getFechaDetail: () => string
+}
+
+export const useFechaStore = create<FechaState>((set, get) => ({
   fecha: new Date(),
   setFecha: (date) => set({ fecha: date }),
   prevDia: () => set(state => {

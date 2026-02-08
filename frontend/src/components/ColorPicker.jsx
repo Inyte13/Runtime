@@ -1,4 +1,4 @@
-import { useActividadesStore } from '../store/actividadesStore'
+import { useActividadesStore } from '../store/actividadesStore.ts'
 import './ColorPicker.module.css'
 
 export default function ColorPicker ({ bloque, color, setColor }) {

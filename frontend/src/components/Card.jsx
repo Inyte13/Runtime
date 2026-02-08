@@ -1,6 +1,6 @@
 import styles from './Card.module.css'
 import CardHeader from './CardHeader'
-import { useDiasStore } from '../store/diasStore'
+import { useDiasStore } from '../store/diasStore.ts'
 import { useState } from 'react'
 
 export default function Card ({ bloque }) {

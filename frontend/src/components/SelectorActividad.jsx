@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
-import { useActividadesStore } from '../store/actividadesStore'
-import { useDiasStore } from '../store/diasStore'
+import { useActividadesStore } from '../store/actividadesStore.ts'
+import { useDiasStore } from '../store/diasStore.ts'
 import './SelectorActividad.module.css'
 
 export default function SelectorActividad ({ bloque, setColor }) {
@@ -26,8 +26,10 @@ export default function SelectorActividad ({ bloque, setColor }) {
   }
 
   const manejarClick = () => {
+    if (!selector) {
+      traerActividades()
+    }
     setSelector(!selector)
-    !selector && traerActividades()
   }
 
   return (

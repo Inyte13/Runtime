@@ -1,5 +1,5 @@
 import styles from './CardHeader.module.css'
-import { useDiasStore } from '../store/diasStore'
+import { useDiasStore } from '../store/diasStore.ts'
 import ColorPicker from './ColorPicker'
 import SelectorActividad from './SelectorActividad'
 import { useState } from 'react'
