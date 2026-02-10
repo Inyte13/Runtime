@@ -1,6 +1,6 @@
 import ListaBloques from './ListaBloques'
 import styles from './Details.module.css'
-import { useFechaStore } from '../store/fechaStore.ts'
+import { useFechaStore } from '../store/fechaStore'
 
 export default function Details() {
   const FechaDetail = useFechaStore((state) => state.getFechaDetail())

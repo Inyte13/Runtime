@@ -1,18 +1,25 @@
 import { useEffect, useRef, useState } from 'react'
-import { useActividadesStore } from '../store/actividadesStore.ts'
-import { useDiasStore } from '../store/diasStore.ts'
+import { useActividadesStore } from '../store/actividadesStore.js'
+import { useDiasStore } from '../store/diasStore.js'
 import './SelectorActividad.module.css'
+import { BloqueRead } from '../types/Bloque.js'
+import { ActividadRead } from '../types/Actividad.js'
 
-export default function SelectorActividad({ bloque, setColor }) {
-  const actualizarBloque = useDiasStore((state) => state.actualizarBloque)
-  const actividades = useActividadesStore((state) => state.actividades)
-  const traerActividades = useActividadesStore((state) => state.traerActividades)
+interface Props {
+  bloque: BloqueRead
+  setColor: React.Dispatch<React.SetStateAction<string>>
+}
+
+export default function SelectorActividad({ bloque, setColor }: Props) {
+  const actualizarBloque = useDiasStore(state => state.actualizarBloque)
+  const actividades = useActividadesStore(state => state.actividades)
+  const traerActividades = useActividadesStore(state => state.traerActividades)
   const [selector, setSelector] = useState(false)
   const modalRef = useRef(null)
 
   useEffect(() => {
-    const manejarClickOut = (event) => {
-      if (modalRef.current && !modalRef.current.contains(event.target)) {
+    const manejarClickOut = (e: MouseEvent) => {
+      if (modalRef.current && !modalRef.current.contains(e.target)) {
         setSelector(false)
       }
     }
@@ -20,7 +27,7 @@ export default function SelectorActividad({ bloque, setColor }) {
     return () => document.removeEventListener('mousedown', manejarClickOut)
   }, [])
 
-  const manejarSelector = async (actividad) => {
+  const manejarSelector = async (actividad: ActividadRead) => {
     await actualizarBloque(bloque.id, { id_actividad: actividad.id })
     setColor(actividad.color)
   }
@@ -55,10 +62,12 @@ export default function SelectorActividad({ bloque, setColor }) {
         {selector && (
           <div>
             <ul>
-              {actividades.map((act) => (
+              {actividades.map(act => (
                 <li key={act.id} onClick={() => manejarSelector(act)}>
                   <span style={{ background: act.color }} />
-                  <a>{act.nombre.charAt(0).toUpperCase() + act.nombre.slice(1)}</a>
+                  <a>
+                    {act.nombre.charAt(0).toUpperCase() + act.nombre.slice(1)}
+                  </a>
                 </li>
               ))}
             </ul>

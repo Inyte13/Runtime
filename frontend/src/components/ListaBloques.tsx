@@ -1,14 +1,14 @@
 import { useEffect } from 'react'
-import { useFechaStore } from '../store/fechaStore.ts'
-import Card from './Card.jsx'
+import { useFechaStore } from '../store/fechaStore.js'
+import Card from './Card.js'
 import styles from './ListaBloques.module.css'
-import { useDiasStore } from '../store/diasStore.ts'
+import { useDiasStore } from '../store/diasStore.js'
 
 export default function ListaBloques() {
-  const fecha = useFechaStore((state) => state.fecha)
-  const crearBloque = useDiasStore((state) => state.crearBloque)
-  const traerDia = useDiasStore((state) => state.traerDia)
-  const dia = useDiasStore((state) => state.dia)
+  const fecha = useFechaStore(state => state.fecha)
+  const crearBloque = useDiasStore(state => state.crearBloque)
+  const traerDia = useDiasStore(state => state.traerDia)
+  const dia = useDiasStore(state => state.dia)
   // Como declaramos dia como null en la store, esto se ejecuta pero con el optional chaining lo corregimos
   const bloques = dia?.bloques || []
   useEffect(() => {
@@ -17,7 +17,7 @@ export default function ListaBloques() {
 
   return (
     <div className={styles.listaBloques}>
-      {bloques.map((bloque) => (
+      {bloques.map(bloque => (
         <Card key={bloque.id} bloque={bloque} />
       ))}
       <button className='btn' onClick={crearBloque}>

@@ -1,28 +1,34 @@
 import styles from './CardHeader.module.css'
-import { useDiasStore } from '../store/diasStore.ts'
+import { useDiasStore } from '../store/diasStore'
 import ColorPicker from './ColorPicker'
 import SelectorActividad from './SelectorActividad'
 import { useState } from 'react'
+import { BloqueRead } from '../types/Bloque'
 
-export default function CardHeader({ bloque, color, setColor }) {
-  const actualizarBloque = useDiasStore((state) => state.actualizarBloque)
-  const eliminarBloque = useDiasStore((state) => state.eliminarBloque)
+interface Props {
+  bloque: BloqueRead
+  color: string
+  setColor: React.Dispatch<React.SetStateAction<string>>
+}
+export default function CardHeader({ bloque, color, setColor }: Props) {
+  const actualizarBloque = useDiasStore(state => state.actualizarBloque)
+  const eliminarBloque = useDiasStore(state => state.eliminarBloque)
   const [duracion, setDuracion] = useState(bloque.duracion || 0)
 
   // Uppercase para el primer char
   const nombreBd = bloque.actividad.nombre
   const nombre = nombreBd.charAt(0).toUpperCase() + nombreBd.slice(1)
 
-  const manejarDuracion = async (newDuracion) => {
+  const manejarDuracion = async (newDuracion: number) => {
     setDuracion(newDuracion)
     await actualizarBloque(bloque.id, { duracion: newDuracion })
   }
   const nextTime = () => {
-    const newDuracion = parseFloat(duracion) + 0.5
+    const newDuracion = duracion + 0.5
     manejarDuracion(newDuracion)
   }
   const prevTime = () => {
-    const newDuracion = Math.max(0, parseFloat(duracion) - 0.5)
+    const newDuracion = Math.max(0, duracion - 0.5)
     manejarDuracion(newDuracion)
   }
   return (
@@ -75,7 +81,10 @@ export default function CardHeader({ bloque, color, setColor }) {
           </div>
         </div>
 
-        <button className={styles.eliminarBtn} onClick={() => eliminarBloque(bloque.id)}>
+        <button
+          className={styles.eliminarBtn}
+          onClick={() => eliminarBloque(bloque.id)}
+        >
           <svg
             xmlns='http://www.w3.org/2000/svg'
             width='24'
