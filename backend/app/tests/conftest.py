@@ -13,16 +13,6 @@ sqlite_engine = create_engine(
   poolclass=StaticPool,
   echo=False,
 )
-# Una bd sqlite para unit tests
-sqlite_engine = create_engine("sqlite:///:memory:", echo=False)
-
-
-@pytest.fixture
-def session_mysql():
-  SQLModel.metadata.create_all(mysql_engine)
-  with Session(mysql_engine) as session:
-    yield session
-  SQLModel.metadata.drop_all(mysql_engine)
 
 
 @pytest.fixture
