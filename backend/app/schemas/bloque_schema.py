@@ -45,3 +45,10 @@ class BloqueUpdate(SQLModel):
   descripcion: str | None = None
   id_actividad: int | None = None
   duracion: float | None = None
+  # Validator para que el '' se convierta en None
+  @field_validator('descripcion')
+  @classmethod
+  def empty_sring_to_none(cls, v):
+    if v == '':
+      return None
+    return v

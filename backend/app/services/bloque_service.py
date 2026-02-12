@@ -191,9 +191,6 @@ def actualizar_bloque(session: Session, id: int, bloque: BloqueUpdate) -> Bloque
     _validar_hora_granulidad(bloque.hora, unidad_bloque=30)
 
     _validar_hora(session, bloque_bd.fecha, bloque.hora, bloque.duracion)
-  # Si la descripción es '' como lo manda el frontend para la bd será None
-  if bloque.descripcion == "":
-    bloque.descripcion = None
 
   bloque_bd = update_bloque(session, bloque_bd, bloque)
   _calcular_duracion(session, bloque_bd)

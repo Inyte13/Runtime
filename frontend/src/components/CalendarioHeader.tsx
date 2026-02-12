@@ -2,7 +2,7 @@ import { useFechaStore } from '../store/fechaStore.js'
 import styles from './CalendarioHeader.module.css'
 
 function CalendarioTitle() {
-  const FechaTitle = useFechaStore((state) => state.getFechaTitle())
+  const FechaTitle = useFechaStore(state => state.getFechaTitle())
   return (
     <>
       <h2>{FechaTitle}</h2>
@@ -64,15 +64,13 @@ function CalendarioToolbar() {
 
 export default function CalendarioHeader() {
   return (
-    <>
-      <header className={styles.header}>
-        <div className={styles.titleWrapper}>
-          <CalendarioTitle />
-        </div>
-        <div className={styles.toolbarWrapper}>
-          <CalendarioToolbar />
-        </div>
-      </header>
-    </>
+    <header className={styles.header}>
+      <div className={styles.titleWrapper}>
+        <CalendarioTitle />
+      </div>
+      <div className={styles.toolbarWrapper}>
+        <CalendarioToolbar />
+      </div>
+    </header>
   )
 }

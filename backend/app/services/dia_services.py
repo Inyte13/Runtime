@@ -7,17 +7,13 @@ from sqlmodel import Session
 from app.crud.dia_crud import create_dia, delete_dia, read_dia, read_dias, update_dia
 from app.models.dia import Dia
 from app.schemas.dia_schema import DiaCreate, DiaUpdate
-from app.services.configuracion_service import buscar_configuracion
 
 
 def registrar_dia(session: Session, dia: DiaCreate) -> Dia:
   # No se utiliza buscar_dia, por que sale la exception
   if read_dia(session, dia.fecha):
     raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="El día ya existe")
-  config = buscar_configuracion(session)
-  new_dia = Dia(
-    fecha=dia.fecha, titulo=config.titulo_default, estado=config.estado_default
-  )
+  new_dia = Dia(fecha=dia.fecha)
   return create_dia(session, new_dia)
 
 

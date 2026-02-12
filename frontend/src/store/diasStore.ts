@@ -1,13 +1,20 @@
 import { create } from 'zustand'
 import { useFechaStore } from './fechaStore'
-import { readDiaDetail } from '../services/diasService'
-import { createBloque, deleteBloque, updateBloque } from '../services/bloquesService'
-import { DiaReadDetail } from '../types/Dia'
+import { readDia, readDiaDetail, updateDia } from '../services/diasService'
+import {
+  createBloque,
+  deleteBloque,
+  updateBloque,
+} from '../services/bloquesService'
+import { DiaRead, DiaReadDetail, DiaUpdate } from '../types/Dia'
 import { BloqueUpdate } from '../types/Bloque'
 
 interface DiasState {
-  dia: DiaReadDetail | null
+  dia: DiaRead | null
+  diaDetail: DiaReadDetail | null
   traerDia: () => Promise<void>
+  traerDiaDetail: () => Promise<void>
+  actualizarDia: (fechaISO: string, dia: DiaUpdate) => Promise<void>
   crearBloque: () => Promise<void>
   actualizarBloque: (id: number, bloque: BloqueUpdate) => Promise<void>
   eliminarBloque: (id: number) => Promise<void>
@@ -15,11 +22,12 @@ interface DiasState {
 
 export const useDiasStore = create<DiasState>((set, get) => ({
   dia: null,
+  diaDetail: null,
 
   traerDia: async () => {
     const fechaISO = useFechaStore.getState().getFechaISO()
     try {
-      const data = await readDiaDetail(fechaISO)
+      const data = await readDia(fechaISO)
       set({ dia: data })
     } catch (err) {
       console.error('Error trayendo el dia', err)
@@ -27,11 +35,31 @@ export const useDiasStore = create<DiasState>((set, get) => ({
     }
   },
 
+  traerDiaDetail: async () => {
+    const fechaISO = useFechaStore.getState().getFechaISO()
+    try {
+      const data = await readDiaDetail(fechaISO)
+      set({ diaDetail: data })
+    } catch (err) {
+      console.error('Error trayendo el dia detail', err)
+      set({ diaDetail: null })
+    }
+  },
+
+  actualizarDia: async (fechaISO, dia) => {
+    try {
+      await updateDia(fechaISO, dia)
+      await get().traerDia()
+    } catch (err) {
+      console.error('Error actualizando el dia', err)
+    }
+  },
+
   crearBloque: async () => {
     const fechaISO = useFechaStore.getState().getFechaISO()
     try {
       await createBloque({ fecha: fechaISO })
-      await get().traerDia()
+      await get().traerDiaDetail()
     } catch (err) {
       console.error('Error al crear el bloque', err)
     }
@@ -40,18 +68,18 @@ export const useDiasStore = create<DiasState>((set, get) => ({
   actualizarBloque: async (id, bloque) => {
     try {
       await updateBloque(id, bloque)
-      await get().traerDia()
+      await get().traerDiaDetail()
     } catch (err) {
       console.error('Error actualizando el bloque', err)
     }
   },
 
-  eliminarBloque: async (id) => {
+  eliminarBloque: async id => {
     try {
       await deleteBloque(id)
-      await get().traerDia()
+      await get().traerDiaDetail()
     } catch (err) {
       console.error('Error eliminando el bloque', err)
     }
-  }
+  },
 }))

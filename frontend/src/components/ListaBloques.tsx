@@ -1,19 +1,10 @@
-import { useEffect } from 'react'
-import { useFechaStore } from '../store/fechaStore.js'
+import { useDiasStore } from '../store/diasStore.js'
+import { BloqueRead } from '../types/Bloque.js'
 import Card from './Card.js'
 import styles from './ListaBloques.module.css'
-import { useDiasStore } from '../store/diasStore.js'
 
-export default function ListaBloques() {
-  const fecha = useFechaStore(state => state.fecha)
+export default function ListaBloques({ bloques }: {bloques: BloqueRead[]}) {
   const crearBloque = useDiasStore(state => state.crearBloque)
-  const traerDia = useDiasStore(state => state.traerDia)
-  const dia = useDiasStore(state => state.dia)
-  // Como declaramos dia como null en la store, esto se ejecuta pero con el optional chaining lo corregimos
-  const bloques = dia?.bloques || []
-  useEffect(() => {
-    traerDia()
-  }, [fecha, traerDia])
 
   return (
     <div className={styles.listaBloques}>

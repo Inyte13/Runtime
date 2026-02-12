@@ -15,12 +15,17 @@ from app.services.dia_services import (
 dia_router = APIRouter(tags=["Dia"])
 
 
+@dia_router.get("/dias/{fecha}", response_model=DiaRead)
+def get_dia(session: SessionDep, fecha: date):
+  return buscar_dia(session, fecha)
+
+
 @dia_router.get("/dias", response_model=list[DiaRead])
 def get_dias_range(session: SessionDep, fecha_inicio: date, fecha_final: date):
   return mostrar_dias(session, fecha_inicio, fecha_final)
 
 
-@dia_router.get("/dias/{fecha}", response_model=DiaReadDetail)
+@dia_router.get("/dias/{fecha}/detail", response_model=DiaReadDetail)
 def get_dia_detail(session: SessionDep, fecha: date):
   return buscar_dia(session, fecha)
 
@@ -34,7 +39,8 @@ def post_dia(session: SessionDep, dia: DiaCreate):
 def patch_dia(session: SessionDep, fecha: date, dia: DiaUpdate):
   return actualizar_dia(session, fecha, dia)
 
-@dia_router.delete('/dias/{fecha}', status_code=204)
+
+@dia_router.delete("/dias/{fecha}", status_code=204)
 def delete_dia(session: SessionDep, fecha: date):
   eliminar_dia(session, fecha)
   return

@@ -5,12 +5,7 @@ import SelectorActividad from './SelectorActividad'
 import { useState } from 'react'
 import { BloqueRead } from '../types/Bloque'
 
-interface Props {
-  bloque: BloqueRead
-  color: string
-  setColor: React.Dispatch<React.SetStateAction<string>>
-}
-export default function CardHeader({ bloque, color, setColor }: Props) {
+export default function CardHeader({ bloque }: { bloque: BloqueRead }) {
   const actualizarBloque = useDiasStore(state => state.actualizarBloque)
   const eliminarBloque = useDiasStore(state => state.eliminarBloque)
   const [duracion, setDuracion] = useState(bloque.duracion || 0)
@@ -34,9 +29,9 @@ export default function CardHeader({ bloque, color, setColor }: Props) {
   return (
     <header>
       <h2 className={styles.h2}>
-        <ColorPicker bloque={bloque} color={color} setColor={setColor} />
+        <ColorPicker actividad={bloque.actividad} />
         {nombre}
-        <SelectorActividad bloque={bloque} setColor={setColor} />
+        <SelectorActividad bloque={bloque} />
         <div className={styles.duracion}>
           <span>{duracion || '0'}h</span>
           <div className={styles.stepper}>

@@ -5,11 +5,24 @@
   align-items: center;
   justify-content: center;
   .header {
-    border-bottom: var(--border);
     padding: .5rem 2rem;
-    margin-bottom: 1.2rem;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     h2 {
       font-weight: 400;
+      padding: .5rem 0;
+      margin-bottom: .2rem;
+      align-self: center;
+    }
+    textarea {
+      height: 1.6rem;
+      font-style: italic;
+      text-align: center;
+      &:focus {
+        border-bottom: 1px solid var(--gris-negro-5);
+      }
     }
   }
 }

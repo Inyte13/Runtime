@@ -16,7 +16,7 @@ class Estado(IntEnum):
 
 class DiaBase(SQLModel):
   titulo: str | None = Field(max_length=150, default=None)
-  estado: Estado = Field(default=Estado.NORMAL)
+  estado: Estado | None = Field(default=Estado.NORMAL)
   fecha: date = Field(primary_key=True)
 
 
