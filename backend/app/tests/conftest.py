@@ -7,9 +7,11 @@ from sqlmodel import Session, SQLModel
 from app.core.database import get_session
 from app.main import app
 
-# Una bd de mysql para integration y api tests
-mysql_engine = create_engine(
-  "mysql+pymysql://root:root@localhost:3307/runtime_test", echo=False
+sqlite_engine = create_engine(
+  "sqlite:///:memory:",
+  connect_args={"check_same_thread": False},
+  poolclass=StaticPool,
+  echo=False,
 )
 # Una bd sqlite para unit tests
 sqlite_engine = create_engine("sqlite:///:memory:", echo=False)
