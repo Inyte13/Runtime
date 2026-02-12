@@ -3,9 +3,9 @@ from typing import Annotated
 from fastapi import Depends
 from sqlmodel import Session, SQLModel, create_engine
 
-DATABASE_URL = "mysql+pymysql://root:root@localhost:3306/runtime_db"
+DATABASE_URL = "sqlite:///./runtime.db"
 # echo, para ver las lineas sql
-engine = create_engine(DATABASE_URL, echo=False)
+engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False}, echo=False)
 
 
 def create_db_and_tables():
