@@ -5,7 +5,9 @@ from sqlmodel import Session, SQLModel, create_engine
 
 DATABASE_URL = "sqlite:///./runtime.db"
 # echo, para ver las lineas sql
-engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False}, echo=False)
+engine = create_engine(
+  DATABASE_URL, connect_args={"check_same_thread": False}, echo=False
+)
 
 
 def create_db_and_tables():
