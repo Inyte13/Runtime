@@ -15,12 +15,7 @@ function CalendarioToolbar() {
   const { prevDia, nextDia, irHoy } = useFechaStore()
   return (
     <>
-      <div role='group' className={styles.viewBtn}>
-        <button className='btn'>Mes</button>
-        <button className='btn'>Semana</button>
       </div>
-      <div className={styles.navBtn}>
-        <button className='iconBtn' onClick={prevDia}>
           <svg
             xmlns='http://www.w3.org/2000/svg'
             width='24'
