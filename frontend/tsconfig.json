@@ -5,7 +5,11 @@
     "jsx": "react-jsx",
     "moduleResolution": "Bundler",
     "strict": false,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    // "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
   },
   "include": ["src"]
 }
