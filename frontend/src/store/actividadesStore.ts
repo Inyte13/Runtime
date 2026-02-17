@@ -4,7 +4,11 @@ import {
   readActividades,
   updateActividad,
 } from '../services/actividadesServices'
-import { ActividadCreate, ActividadRead, ActividadUpdate } from '../types/Actividad'
+import {
+  ActividadCreate,
+  ActividadRead,
+  ActividadUpdate,
+} from '../types/Actividad'
 
 interface ActividadState {
   actividades: ActividadRead[]
@@ -15,7 +19,7 @@ interface ActividadState {
 
 export const useActividadesStore = create<ActividadState>((set, get) => ({
   actividades: [],
-  crearActividad: async (actividad) => {
+  crearActividad: async actividad => {
     try {
       await createActividad(actividad)
       await get().traerActividades()

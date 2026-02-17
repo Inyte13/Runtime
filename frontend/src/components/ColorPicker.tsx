@@ -1,11 +1,16 @@
+import { useState, useRef } from 'react'
 import { useActividadesStore } from '../store/actividadesStore.js'
 import { useColorStore } from '../store/colorStore.js'
 import { ActividadRead } from '../types/Actividad.js'
+
 export default function ColorPicker({
   actividad,
 }: {
   actividad: ActividadRead
 }) {
+  const [colorTemp, setColorTemp] = useState<string | null>(null)
+  const timeoutRef = useRef<number | null>(null)
+
   const color = useColorStore(
     state => state.colores[actividad.id] || actividad.color
   )
@@ -13,19 +18,31 @@ export default function ColorPicker({
   const actualizarActividad = useActividadesStore(
     state => state.actualizarActividad
   )
-  const manejarCambioColor = async (e: React.FocusEvent<HTMLInputElement>) => {
-    await actualizarActividad(actividad.id, { color: e.target.value })
+
+  const manejarCambio = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const nuevoColor = e.target.value
+    if (timeoutRef.current) clearTimeout(timeoutRef.current)
+    timeoutRef.current = setTimeout(() => {
+      setColor(actividad.id, nuevoColor)
+    }, 100)
+    setColorTemp(nuevoColor)
   }
+
+  const manejarBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    actualizarActividad(actividad.id, { color: e.target.value })
+    setColorTemp(null)
+  }
+
+  const displayColor = colorTemp !== null ? colorTemp : color
+
   return (
     <input
       className='rounded-full w-4 h-4'
       type='color'
-      value={color}
-      style={{ background: color }}
-      // onChange solo para cambiar en el frontend
-      onChange={e => setColor(actividad.id, e.target.value)}
-      // onBlur se ejecuta cuando cambia el foco
-      onBlur={manejarCambioColor}
+      value={displayColor}
+      style={{ background: displayColor }}
+      onChange={manejarCambio}
+      onBlur={manejarBlur}
     />
   )
 }

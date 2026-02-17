@@ -7,7 +7,7 @@ interface ColorState {
 
 export const useColorStore = create<ColorState>(set => ({
   colores: {},
-  setColor: (id, color) =>
+  setColor: (id, color) =>  
     set(state => ({
       colores: { ...state.colores, [id]: color },
     })),

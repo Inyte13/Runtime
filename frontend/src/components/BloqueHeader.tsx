@@ -1,17 +1,13 @@
 import { useDiasStore } from '../store/diasStore'
-import ColorPicker from './ColorPicker'
 import SelectorActividad from './SelectorActividad'
 import { useState } from 'react'
 import { BloqueRead } from '../types/Bloque'
+import { Button } from './ui/button'
 
 export default function BloqueHeader({ bloque }: { bloque: BloqueRead }) {
   const actualizarBloque = useDiasStore(state => state.actualizarBloque)
   const eliminarBloque = useDiasStore(state => state.eliminarBloque)
   const [duracion, setDuracion] = useState(bloque.duracion || 0)
-
-  // Uppercase para el primer char
-  const nombreBd = bloque.actividad.nombre
-  const nombre = nombreBd.charAt(0).toUpperCase() + nombreBd.slice(1)
 
   const manejarDuracion = async (newDuracion: number) => {
     setDuracion(newDuracion)
@@ -26,75 +22,66 @@ export default function BloqueHeader({ bloque }: { bloque: BloqueRead }) {
     manejarDuracion(newDuracion)
   }
   return (
-    <header>
-      <h2 >
-        <ColorPicker actividad={bloque.actividad} />
-        {nombre}
-        <SelectorActividad bloque={bloque} />
-        <div >
-          <span>{duracion || '0'}h</span>
-          <div >
-            <button
-              onClick={prevTime}
-              disabled={duracion === 0}
+    <header className='flex'>
+      <SelectorActividad bloque={bloque} />
+      <div>
+        <span>{duracion || '0'}h</span>
+        <div>
+          <Button onClick={prevTime} disabled={duracion === 0}>
+            <svg
+              xmlns='http://www.w3.org/2000/svg'
+              width='24'
+              height='24'
+              viewBox='0 0 24 24'
+              fill='none'
+              stroke='currentColor'
+              strokeWidth='2'
+              strokeLinecap='round'
+              strokeLinejoin='round'
+              className='icon icon-tabler icons-tabler-outline icon-tabler-chevron-up'
             >
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                width='24'
-                height='24'
-                viewBox='0 0 24 24'
-                fill='none'
-                stroke='currentColor'
-                strokeWidth='2'
-                strokeLinecap='round'
-                strokeLinejoin='round'
-                className='icon icon-tabler icons-tabler-outline icon-tabler-chevron-up'
-              >
-                <path stroke='none' d='M0 0h24v24H0z' fill='none' />
-                <path d='M6 15l6 -6l6 6' />
-              </svg>
-            </button>
-            <button onClick={nextTime}>
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                width='24'
-                height='24'
-                viewBox='0 0 24 24'
-                fill='none'
-                stroke='currentColor'
-                strokeWidth='2'
-                strokeLinecap='round'
-                strokeLinejoin='round'
-                className='icon icon-tabler icons-tabler-outline icon-tabler-chevron-down'
-              >
-                <path stroke='none' d='M0 0h24v24H0z' fill='none' />
-                <path d='M6 9l6 6l6 -6' />
-              </svg>
-            </button>
-          </div>
+              <path stroke='none' d='M0 0h24v24H0z' fill='none' />
+              <path d='M6 15l6 -6l6 6' />
+            </svg>
+          </Button>
+          <Button onClick={nextTime}>
+            <svg
+              xmlns='http://www.w3.org/2000/svg'
+              width='24'
+              height='24'
+              viewBox='0 0 24 24'
+              fill='none'
+              stroke='currentColor'
+              strokeWidth='2'
+              strokeLinecap='round'
+              strokeLinejoin='round'
+              className='icon icon-tabler icons-tabler-outline icon-tabler-chevron-down'
+            >
+              <path stroke='none' d='M0 0h24v24H0z' fill='none' />
+              <path d='M6 9l6 6l6 -6' />
+            </svg>
+          </Button>
         </div>
+      </div>
 
-        <button
-          onClick={() => eliminarBloque(bloque.id)}
+      <Button onClick={() => eliminarBloque(bloque.id)}>
+        <svg
+          xmlns='http://www.w3.org/2000/svg'
+          width='24'
+          height='24'
+          viewBox='0 0 24 24'
+          fill='none'
+          stroke='currentColor'
+          strokeWidth='2'
+          strokeLinecap='round'
+          strokeLinejoin='round'
+          className='icon icon-tabler icons-tabler-outline icon-tabler-x'
         >
-          <svg
-            xmlns='http://www.w3.org/2000/svg'
-            width='24'
-            height='24'
-            viewBox='0 0 24 24'
-            fill='none'
-            stroke='currentColor'
-            strokeWidth='2'
-            strokeLinecap='round'
-            strokeLinejoin='round'
-            className='icon icon-tabler icons-tabler-outline icon-tabler-x'
-          >
-            <path stroke='none' d='M0 0h24v24H0z' fill='none' />
-            <path d='M18 6l-12 12' />
-            <path d='M6 6l12 12' />
-          </svg>
-        </button>
-      </h2>
+          <path stroke='none' d='M0 0h24v24H0z' fill='none' />
+          <path d='M18 6l-12 12' />
+          <path d='M6 6l12 12' />
+        </svg>
+      </Button>
     </header>
   )
 }

@@ -23,7 +23,7 @@ export default function Day() {
     await actualizarDia(fechaISO, { titulo: e.target.value })
   }
   return (
-    <section className='flex flex-col min-w-72 h-full gap-y-2'>
+    <section className='flex flex-col min-w-85 h-full gap-y-2'>
       <header className='flex flex-col gap-y-1 items-center'>
         <h2 className='text-2xl font-semibold'>{fechaDetail}</h2>
         <Input
