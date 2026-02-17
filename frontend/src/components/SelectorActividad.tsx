@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { useActividadesStore } from '../store/actividadesStore.js'
 import { useDiasStore } from '../store/diasStore.js'
-import './SelectorActividad.module.css'
 import { BloqueRead } from '../types/Bloque.js'
 import { ActividadRead } from '../types/Actividad.js'
 import { useColorStore } from '../store/colorStore.js'

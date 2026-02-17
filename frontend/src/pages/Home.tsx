@@ -1,18 +1,13 @@
 import CalendarioHeader from '../components/CalendarioHeader'
-import Details from '../components/Details'
+import Day from '../components/Day'
 import ListaActividades from '../components/ListaActividades'
-import styles from './Home.module.css'
 
 export default function Home() {
   return (
-    <>
-      <div className={styles.actividadesWrapper}>
-        <ListaActividades />
-      </div>
-      <div className={styles.calendarioWrapper}>
-        <CalendarioHeader />
-      </div>
-      <Details />
-    </>
+    <div className='h-full overflow-hidden flex justify-between'>
+      <ListaActividades />
+      <CalendarioHeader />
+      <Day />
+    </div>
   )
 }

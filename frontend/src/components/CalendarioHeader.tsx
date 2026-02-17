@@ -1,5 +1,4 @@
 import { useFechaStore } from '../store/fechaStore.js'
-import styles from './CalendarioHeader.module.css'
 
 function CalendarioTitle() {
   const FechaTitle = useFechaStore(state => state.getFechaTitle())
@@ -15,7 +14,12 @@ function CalendarioToolbar() {
   const { prevDia, nextDia, irHoy } = useFechaStore()
   return (
     <>
+      <div role='group' >
+        <button>Mes</button>
+        <button>Semana</button>
       </div>
+      <div >
+        <button onClick={prevDia}>
           <svg
             xmlns='http://www.w3.org/2000/svg'
             width='24'
@@ -32,10 +36,8 @@ function CalendarioToolbar() {
             <path d='M15 6l-6 6l6 6' />
           </svg>
         </button>
-        <button className='btn' onClick={irHoy}>
-          Hoy
-        </button>
-        <button className='iconBtn' onClick={nextDia}>
+        <button onClick={irHoy}>Hoy</button>
+        <button onClick={nextDia}>
           <svg
             xmlns='http://www.w3.org/2000/svg'
             width='24'
@@ -59,13 +61,9 @@ function CalendarioToolbar() {
 
 export default function CalendarioHeader() {
   return (
-    <header className={styles.header}>
-      <div className={styles.titleWrapper}>
-        <CalendarioTitle />
-      </div>
-      <div className={styles.toolbarWrapper}>
-        <CalendarioToolbar />
-      </div>
+    <header >
+      <CalendarioTitle />
+      <CalendarioToolbar />
     </header>
   )
 }

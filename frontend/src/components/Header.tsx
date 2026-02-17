@@ -1,15 +1,31 @@
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router'
-import styles from './Header.module.css'
+import { Button } from './ui/button'
 export function Header() {
+  const [isDark, setIsDark] = useState(
+    () => localStorage.getItem('theme') === 'dark'
+  )
+  useEffect(() => {
+    if (isDark) {
+      document.documentElement.classList.add('dark')
+      localStorage.setItem('theme', 'dark')
+    } else {
+      document.documentElement.classList.remove('dark')
+      localStorage.setItem('theme', 'light')
+    }
+  }, [isDark])
+
   return (
+    <header className='flex justify-around items-center py-3 px-4 border-b'>
       <div>
-        <h1>
+        <h1 className='font-bold text-3xl'>
           <Link to='/'>Runtime</Link>
         </h1>
       </div>
       <nav>
-        <ul>
+        <ul className='flex justify-center items-center gap-x-2'>
           <li>
+            <Link to='/configuraciones'>
               <svg
                 xmlns='http://www.w3.org/2000/svg'
                 width='24'
@@ -27,6 +43,14 @@ export function Header() {
                 <path d='M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0' />
               </svg>
             </Link>
+          </li>
+          <li>
+            <Button
+              onClick={() => setIsDark(!isDark)}
+              className='px-4 py-2 rounded bg-primary text-primary-foreground'
+            >
+              {isDark ? 'Dark' : 'Light'}
+            </Button>
           </li>
         </ul>
       </nav>

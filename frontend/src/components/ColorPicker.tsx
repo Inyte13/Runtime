@@ -1,7 +1,6 @@
 import { useActividadesStore } from '../store/actividadesStore.js'
 import { useColorStore } from '../store/colorStore.js'
 import { ActividadRead } from '../types/Actividad.js'
-import './ColorPicker.module.css'
 export default function ColorPicker({
   actividad,
 }: {
@@ -19,6 +18,7 @@ export default function ColorPicker({
   }
   return (
     <input
+      className='rounded-full w-4 h-4'
       type='color'
       value={color}
       style={{ background: color }}
