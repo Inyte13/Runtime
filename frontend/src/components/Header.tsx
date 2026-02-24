@@ -1,6 +1,19 @@
 import { Link } from 'react-router'
 import styles from './Header.module.css'
 export function Header() {
+  // Btn para dark mode
+  const [isDark, setIsDark] = useState(
+    () => localStorage.getItem('theme') === 'dark'
+  )
+  useEffect(() => {
+    if (isDark) {
+      document.documentElement.classList.add('dark')
+      localStorage.setItem('theme', 'dark')
+    } else {
+      document.documentElement.classList.remove('dark')
+      localStorage.setItem('theme', 'light')
+    }
+  }, [isDark])
   return (
     <header className={styles.header}>
       <div>
@@ -29,6 +42,12 @@ export function Header() {
                 <path d='M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0' />
               </svg>
             </Link>
+            <Button
+              variant='secondary'
+              onClick={() => setIsDark(!isDark)}
+            >
+              {isDark ? 'Dark' : 'Light'}
+            </Button>
           </li>
         </ul>
       </nav>
