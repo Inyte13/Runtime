@@ -1,5 +1,7 @@
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router'
-import styles from './Header.module.css'
+import { Button } from './ui/button'
+import { Settings } from 'lucide-react'
 export function Header() {
   // Btn para dark mode
   const [isDark, setIsDark] = useState(

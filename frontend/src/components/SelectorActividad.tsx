@@ -1,10 +1,21 @@
-import { useEffect, useRef, useState } from 'react'
 import { useActividadesStore } from '../store/actividadesStore.js'
 import { useDiasStore } from '../store/diasStore.js'
-import './SelectorActividad.module.css'
 import { BloqueRead } from '../types/Bloque.js'
-import { ActividadRead } from '../types/Actividad.js'
 import { useColorStore } from '../store/colorStore.js'
+import {
+  Combobox,
+  ComboboxContent,
+  ComboboxEmpty,
+  ComboboxInput,
+  ComboboxItem,
+  ComboboxList,
+  ComboboxTrigger,
+  ComboboxValue,
+  useComboboxAnchor,
+} from './ui/combobox.js'
+import { ScrollArea } from './ui/scroll-area.js'
+import { Button } from './ui/button.js'
+import { ChevronDown } from 'lucide-react'
 
 export default function SelectorActividad({ bloque }: { bloque: BloqueRead }) {
   const actualizarBloque = useDiasStore(state => state.actualizarBloque)

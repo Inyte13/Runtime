@@ -1,7 +1,9 @@
 import { useEffect } from 'react'
 import { useActividadesStore } from '../store/actividadesStore'
 import Actividad from './Actividad'
-import styles from './ListaActividades.module.css'
+import { Plus } from 'lucide-react'
+import { Button } from './ui/button'
+import { ScrollArea } from './ui/scroll-area'
 
 export default function ListaActividades() {
   const actividades = useActividadesStore(state => state.actividades)

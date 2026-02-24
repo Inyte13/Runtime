@@ -1,7 +1,9 @@
-import { useDiasStore } from '../store/diasStore.js'
-import { BloqueRead } from '../types/Bloque.js'
-import Card from './Card.js'
-import styles from './ListaBloques.module.css'
+import { Plus } from 'lucide-react'
+import { useDiasStore } from '../store/diasStore'
+import { BloqueRead } from '../types/Bloque'
+import Bloque from './Bloque'
+import { Button } from './ui/button'
+import { ScrollArea } from './ui/scroll-area'
 
 export default function ListaBloques({ bloques }: {bloques: BloqueRead[]}) {
   const crearBloque = useDiasStore(state => state.crearBloque)

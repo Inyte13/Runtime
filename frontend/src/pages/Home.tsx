@@ -1,7 +1,6 @@
-import CalendarioHeader from '../components/CalendarioHeader'
-import Details from '../components/Details'
+import Calendario from '../components/Calendario'
+import Dia from '../components/Dia'
 import ListaActividades from '../components/ListaActividades'
-import styles from './Home.module.css'
 
 export default function Home() {
   return (
