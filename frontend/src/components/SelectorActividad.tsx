@@ -22,30 +22,11 @@ export default function SelectorActividad({ bloque }: { bloque: BloqueRead }) {
   const actividades = useActividadesStore(state => state.actividades)
   const traerActividades = useActividadesStore(state => state.traerActividades)
   const setColor = useColorStore(state => state.setColor)
-  const [selector, setSelector] = useState(false)
-  const modalRef = useRef(null)
 
-  useEffect(() => {
-    const manejarClickOut = (e: MouseEvent) => {
-      if (modalRef.current && !modalRef.current.contains(e.target)) {
-        setSelector(false)
-      }
-    }
-    document.addEventListener('mousedown', manejarClickOut)
-    return () => document.removeEventListener('mousedown', manejarClickOut)
-  }, [])
-
-  const manejarSelector = async (actividad: ActividadRead) => {
     await actualizarBloque(bloque.id, { id_actividad: actividad.id })
     setColor(actividad.id, actividad.color)
   }
 
-  const manejarClick = () => {
-    if (!selector) {
-      traerActividades()
-    }
-    setSelector(!selector)
-  }
 
   return (
     <div ref={modalRef}>
