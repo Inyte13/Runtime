@@ -4,14 +4,10 @@ import ListaActividades from '../components/ListaActividades'
 
 export default function Home() {
   return (
-    <>
-      <div className={styles.actividadesWrapper}>
-        <ListaActividades />
-      </div>
-      <div className={styles.calendarioWrapper}>
-        <CalendarioHeader />
-      </div>
-      <Details />
-    </>
+    <div className='h-full overflow-hidden flex justify-between'>
+      <ListaActividades />
+      <Calendario />
+      <Dia />
+    </div>
   )
 }
