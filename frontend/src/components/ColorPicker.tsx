@@ -18,6 +18,7 @@ export default function ColorPicker({
   }
   return (
     <input
+      className='rounded-full size-4'
       type='color'
       value={color}
       style={{ background: color }}
