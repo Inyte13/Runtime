@@ -14,28 +14,29 @@ export default function ListaActividades() {
 
   const crearActividad = useActividadesStore(state => state.crearActividad)
   return (
-    <div className={styles.listaActividades}>
-      {actividades.map(actividad => (
-        <Actividad key={actividad.id} actividad={actividad} />
-      ))}
-      <button className='btn' onClick={crearActividad}>
-        <svg
-          xmlns='http://www.w3.org/2000/svg'
-          width='24'
-          height='24'
-          viewBox='0 0 24 24'
-          fill='none'
-          stroke='currentColor'
-          strokeWidth='2'
-          strokeLinecap='round'
-          strokeLinejoin='round'
-          className='icon icon-tabler icons-tabler-outline icon-tabler-plus'
+    <section className='flex flex-col h-full overflow-hidden p-4 gap-y-4 justify-content'>
+      <ScrollArea className='flex-1 min-h-0 border border-border rounded-lg bg-card text-card-foreground'>
+        <ul className='flex flex-col divide-y divide-border/30 px-4'>
+          {actividades.map(actividad => (
+            <li className='first:pt-2 last:pb-2' key={actividad.id}>
+              <Actividad actividad={actividad} />
+            </li>
+          ))}
+        </ul>
+      </ScrollArea>
+      <footer className='w-full' >
+        <Button
+          size='icon-md'
+          className='w-full'
+          onClick={
+            () =>
+              crearActividad({ nombre: 'Test', color: 'red', is_active: true })
+            // TODO: Crear menu para crear actividad
+          }
         >
-          <path stroke='none' d='M0 0h24v24H0z' fill='none' />
-          <path d='M12 5l0 14' />
-          <path d='M5 12l14 0' />
-        </svg>
-      </button>
-    </div>
+          <Plus />
+        </Button>
+      </footer>
+    </section>
   )
 }
