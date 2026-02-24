@@ -8,6 +8,18 @@ input[type="color"]::-webkit-color-swatch {
 input[type="color"]::-moz-color-swatch {
   border: none;
 }
+
+/* El selection, el que se usa para copiar */
+@layer base {
+  ::selection {
+    @apply bg-primary text-primary-foreground;
+  }
+  
+  ::-moz-selection {
+    @apply bg-primary text-primary-foreground;
+  }
+}
+
 /* Genera variantes dark: */
 @custom-variant dark (&:is(.dark *));
 
