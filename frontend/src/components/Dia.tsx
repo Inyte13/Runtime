@@ -1,10 +1,10 @@
 import ListaBloques from './ListaBloques'
-import styles from './Details.module.css'
 import { useFechaStore } from '../store/fechaStore'
 import { useEffect } from 'react'
 import { useDiasStore } from '../store/diasStore'
+import { Input } from './ui/input'
 
-export default function Details() {
+export default function Dia() {
   const fechaDetail = useFechaStore(state => state.getFechaDetail())
   const fechaISO = useFechaStore(state => state.getFechaISO())
 
@@ -19,21 +19,25 @@ export default function Details() {
     traerDiaDetail()
   }, [fecha, traerDiaDetail])
 
-  const manejarTitulo = async (e: React.FocusEvent<HTMLTextAreaElement>) => {
+  const manejarTitulo = async (e: React.FocusEvent<HTMLInputElement>) => {
     await actualizarDia(fechaISO, { titulo: e.target.value })
   }
   return (
-    <article className={styles.details}>
-      <header className={styles.header}>
-        <h2>{fechaDetail}</h2>
-        <textarea
+    <section className='flex flex-col min-w-90 h-full gap-y-2 p-4' >
+      <header className='flex flex-col gap-y-1 items-center'>
+        <h2 className='text-2xl font-semibold'>{fechaDetail}</h2>
+        <Input
+          className='text-center text-lg italic'
           defaultValue={diaDetail?.titulo || ''}
           placeholder='Añadir título'
           onBlur={manejarTitulo}
           maxLength={150}
+          disabled={diaDetail === null}
         />
       </header>
-      <ListaBloques bloques={bloques} />
-    </article>
+      <div className='flex-1 min-h-0'>
+        <ListaBloques bloques={bloques} />
+      </div>
+    </section>
   )
 }
