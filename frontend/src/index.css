@@ -1,6 +1,13 @@
 @import "tailwindcss";
 @import './colors.css';
 
+/* Para que en el imput-color no salga el cuadradito */
+input[type="color"]::-webkit-color-swatch {
+  border: none;
+}
+input[type="color"]::-moz-color-swatch {
+  border: none;
+}
 /* Genera variantes dark: */
 @custom-variant dark (&:is(.dark *));
 
