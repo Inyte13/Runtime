@@ -1,5 +1,4 @@
 import { Header } from './components/Header.js'
-import './App.css'
 import { Route, Routes } from 'react-router'
 import { lazy } from 'react'
 
