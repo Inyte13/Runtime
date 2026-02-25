@@ -6,7 +6,7 @@ function CalendarioTitle() {
   const FechaTitle = useFechaStore(state => state.getFechaTitle())
   return (
     <>
-      <h2>{FechaTitle}</h2>
+      <h2 className='text-2xl font-semibold'>{FechaTitle}</h2>
       <p>Gestiona tus bloques de actividad diaria.</p>
     </>
   )
@@ -15,12 +15,12 @@ function CalendarioTitle() {
 function CalendarioToolbar() {
   const { prevDia, nextDia, irHoy } = useFechaStore()
   return (
-    <>
-      <div role='group'>
+    <div className='flex'>
+      <div >
         <Button className=''>Mes</Button>
         <Button className=''>Semana</Button>
       </div>
-      <div>
+      <div className='flex'>
         <Button size='icon-md' className='' onClick={prevDia}>
           <ChevronLeft />
         </Button>
@@ -31,7 +31,7 @@ function CalendarioToolbar() {
           <ChevronRight />
         </Button>
       </div>
-    </>
+    </div>
   )
 }
 
