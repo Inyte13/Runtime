@@ -15,17 +15,18 @@ export default function Bloque({ bloque }: { bloque: BloqueRead }) {
 
   return (
     <article
-      className='border border-border border-l-2 rounded-md px-4 py-2 relative bg-card flex flex-col gap-0.5'
+      className='border border-border border-l-2 rounded-md px-2 pb-2 pt-0 relative bg-card flex flex-col '
       style={{ borderLeftColor: `${color}95` }}
     >
       <BloqueHeader bloque={bloque} />
       <div>
-        <span>
+        <span className='pl-1 text-foreground/70'>
           {bloque.hora} - {bloque.hora_fin}
         </span>
       </div>
       <Input
-        className='focus:border-b focus:border-input italic'
+        style={{ '--color': `${color}` } as React.CSSProperties}
+        className='border-0 border-b border-transparent focus:border-(--color) outline-none rounded-none italic h-[1.6rem] text-base pr-0 pl-1 mt-1' 
         defaultValue={bloque.descripcion || ''}
         placeholder='Añadir descripción'
         onBlur={manejarDescripcion}
