@@ -3,7 +3,6 @@ import { useActividadesStore } from '../store/actividadesStore'
 import Actividad from './Actividad'
 import { Plus } from 'lucide-react'
 import { Button } from './ui/button'
-import { ScrollArea } from './ui/scroll-area'
 
 export default function ListaActividades() {
   const actividades = useActividadesStore(state => state.actividades)
@@ -14,7 +13,7 @@ export default function ListaActividades() {
 
   const crearActividad = useActividadesStore(state => state.crearActividad)
   return (
-    <section className='flex flex-col h-full overflow-hidden p-4 gap-y-4 justify-content'>
+    <section className='flex flex-col h-full overflow-hidden p-4 gap-y-2 justify-content'>
       <div className='flex-1 min-h-0 overflow-y-auto border border-border rounded-lg bg-card text-card-foreground [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]'>
         <ul className='flex flex-col divide-y divide-border/30 px-4'>
           {actividades.map(actividad => (
