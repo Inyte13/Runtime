@@ -15,7 +15,7 @@ export default function Bloque({ bloque }: { bloque: BloqueRead }) {
 
   return (
     <article
-      className='border border-border border-l-2 rounded-md px-2 pb-2 pt-0 relative bg-card flex flex-col '
+      className='border border-border border-l-2 rounded-md px-2 pb-2 pt-1 relative bg-card flex flex-col '
       style={{ borderLeftColor: `${color}95` }}
     >
       <BloqueHeader bloque={bloque} />
