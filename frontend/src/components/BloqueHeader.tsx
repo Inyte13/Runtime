@@ -27,7 +27,7 @@ export default function BloqueHeader({ bloque }: { bloque: BloqueRead }) {
         <SelectorActividad bloque={bloque} />
       <div className='flex mr-5 justify-center items-center'>
         <span className='text-3xl font-extralight'>{duracion || '0'}h</span>
-        <div className='flex flex-col items-'>
+        <div className='flex flex-col '>
           <Button
             size='icon-xs'
             onClick={prevTime}
