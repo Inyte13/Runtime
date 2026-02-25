@@ -48,7 +48,7 @@ export default function SelectorActividad({ bloque }: { bloque: BloqueRead }) {
     >
       <ComboboxTrigger
         render={
-          <Button variant='ghost' className='p-1! text-2xl font-light gap-1'>
+          <Button variant='ghost' className='p-1! gap-1'>
             <div className='flex items-center gap-2'>
               {bloque.actividad && (
                 <span
@@ -56,7 +56,7 @@ export default function SelectorActividad({ bloque }: { bloque: BloqueRead }) {
                   style={{ backgroundColor: bloque.actividad.color }}
                 />
               )}
-              <span className='capitalize'>
+              <span className='capitalize text-2xl font-light'>
                 <ComboboxValue />
               </span>
             </div>
