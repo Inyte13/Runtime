@@ -24,7 +24,7 @@ export const buttonVariants = cva(
         secondary:
           'bg-secondary text-secondary-foreground hover:bg-secondary/80',
         ghost:
-          'hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50',
+          'hover:bg-accent/50 hover:text-accent-foreground',
         destructive:
           "bg-destructive text-white hover:bg-destructive/70 focus-visible:ring-destructive/20 ",
       },
@@ -33,6 +33,7 @@ export const buttonVariants = cva(
         sm: 'text-sm py-1.5 min-h-8 px-3 gap-1.5 has-[>svg]:px-2.5',
         md: 'text-sm py-2 min-h-9 px-4 font-medium has-[>svg]:px-3',
         lg: 'text-base py-2.5 min-h-10 px-6 has-[>svg]:px-4',
+        'icon-xxs': 'size-5 [&_svg:not([class*="size-"])]:size-3',
         'icon-xs': 'size-6 [&_svg:not([class*="size-"])]:size-4',
         'icon-sm': 'size-8 [&_svg:not([class*="size-"])]:size-5',
         'icon-md': 'size-9 [&_svg:not([class*="size-"])]:size-6',
