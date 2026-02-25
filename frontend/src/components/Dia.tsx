@@ -27,7 +27,7 @@ export default function Dia() {
       <header className='flex flex-col gap-y-1 items-center'>
         <h2 className='text-2xl font-semibold'>{fechaDetail}</h2>
         <Input
-          className='text-center text-lg italic'
+          className='text-center text-base italic border-0'
           defaultValue={diaDetail?.titulo || ''}
           placeholder='Añadir título'
           onBlur={manejarTitulo}
