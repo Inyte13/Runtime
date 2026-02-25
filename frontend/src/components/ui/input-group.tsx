@@ -18,9 +18,10 @@ export function InputGroup({
         'has-[>textarea]:h-auto', // El textarea dentro el h es auto
         'shadow-xs transition-[color,box-shadow]',
         'border-input rounded-md border',
-
-        'has-[>[data-align=inline-start]]:[&>input]:pl-2', // Si hay un icono al inicio
-        'has-[>[data-align=inline-end]]:[&>input]:pr-2', // Si hay un icono al final
+        // Si hay un icono al inicio le reduzco el p
+        'has-[>[data-align=inline-start]]:[&>input]:pl-2', 
+        // Si hay un icono al final le reduzco el p
+        'has-[>[data-align=inline-end]]:[&>input]:pr-2',
 
         // 'has-[>[data-align=block-start]]:h-auto has-[>[data-align=block-start]]:flex-col has-[>[data-align=block-start]]:[&>input]:pb-3', // Iconos arriba
         // 'has-[>[data-align=block-end]]:h-auto has-[>[data-align=block-end]]:flex-col has-[>[data-align=block-end]]:[&>input]:pt-3', // Iconos abajo
