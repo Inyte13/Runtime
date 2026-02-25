@@ -11,14 +11,14 @@ export default function ListaBloques({ bloques }: {bloques: BloqueRead[]}) {
   return (
     <section className='flex flex-col h-full' >
       <ScrollArea className='flex-1 min-h-0 rounded-md border-none px-4'>
-        <ul className='flex flex-col gap-y-3'>
+        <ul className='flex flex-col gap-y-2'>
           {bloques.map(bloque => (
             <li key={bloque.id}>
               <Bloque bloque={bloque} />
             </li>
           ))}
         </ul>
-        <Button className='w-full mt-3'onClick={crearBloque}>
+        <Button className='w-full mt-2'onClick={crearBloque}>
           <Plus />
         </Button>
       </ScrollArea>
