@@ -23,10 +23,9 @@ export const buttonVariants = cva(
         primary: 'bg-primary text-primary-foreground hover:bg-primary/80',
         secondary:
           'bg-secondary text-secondary-foreground hover:bg-secondary/80',
-        ghost:
-          'hover:bg-accent/50 hover:text-accent-foreground',
+        ghost: 'hover:bg-accent/50 hover:text-accent-foreground',
         destructive:
-          "bg-destructive text-white hover:bg-destructive/70 focus-visible:ring-destructive/20 ",
+          'bg-destructive text-white hover:bg-destructive/70 focus-visible:ring-destructive/20 ',
       },
       size: {
         xs: 'text-xs py-1 min-h-6 px-2 gap-1 has-[>svg]:px-1.5',
@@ -40,6 +39,7 @@ export const buttonVariants = cva(
         'icon-lg': 'size-10 [&_svg:not([class*="size-"])]:size-7',
       },
     },
+    // TODO: Default icon-md cuando tenga un hijo dentro
     defaultVariants: {
       variant: 'primary',
       size: 'md',
@@ -66,4 +66,3 @@ export function Button({
     />
   )
 }
-
