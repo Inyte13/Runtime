@@ -1,5 +1,4 @@
 import { useDiasStore } from '../store/diasStore'
-import ColorPicker from './ColorPicker'
 import SelectorActividad from './SelectorActividad'
 import { useState } from 'react'
 import { BloqueRead } from '../types/Bloque'
@@ -24,11 +23,9 @@ export default function BloqueHeader({ bloque }: { bloque: BloqueRead }) {
     manejarDuracion(newDuracion)
   }
   return (
-    <header className='flex'>
-      <div className='flex-1'>
+    <header className='flex justify-between'>
         <SelectorActividad bloque={bloque} />
-      </div>
-      <div className='flex mr-4'>
+      <div className='flex mr-5 justify-center items-center'>
         <span className='text-3xl font-extralight'>{duracion || '0'}h</span>
         <div className='flex flex-col items-'>
           <Button
@@ -46,9 +43,9 @@ export default function BloqueHeader({ bloque }: { bloque: BloqueRead }) {
         </div>
       </div>
       <Button
-        size='icon-xs'
+        size='icon-xxs'
         variant='destructive'
-        className='top-[0.3rem] right-[0.3rem] absolute'
+        className='top-[0.2rem] right-[0.2rem] absolute'
         onClick={() => eliminarBloque(bloque.id)}
       >
         <XIcon />
