@@ -9,10 +9,11 @@ from app.schemas.dia_schema import DiaUpdate
 
 
 def read_dia(session: Session, fecha: date) -> Dia | None:
+  # Lazy loading
   return session.get(Dia, fecha)
 
 
-def read_dias(session: Session, fecha_inicio: date, fecha_fin: date) -> Sequence[Dia]:
+def read_dia_detail(session: Session, fecha: date) -> Dia | None:
   statement = (
     select(Dia)
     .where(fecha_inicio <= Dia.fecha)
