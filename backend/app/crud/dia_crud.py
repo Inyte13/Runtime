@@ -8,13 +8,6 @@ from app.models.dia import Dia
 from app.schemas.dia_schema import DiaUpdate
 
 
-def create_dia(session: Session, dia: Dia) -> Dia:
-  session.add(dia)
-  session.commit()
-  session.refresh(dia)
-  return dia
-
-
 def read_dia(session: Session, fecha: date) -> Dia | None:
   return session.get(Dia, fecha)
 
