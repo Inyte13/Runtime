@@ -37,9 +37,6 @@ def get_dias_range(session: SessionDep, fecha_inicio: date, fecha_final: date):
   return mostrar_dias(session, fecha_inicio, fecha_final)
 
 
-@dia_router.get("/dias/{fecha}/detail", response_model=DiaReadDetail)
-def get_dia_detail(session: SessionDep, fecha: date):
-  return buscar_dia(session, fecha)
 
 
 @dia_router.post("/dias", response_model=DiaRead)
