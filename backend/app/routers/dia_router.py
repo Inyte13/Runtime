@@ -16,6 +16,7 @@ from app.services.dia_services import (
 
 dia_router = APIRouter(tags=["Dia"])
 
+FechaPath = Annotated[date, Path(..., example='2026-02-25')]
 
 @dia_router.get("/dias/{fecha}", response_model=DiaRead)
 def get_dia(session: SessionDep, fecha: date):
