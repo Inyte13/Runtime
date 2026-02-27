@@ -4,8 +4,7 @@ from sqlmodel import SQLModel
 from app.models.dia import DiaBase, Estado
 from app.schemas.bloque_schema import BloqueRead
 
-class DiaCreate(DiaBase):
-  pass
+# DiaCreate? NO por que ya no valido el json que recibia POST(ya no existe)
 
 
 class DiaUpdate(SQLModel):
