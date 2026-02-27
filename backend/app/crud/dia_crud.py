@@ -39,7 +39,9 @@ def create_dia(session: Session, dia: Dia) -> Dia:
 
 
 def update_dia(session: Session, dia_bd: Dia, dia: DiaUpdate) -> Dia:
+  # Solo usa los campos que se declararon
   new_dia = dia.model_dump(exclude_unset=True)
+  # Solo actualiza los campos que sobrevivieron
   dia_bd.sqlmodel_update(new_dia)
   session.add(dia_bd)
   session.commit()
