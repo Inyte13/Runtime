@@ -32,10 +32,19 @@ def get_dia(
   dia_db = buscar_dia(session, fecha)
   return DiaRead.model_validate(dia_db)
 
-@dia_router.get("/dias", response_model=list[DiaRead])
-def get_dias_range(session: SessionDep, fecha_inicio: date, fecha_final: date):
-  return mostrar_dias(session, fecha_inicio, fecha_final)
 
+# GET: Dias básicos entre un rango de fechas incluyendo al inicio y al final
+@dia_router.get('/dias', response_model=list[DiaRead])
+def get_dias_range(
+  session: SessionDep,
+  inicio: FechaPath,
+  # Default, usa el time del servidor
+  final: date_type = Query(
+    default_factory=lambda: datetime.now().date(),
+    description='Por defecto es hoy',
+  ),
+):
+  return mostrar_dias(session, inicio, final)
 
 
 
