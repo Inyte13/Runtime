@@ -16,14 +16,16 @@ from app.services.dia_services import (
 
 dia_router = APIRouter(tags=['Dia'])
 
-FechaPath = Annotated[date, Path(..., example='2026-02-25')]
+PathDate = Annotated[date, Path(..., example='2026-02-25')]
+QueryDate = Annotated[date, Query(..., example='2026-02-25')]
+
 
 
 # GET: Dia básico/detail
 @dia_router.get('/dias/{fecha}', response_model=DiaReadDetail | DiaRead)
 def get_dia(
   session: SessionDep,
-  fecha: FechaPath,
+  fecha: PathDate,
   detail: bool = Query(False),
 ):
   if detail:
@@ -55,13 +57,13 @@ def get_dias_range(
 def patch_dia(
   session: SessionDep,
   dia: DiaUpdate,
-  fecha: FechaPath,
+  fecha: PathDate,
 ):
   return actualizar_dia(session, fecha, dia)
 
 
 # DELETE: Elimina el dia y los bloques mas
 @dia_router.delete('/dias/{fecha}', status_code=204)
-def delete_dia(session: SessionDep, fecha: FechaPath):
+def delete_dia(session: SessionDep, fecha: PathDate):
   eliminar_dia(session, fecha)
   return
