@@ -1,5 +1,4 @@
 from datetime import date, datetime
-from datetime import date as date_type
 from typing import Annotated
 
 from fastapi import APIRouter, Path, Query
@@ -41,7 +40,7 @@ def get_dias_range(
   session: SessionDep,
   inicio: QueryDate,
   # Default, usa el time del servidor
-  final: date_type = Query(
+  final: date = Query(
     default_factory=lambda: datetime.now().date(),
     description='Por defecto es hoy',
   ),
