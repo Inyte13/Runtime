@@ -14,7 +14,7 @@ from app.services.dia_services import (
   mostrar_dias,
 )
 
-dia_router = APIRouter(tags=["Dia"])
+dia_router = APIRouter(tags=['Dia'])
 
 FechaPath = Annotated[date, Path(..., example='2026-02-25')]
 
@@ -50,13 +50,18 @@ def get_dias_range(
 # POST? NO, se supone que 'todos' los dias ya están creados solo falta actualizarlos
 
 
-@dia_router.patch("/dias/{fecha}", response_model=DiaRead)
-def patch_dia(session: SessionDep, fecha: date, dia: DiaUpdate):
+# PATCH: Si 'actualiza' el titulo o el estado y el dia no existe lo crear automaticamente
+@dia_router.patch('/dias/{fecha}', response_model=DiaRead)
+def patch_dia(
+  session: SessionDep,
+  dia: DiaUpdate,
+  fecha: FechaPath,
+):
   return actualizar_dia(session, fecha, dia)
 
 
-@dia_router.delete("/dias/{fecha}", status_code=204)
-def delete_dia(session: SessionDep, fecha: date):
 # DELETE: Elimina el dia y los bloques mas
+@dia_router.delete('/dias/{fecha}', status_code=204)
+def delete_dia(session: SessionDep, fecha: FechaPath):
   eliminar_dia(session, fecha)
   return

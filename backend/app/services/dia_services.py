@@ -13,39 +13,50 @@ from app.crud.dia_crud import (
   update_dia,
 )
 from app.models.dia import Dia
-def registrar_dia(session: Session, dia: DiaCreate) -> Dia:
-  # No se utiliza buscar_dia, por que sale la exception
-  if read_dia(session, dia.fecha):
-    raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="El día ya existe")
-  new_dia = Dia(fecha=dia.fecha)
-  return create_dia(session, new_dia)
+from app.schemas.dia_schema import DiaUpdate
 
 
 def buscar_dia(session: Session, fecha: date) -> Dia:
   dia = read_dia(session, fecha)
   if not dia:
     raise HTTPException(
-      status_code=status.HTTP_404_NOT_FOUND, detail="No se encontró el día"
-
-
+      status_code=status.HTTP_404_NOT_FOUND, detail='No se encontró el día'
     )
   return dia
 
 
-def mostrar_dias(
-  session: Session, fecha_inicio: date, fecha_final: date
-) -> Sequence[Dia]:
-  nro_dias = (fecha_final - fecha_inicio).days
+def buscar_dia_detail(session: Session, fecha: date) -> Dia:
+  dia = read_dia_detail(session, fecha)
+  if not dia:
+    raise HTTPException(
+      status_code=status.HTTP_404_NOT_FOUND,
+      detail='No se encontró el día detail',
+    )
+  return dia
+
+
+def mostrar_dias(session: Session, inicio: date, final: date) -> Sequence[Dia]:
+  nro_dias = (final - inicio).days
+  # Solo se puede mostrar máximo 1 año
   if nro_dias > 365:
     raise HTTPException(
-      status_code=status.HTTP_400_BAD_REQUEST, detail="El rango debe ser menor a 1 año"
+      status_code=status.HTTP_400_BAD_REQUEST,
+      detail='El rango debe ser menor a 1 año',
     )
-  dias = read_dias(session, fecha_inicio, fecha_final)
-  return dias
+  return read_dias(session, inicio, final)
 
 
 def actualizar_dia(session: Session, fecha: date, dia: DiaUpdate) -> Dia:
-  dia_bd = buscar_dia(session, fecha)
+  # No se utiliza buscar_dia, por que sale la exception
+  dia_bd = read_dia(session, fecha)
+  # UPSERT: Si no existe lo creamos
+  if not dia_bd:
+    # Solo usa los campos que se declararon
+    datos = dia.model_dump(exclude_unset=True)
+    # KWARGS: Granularmente actualiza los campos que sobrevivieron
+    new_dia = Dia(fecha=fecha, **datos)
+    return create_dia(session, new_dia)
+  # Si ya existe actualizamos normal
   return update_dia(session, dia_bd, dia)
 
 

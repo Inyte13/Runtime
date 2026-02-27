@@ -6,10 +6,9 @@ import { Input } from './ui/input'
 import { formatFechaDetail, formatFechaISO } from '../utils/formatDate'
 
 export default function Dia() {
-  const fechaDetail = useFechaStore(state => state.getFechaDetail())
-  const fechaISO = useFechaStore(state => state.getFechaISO())
-
   const fecha = useFechaStore(state => state.fecha)
+  const fechaISO = formatFechaISO(fecha)
+  const fechaDetail = formatFechaDetail(fecha)
   
   const diaDetail = useDiasStore(state => state.diaDetail)
   const bloques = diaDetail?.bloques || []
@@ -34,7 +33,6 @@ export default function Dia() {
           placeholder='Añadir título'
           onBlur={manejarTitulo}
           maxLength={150}
-          disabled={diaDetail === null}
         />
       </header>
       <div className='flex-1 min-h-0'>

@@ -4,10 +4,11 @@ import { Button } from './ui/button.js'
 import { formatFechaTitle } from '../utils/formatDate.js'
 
 function CalendarioTitle() {
-  const FechaTitle = useFechaStore(state => state.getFechaTitle())
+  const fecha = useFechaStore(state => state.fecha)
+  const fechaTitle = formatFechaTitle(fecha)
   return (
     <>
-      <h2 className='text-2xl font-semibold'>{FechaTitle}</h2>
+      <h2 className='text-2xl font-semibold'>{fechaTitle}</h2>
       <p>Gestiona tus bloques de actividad diaria.</p>
     </>
   )

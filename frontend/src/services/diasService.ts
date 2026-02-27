@@ -2,6 +2,38 @@ import { DiaCreate, DiaRead, DiaReadDetail, DiaUpdate } from '../types/Dia'
 
 const URL = '/dias'
 
+// GET: Dia básico = titulo, estado, fecha
+export async function readDia(fecha: string): Promise<DiaRead> {
+  const res = await fetch(`${URL}/${fecha}`)
+  if (!res.ok) throw new Error('Error al cargar el dia por fecha')
+  return res.json() as Promise<DiaRead>
+}
+
+// GET: Dia detail = titulo, estado, fecha, bloques
+export async function readDiaDetail(fecha: string): Promise<DiaReadDetail> {
+  const params = new URLSearchParams({
+    detail: 'true',
+  })
+  const res = await fetch(`${URL}/${fecha}?${params.toString()}`)
+  if (!res.ok) throw new Error('Error al cargar el dia detail por fecha')
+  return res.json() as Promise<DiaReadDetail>
+}
+
+// GET: Dias básicos entre un rango de fechas incluyendo al inicio y al final
+// export async function readDiasRange(
+//   fechaInicio: string,
+//   fechaFinal: string
+// ): Promise<DiaRead[]> {
+//   const params = new URLSearchParams({
+//     inicio: fechaInicio,
+//     final: fechaFinal,
+//   })
+//   const res = await fetch(`${URL}?${params.toString()}`)
+//   if (!res.ok) throw new Error('Error al cargar rango de dias por fecha')
+//   return res.json() as Promise<DiaRead[]>
+// }
+
+// POST: 
 export async function createDia(dia: DiaCreate): Promise<DiaRead> {
   const res = await fetch(`${URL}`, {
     method: 'POST',
@@ -10,31 +42,6 @@ export async function createDia(dia: DiaCreate): Promise<DiaRead> {
   })
   if (!res.ok) throw new Error('Error al crear el día')
   return res.json() as Promise<DiaRead>
-}
-export async function readDia(fecha: string): Promise<DiaRead> {
-  const res = await fetch(`${URL}/${fecha}`)
-  if (!res.ok) throw new Error('Error al cargar el dia por fecha')
-  return res.json() as Promise<DiaRead>
-}
-
-export async function readDiaDetail(fecha: string): Promise<DiaReadDetail> {
-  const res = await fetch(`${URL}/${fecha}/detail`)
-  if (!res.ok) throw new Error('Error al cargar el dia detail por fecha')
-  return res.json() as Promise<DiaReadDetail>
-}
-
-export async function readDiaRange(
-  fechaInicio: string,
-  fechaFinal: string
-): Promise<DiaRead[]> {
-  const params = new URLSearchParams({
-    fecha_inicio: fechaInicio,
-    fecha_final: fechaFinal,
-
-  })
-  const res = await fetch(`${URL}?${params.toString()}`)
-  if (!res.ok) throw new Error('Error al cargar rango de dias por fecha')
-  return res.json() as Promise<DiaRead[]>
 }
 
 

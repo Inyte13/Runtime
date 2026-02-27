@@ -26,7 +26,8 @@ export const useDiasStore = create<DiasState>((set, get) => ({
   diaDetail: null,
 
   traerDia: async () => {
-    const fechaISO = useFechaStore.getState().getFechaISO()
+    const fecha = useFechaStore.getState().fecha
+    const fechaISO = formatFechaISO(fecha)
     try {
       const data = await readDia(fechaISO)
       set({ dia: data })
@@ -37,7 +38,8 @@ export const useDiasStore = create<DiasState>((set, get) => ({
   },
 
   traerDiaDetail: async () => {
-    const fechaISO = useFechaStore.getState().getFechaISO()
+    const fecha = useFechaStore.getState().fecha
+    const fechaISO = formatFechaISO(fecha)
     try {
       const data = await readDiaDetail(fechaISO)
       set({ diaDetail: data })
@@ -57,7 +59,8 @@ export const useDiasStore = create<DiasState>((set, get) => ({
   },
 
   crearBloque: async () => {
-    const fechaISO = useFechaStore.getState().getFechaISO()
+    const fecha = useFechaStore.getState().fecha
+    const fechaISO = formatFechaISO(fecha)
     try {
       await createBloque({ fecha: fechaISO })
       await get().traerDiaDetail()

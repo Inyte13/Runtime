@@ -20,6 +20,9 @@ export default function SelectorActividad({ bloque }: { bloque: BloqueRead }) {
   const actividades = useActividadesStore(state => state.actividades)
   const traerActividades = useActividadesStore(state => state.traerActividades)
   const setColor = useColorStore(state => state.setColor)
+  const color = useColorStore(
+    state => state.colores[bloque.actividad.id] || bloque.actividad.color
+  )
 
   const manejarSelector = async (id: string | null) => {
     if (!id) return
@@ -53,7 +56,7 @@ export default function SelectorActividad({ bloque }: { bloque: BloqueRead }) {
               {bloque.actividad && (
                 <span
                   className='size-4 rounded-full shrink-0'
-                  style={{ backgroundColor: bloque.actividad.color }}
+                  style={{ backgroundColor: color }}
                 />
               )}
               <span className='capitalize text-2xl font-light'>
