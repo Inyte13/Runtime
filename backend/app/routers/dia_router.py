@@ -47,6 +47,7 @@ def get_dias_range(
   return mostrar_dias(session, inicio, final)
 
 
+# POST? NO, se supone que 'todos' los dias ya están creados solo falta actualizarlos
 
 @dia_router.post("/dias", response_model=DiaRead)
 def post_dia(session: SessionDep, dia: DiaCreate):
