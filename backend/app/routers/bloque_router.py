@@ -15,15 +15,15 @@ from app.services.bloque_service import (
   registrar_bloque,
 )
 
-bloque_router = APIRouter(tags=["Bloques"])
+bloque_router = APIRouter(tags=['Bloques'])
 
 
-@bloque_router.get("/bloques/{id}", response_model=BloqueRead)
+@bloque_router.get('/bloques/{id}', response_model=BloqueRead)
 def get_bloque(session: SessionDep, id: int):
   return buscar_bloque(session, id)
 
 
-@bloque_router.get("/bloques", response_model=list[BloqueRead])
+@bloque_router.get('/bloques', response_model=list[BloqueRead])
 def get_bloques(
   session: SessionDep,
   fecha: date | None = None,
@@ -35,21 +35,21 @@ def get_bloques(
   if inicio and final:
     return read_bloques_by_range(session, inicio, final)
   raise HTTPException(
-    status_code=400, detail="Debes indicar fecha o inicio/final como parámetros"
+    status_code=400, detail='Debes indicar fecha o inicio/final como parámetros'
   )
 
 
-@bloque_router.post("/bloques", status_code=201, response_model=BloqueRead)
+@bloque_router.post('/bloques', status_code=201, response_model=BloqueRead)
 def post_bloque(session: SessionDep, bloque: BloqueCreate):
   return registrar_bloque(session, bloque)
 
 
-@bloque_router.patch("/bloques/{id}", response_model=BloqueRead)
+@bloque_router.patch('/bloques/{id}', response_model=BloqueRead)
 def patch_bloque(session: SessionDep, bloque: BloqueUpdate, id: int):
   return actualizar_bloque(session, id, bloque)
 
 
-@bloque_router.delete("/bloques/{id}", status_code=204)
+@bloque_router.delete('/bloques/{id}', status_code=204)
 def delete_bloque(session: SessionDep, id: int):
   eliminar_bloque(session, id)
   return
