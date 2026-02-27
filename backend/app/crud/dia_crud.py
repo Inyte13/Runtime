@@ -21,10 +21,11 @@ def read_dia_detail(session: Session, fecha: date) -> Dia | None:
   return session.exec(statement).first()
 
 
+def read_dias(session: Session, inicio: date, final: date) -> Sequence[Dia]:
   statement = (
     select(Dia)
-    .where(fecha_inicio <= Dia.fecha)
-    .where(Dia.fecha <= fecha_fin)
+    .where(inicio <= Dia.fecha)
+    .where(Dia.fecha <= final)
     .order_by(col(Dia.fecha))
   )
   return session.exec(statement).all()
