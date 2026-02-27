@@ -18,10 +18,19 @@ dia_router = APIRouter(tags=["Dia"])
 
 FechaPath = Annotated[date, Path(..., example='2026-02-25')]
 
-@dia_router.get("/dias/{fecha}", response_model=DiaRead)
-def get_dia(session: SessionDep, fecha: date):
-  return buscar_dia(session, fecha)
 
+# GET: Dia básico/detail
+@dia_router.get('/dias/{fecha}', response_model=DiaReadDetail | DiaRead)
+def get_dia(
+  session: SessionDep,
+  fecha: FechaPath,
+  detail: bool = Query(False),
+):
+  if detail:
+    dia_db = buscar_dia_detail(session, fecha)
+    return DiaReadDetail.model_validate(dia_db)
+  dia_db = buscar_dia(session, fecha)
+  return DiaRead.model_validate(dia_db)
 
 @dia_router.get("/dias", response_model=list[DiaRead])
 def get_dias_range(session: SessionDep, fecha_inicio: date, fecha_final: date):
