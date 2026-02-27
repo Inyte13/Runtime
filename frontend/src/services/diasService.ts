@@ -11,7 +11,6 @@ export async function createDia(dia: DiaCreate): Promise<DiaRead> {
   if (!res.ok) throw new Error('Error al crear el día')
   return res.json() as Promise<DiaRead>
 }
-
 export async function readDia(fecha: string): Promise<DiaRead> {
   const res = await fetch(`${URL}/${fecha}`)
   if (!res.ok) throw new Error('Error al cargar el dia por fecha')
@@ -31,11 +30,13 @@ export async function readDiaRange(
   const params = new URLSearchParams({
     fecha_inicio: fechaInicio,
     fecha_final: fechaFinal,
+
   })
   const res = await fetch(`${URL}?${params.toString()}`)
   if (!res.ok) throw new Error('Error al cargar rango de dias por fecha')
   return res.json() as Promise<DiaRead[]>
 }
+
 
 export async function updateDia(
   fecha: string,

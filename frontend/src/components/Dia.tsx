@@ -10,6 +10,7 @@ export default function Dia() {
   const fechaISO = useFechaStore(state => state.getFechaISO())
 
   const fecha = useFechaStore(state => state.fecha)
+  
   const diaDetail = useDiasStore(state => state.diaDetail)
   const bloques = diaDetail?.bloques || []
 

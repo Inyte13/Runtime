@@ -149,7 +149,7 @@ def registrar_bloque(session: Session, bloque: BloqueCreate) -> Bloque:
   
   # Si el usuario manda 
   id_actividad = bloque.id_actividad
-  
+
   # Si no hay ningún bloque
   if not ultimo_bloque:
     # Le ponemos hora 00:00

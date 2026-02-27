@@ -19,6 +19,8 @@ def read_dia_detail(session: Session, fecha: date) -> Dia | None:
     select(Dia).where(Dia.fecha == fecha).options(selectinload(Dia.bloques))  # type: ignore
   )
   return session.exec(statement).first()
+
+
   statement = (
     select(Dia)
     .where(fecha_inicio <= Dia.fecha)
@@ -26,6 +28,8 @@ def read_dia_detail(session: Session, fecha: date) -> Dia | None:
     .order_by(col(Dia.fecha))
   )
   return session.exec(statement).all()
+
+
 
 
 def update_dia(session: Session, dia_bd: Dia, dia: DiaUpdate) -> Dia:

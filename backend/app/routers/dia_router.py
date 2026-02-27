@@ -36,7 +36,6 @@ def get_dia_detail(session: SessionDep, fecha: date):
 def post_dia(session: SessionDep, dia: DiaCreate):
   return registrar_dia(session, dia)
 
-
 @dia_router.patch("/dias/{fecha}", response_model=DiaRead)
 def patch_dia(session: SessionDep, fecha: date, dia: DiaUpdate):
   return actualizar_dia(session, fecha, dia)

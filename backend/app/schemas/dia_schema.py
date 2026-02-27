@@ -4,7 +4,6 @@ from sqlmodel import SQLModel
 from app.models.dia import DiaBase, Estado
 from app.schemas.bloque_schema import BloqueRead
 
-
 class DiaCreate(DiaBase):
   pass
 
@@ -12,6 +11,7 @@ class DiaCreate(DiaBase):
 class DiaUpdate(SQLModel):
   titulo: str | None = None
   estado: Estado | None = None
+
   # Validator para que el '' se convierta en None
   @field_validator('titulo')
   @classmethod

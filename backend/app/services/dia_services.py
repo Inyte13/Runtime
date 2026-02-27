@@ -13,8 +13,6 @@ from app.crud.dia_crud import (
   update_dia,
 )
 from app.models.dia import Dia
-
-
 def registrar_dia(session: Session, dia: DiaCreate) -> Dia:
   # No se utiliza buscar_dia, por que sale la exception
   if read_dia(session, dia.fecha):
@@ -28,6 +26,8 @@ def buscar_dia(session: Session, fecha: date) -> Dia:
   if not dia:
     raise HTTPException(
       status_code=status.HTTP_404_NOT_FOUND, detail="No se encontró el día"
+
+
     )
   return dia
 
