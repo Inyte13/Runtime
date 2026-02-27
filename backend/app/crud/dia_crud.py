@@ -31,6 +31,11 @@ def read_dias(session: Session, inicio: date, final: date) -> Sequence[Dia]:
   return session.exec(statement).all()
 
 
+def create_dia(session: Session, dia: Dia) -> Dia:
+  session.add(dia)
+  session.commit()
+  session.refresh(dia)
+  return dia
 
 
 def update_dia(session: Session, dia_bd: Dia, dia: DiaUpdate) -> Dia:
