@@ -57,5 +57,6 @@ def patch_dia(session: SessionDep, fecha: date, dia: DiaUpdate):
 
 @dia_router.delete("/dias/{fecha}", status_code=204)
 def delete_dia(session: SessionDep, fecha: date):
+# DELETE: Elimina el dia y los bloques mas
   eliminar_dia(session, fecha)
   return
