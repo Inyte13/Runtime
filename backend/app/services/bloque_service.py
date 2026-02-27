@@ -9,12 +9,11 @@ from app.crud.bloque_crud import (
   read_bloque_by_id,
   update_bloque,
 )
-from app.crud.dia_crud import read_dia
+from app.crud.dia_crud import create_dia, read_dia
 from app.models.actividad import Actividad
 from app.models.bloque import Bloque
+from app.models.dia import Dia
 from app.schemas.bloque_schema import BloqueCreate, BloqueUpdate
-from app.schemas.dia_schema import DiaCreate
-from app.services.dia_services import registrar_dia
 
 
 def _bloque_anterior(session: Session, fecha: date, hora: time) -> Bloque | None:

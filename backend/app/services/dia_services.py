@@ -4,9 +4,15 @@ from typing import Sequence
 from fastapi import HTTPException, status
 from sqlmodel import Session
 
-from app.crud.dia_crud import create_dia, delete_dia, read_dia, read_dias, update_dia
+from app.crud.dia_crud import (
+  create_dia,
+  delete_dia,
+  read_dia,
+  read_dia_detail,
+  read_dias,
+  update_dia,
+)
 from app.models.dia import Dia
-from app.schemas.dia_schema import DiaCreate, DiaUpdate
 
 
 def registrar_dia(session: Session, dia: DiaCreate) -> Dia:

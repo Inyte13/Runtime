@@ -1,6 +1,7 @@
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { useFechaStore } from '../store/fechaStore.js'
 import { Button } from './ui/button.js'
+import { formatFechaTitle } from '../utils/formatDate.js'
 
 function CalendarioTitle() {
   const FechaTitle = useFechaStore(state => state.getFechaTitle())

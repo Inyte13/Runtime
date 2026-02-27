@@ -3,6 +3,7 @@ import { useFechaStore } from '../store/fechaStore'
 import { useEffect } from 'react'
 import { useDiasStore } from '../store/diasStore'
 import { Input } from './ui/input'
+import { formatFechaDetail, formatFechaISO } from '../utils/formatDate'
 
 export default function Dia() {
   const fechaDetail = useFechaStore(state => state.getFechaDetail())

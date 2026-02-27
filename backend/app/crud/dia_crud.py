@@ -1,6 +1,7 @@
 from datetime import date
 from typing import Sequence
 
+from sqlalchemy.orm import selectinload
 from sqlmodel import Session, col, select
 
 from app.models.dia import Dia

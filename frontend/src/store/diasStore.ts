@@ -8,6 +8,7 @@ import {
 } from '../services/bloquesService'
 import { DiaRead, DiaReadDetail, DiaUpdate } from '../types/Dia'
 import { BloqueUpdate } from '../types/Bloque'
+import { formatFechaISO } from '../utils/formatDate'
 
 interface DiasState {
   dia: DiaRead | null

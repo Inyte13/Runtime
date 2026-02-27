@@ -1,15 +1,17 @@
-from datetime import date
+from datetime import date, datetime
+from datetime import date as date_type
+from typing import Annotated
 
-from fastapi import APIRouter
+from fastapi import APIRouter, Path, Query
 
 from app.core.database import SessionDep
-from app.schemas.dia_schema import DiaCreate, DiaRead, DiaReadDetail, DiaUpdate
+from app.schemas.dia_schema import DiaRead, DiaReadDetail, DiaUpdate
 from app.services.dia_services import (
   actualizar_dia,
   buscar_dia,
+  buscar_dia_detail,
   eliminar_dia,
   mostrar_dias,
-  registrar_dia,
 )
 
 dia_router = APIRouter(tags=["Dia"])
