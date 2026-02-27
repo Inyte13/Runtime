@@ -39,7 +39,7 @@ def get_dia(
 @dia_router.get('/dias', response_model=list[DiaRead])
 def get_dias_range(
   session: SessionDep,
-  inicio: FechaPath,
+  inicio: QueryDate,
   # Default, usa el time del servidor
   final: date_type = Query(
     default_factory=lambda: datetime.now().date(),
