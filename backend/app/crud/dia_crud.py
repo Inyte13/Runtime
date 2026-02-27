@@ -14,6 +14,11 @@ def read_dia(session: Session, fecha: date) -> Dia | None:
 
 
 def read_dia_detail(session: Session, fecha: date) -> Dia | None:
+  # Eager loading
+  statement = (
+    select(Dia).where(Dia.fecha == fecha).options(selectinload(Dia.bloques))  # type: ignore
+  )
+  return session.exec(statement).first()
   statement = (
     select(Dia)
     .where(fecha_inicio <= Dia.fecha)
