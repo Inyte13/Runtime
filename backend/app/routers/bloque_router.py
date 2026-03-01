@@ -11,20 +11,7 @@ from app.services.bloque_service import (
 bloque_router = APIRouter(tags=['Bloques'])
 
 
-@bloque_router.get('/bloques', response_model=list[BloqueRead])
-def get_bloques(
-  session: SessionDep,
-  fecha: date | None = None,
-  inicio: date | None = None,
-  final: date | None = None,
-):
-  if fecha:
-    return read_bloques_by_fecha(session, fecha)
-  if inicio and final:
-    return read_bloques_by_range(session, inicio, final)
-  raise HTTPException(
-    status_code=400, detail='Debes indicar fecha o inicio/final como parámetros'
-  )
+# TODO: Un get para traer los bloques para las estadisticas
 
 
 @bloque_router.post('/bloques', status_code=201, response_model=BloqueRead)
