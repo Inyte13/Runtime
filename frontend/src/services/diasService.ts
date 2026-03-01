@@ -35,6 +35,7 @@ export async function readDiaDetail(fecha: string): Promise<DiaReadDetail> {
 
 // POST? NO, se supone que 'todos' los dias ya están creados solo falta actualizarlos
 
+// PATCH: Actualiza el dia, con logica de post en el backend
 export async function updateDia(
   fecha: string,
   dia: DiaUpdate
