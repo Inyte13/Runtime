@@ -126,6 +126,17 @@ def actualizar_bloque(
     # Validamos la actividad ingresada
     _validar_actividad(session, bloque.id_actividad)
 
+  ultimo = _ultimo_bloque(session, bloque_bd.fecha)
+  # Si manda una duración nueva
+  if ultimo and bloque.duracion is not None:
+    if ultimo.id != bloque_bd.id:
+      raise HTTPException(
+        status_code=status.HTTP_400_BAD_REQUEST,
+        detail='Solo puedes modificar la duración del último bloque',
+      )
+    bloque_bd.hora_fin = _calcular_hora_fin(
+      bloque_bd.fecha, bloque_bd.hora, bloque.duracion
+    )
   bloque_bd = update_bloque(session, bloque_bd, bloque)
   return bloque_bd
 
