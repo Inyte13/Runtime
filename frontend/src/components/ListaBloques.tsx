@@ -4,7 +4,7 @@ import Bloque from './Bloque'
 import { Button } from './ui/button'
 import { memo } from 'react'
 
-export default function ListaBloques({ bloques }: {bloques: BloqueRead[]}) {
+export default memo(function ListaBloques() {
   const crearBloque = useDiasStore(state => state.crearBloque)
 
   return (
@@ -23,4 +23,4 @@ export default function ListaBloques({ bloques }: {bloques: BloqueRead[]}) {
       </div>
     </section>
   )
-}
+})
