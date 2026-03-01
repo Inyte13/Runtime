@@ -30,7 +30,9 @@ def read_bloques_by_range(
   return session.exec(statement).all()
 
 
-def update_bloque(session: Session, bloque_bd: Bloque, bloque: BloqueUpdate) -> Bloque:
+def update_bloque(
+  session: Session, bloque_bd: Bloque, bloque: BloqueUpdate
+) -> Bloque:
   new_bloque = bloque.model_dump(exclude_unset=True)
   bloque_bd.sqlmodel_update(new_bloque)
   session.add(bloque_bd)
