@@ -29,7 +29,7 @@ def _calcular_hora_fin(
 
 
 def _validar_actividad(session: Session, id: int) -> None:
-  actividad = session.get(Actividad, id)
+  actividad = read_actividad_by_id(session, id)
   if not actividad:
     raise HTTPException(
       status_code=status.HTTP_404_NOT_FOUND, detail='Actividad no encontrada'
