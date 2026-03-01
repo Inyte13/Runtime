@@ -38,8 +38,13 @@ export const useDiasStore = create<DiasState>(set => ({
 
   actualizarDia: async (fechaISO, dia) => {
     try {
-      await updateDia(fechaISO, dia)
-      await get().traerDia()
+      const newDia = await updateDia(fechaISO, dia)
+      set(state => ({
+        // Reemplazamos todo (título, estado y fecha) porque son pocas props (mejor)
+        dia: newDia,
+        // Al diaDetail le cambiamos solo los valores de dia
+        diaDetail: state.diaDetail ? { ...state.diaDetail, ...newDia } : null,
+      }))
     } catch (err) {
       console.error('Error actualizando el dia', err)
     }
