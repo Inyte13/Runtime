@@ -23,11 +23,12 @@ def read_bloques_by_fecha(session: Session, fecha: date) -> Sequence[Bloque]:
   return session.exec(statement).all()
 
 
-def read_bloques_by_range(
-  session: Session, inicio: date, final: date
-) -> Sequence[Bloque]:
-  statement = select(Bloque).where(Bloque.fecha >= inicio, Bloque.fecha <= final)
-  return session.exec(statement).all()
+# TODO: Agregar cuando se añada el schema para el diaCalendario
+# def read_bloques_by_range(
+#   session: Session, inicio: date, final: date
+# ) -> Sequence[Bloque]:
+#   statement = select(Bloque).where(Bloque.fecha >= inicio, Bloque.fecha <= final)
+#   return session.exec(statement).all()
 
 
 def update_bloque(
