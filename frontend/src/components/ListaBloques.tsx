@@ -1,8 +1,8 @@
 import { Plus } from 'lucide-react'
 import { useDiasStore } from '../store/diasStore'
-import { BloqueRead } from '../types/Bloque'
 import Bloque from './Bloque'
 import { Button } from './ui/button'
+import { memo } from 'react'
 
 export default function ListaBloques({ bloques }: {bloques: BloqueRead[]}) {
   const crearBloque = useDiasStore(state => state.crearBloque)

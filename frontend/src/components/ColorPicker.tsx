@@ -1,6 +1,7 @@
 import { useActividadesStore } from '../store/actividadesStore.js'
 import { useColorStore } from '../store/colorStore.js'
 import { ActividadRead } from '../types/Actividad.js'
+
 export default function ColorPicker({
   actividad,
 }: {

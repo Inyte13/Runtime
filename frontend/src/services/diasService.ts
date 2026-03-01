@@ -1,4 +1,4 @@
-import { DiaCreate, DiaRead, DiaReadDetail, DiaUpdate } from '../types/Dia'
+import { DiaRead, DiaReadDetail, DiaUpdate } from '../types/Dia'
 
 const URL = '/dias'
 

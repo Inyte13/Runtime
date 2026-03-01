@@ -1,9 +1,10 @@
 import { useDiasStore } from '../store/diasStore'
 import SelectorActividad from './SelectorActividad'
-import { useState } from 'react'
 import { BloqueRead } from '../types/Bloque'
-import { ChevronUp, ChevronDown, XIcon } from 'lucide-react'
+import { XIcon } from 'lucide-react'
 import { Button } from './ui/button'
+import { memo } from 'react'
+import ControlesDuracion from './ControlesDuracion'
 
 export default function BloqueHeader({ bloque }: { bloque: BloqueRead }) {
   const actualizarBloque = useDiasStore(state => state.actualizarBloque)

@@ -1,9 +1,8 @@
 import ListaBloques from './ListaBloques'
 import { useFechaStore } from '../store/fechaStore'
-import { useEffect } from 'react'
+import { useEffect } from 'react' // Importamos useRef en vez de useState
 import { useDiasStore } from '../store/diasStore'
-import { Input } from './ui/input'
-import { formatFechaDetail, formatFechaISO } from '../utils/formatDate'
+import DiaHeader from './DiaHeader'
 
 export default function Dia() {
   const fecha = useFechaStore(state => state.fecha)

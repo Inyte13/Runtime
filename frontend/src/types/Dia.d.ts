@@ -3,7 +3,7 @@ import { Bloque, BloqueRead } from './Bloque'
 export enum Estado {
   MAL = 1,
   NORMAL = 2,
-  BIEN = 3
+  BIEN = 3,
 }
 
 export interface DiaBase {

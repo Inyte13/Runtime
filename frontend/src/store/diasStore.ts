@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import { useFechaStore } from './fechaStore'
-import { readDia, readDiaDetail, updateDia } from '../services/diasService'
+import { readDiaDetail, updateDia } from '../services/diasService'
 import {
   createBloque,
   deleteBloque,

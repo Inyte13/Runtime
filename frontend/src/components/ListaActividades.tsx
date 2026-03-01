@@ -1,12 +1,12 @@
 import { useEffect } from 'react'
 import { useActividadesStore } from '../store/actividadesStore'
 import Actividad from './Actividad'
-import { Plus } from 'lucide-react'
-import { Button } from './ui/button'
+import ListaActividadesFooter from './ListaActividadesFooter'
 
 export default function ListaActividades() {
   const actividades = useActividadesStore(state => state.actividades)
   const traerActividades = useActividadesStore(state => state.traerActividades)
+
   useEffect(() => {
     traerActividades()
   }, [traerActividades])

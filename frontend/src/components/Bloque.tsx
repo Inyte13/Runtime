@@ -1,8 +1,10 @@
 import { useDiasStore } from '../store/diasStore'
 import { BloqueRead } from '../types/Bloque'
-import { useColorStore } from '../store/colorStore'
 import BloqueHeader from './BloqueHeader'
 import { Input } from './ui/input'
+import { memo } from 'react'
+import useDuracionBloque from '../hooks/useDuracionBloque'
+import BloqueColor from './BloqueColor'
 
 export default function Bloque({ bloque }: { bloque: BloqueRead }) {
   const actualizarBloque = useDiasStore(state => state.actualizarBloque)

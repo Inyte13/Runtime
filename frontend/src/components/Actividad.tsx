@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { ActividadRead } from "../types/Actividad";
 import ColorPicker from "./ColorPicker";
 

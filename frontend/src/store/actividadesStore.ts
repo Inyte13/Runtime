@@ -4,7 +4,12 @@ import {
   readActividades,
   updateActividad,
 } from '../services/actividadesServices'
-import { ActividadCreate, ActividadRead, ActividadUpdate } from '../types/Actividad'
+import {
+  ActividadCreate,
+  ActividadRead,
+  ActividadUpdate,
+} from '../types/Actividad'
+import { useColorStore } from './colorStore'
 
 interface ActividadState {
   actividades: ActividadRead[]
