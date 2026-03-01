@@ -2,7 +2,7 @@ import { memo } from "react";
 import { ActividadRead } from "../types/Actividad";
 import ColorPicker from "./ColorPicker";
 
-export default function Actividad({ actividad }: { actividad: ActividadRead}) {
+export default memo(function Actividad({ actividad }: { actividad: ActividadRead}) {
   const nombreBd = actividad.nombre
   const nombre = nombreBd.charAt(0).toUpperCase() + nombreBd.slice(1)
   return (
@@ -11,4 +11,4 @@ export default function Actividad({ actividad }: { actividad: ActividadRead}) {
       <span>{nombre}</span>
     </div>
   )
-}
+})
