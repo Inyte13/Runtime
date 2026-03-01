@@ -9,6 +9,7 @@ interface ColorState {
 export const useColorStore = create<ColorState>(set => ({
   colores: {},
   setColor: (id, color) =>
+    // Solo cambiamos el color que cambia
     set(state => ({
       colores: { ...state.colores, [id]: color },
     })),
