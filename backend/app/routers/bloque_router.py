@@ -11,11 +11,6 @@ from app.services.bloque_service import (
 bloque_router = APIRouter(tags=['Bloques'])
 
 
-@bloque_router.get('/bloques/{id}', response_model=BloqueRead)
-def get_bloque(session: SessionDep, id: int):
-  return buscar_bloque(session, id)
-
-
 @bloque_router.get('/bloques', response_model=list[BloqueRead])
 def get_bloques(
   session: SessionDep,
