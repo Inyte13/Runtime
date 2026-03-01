@@ -33,17 +33,7 @@ export async function readDiaDetail(fecha: string): Promise<DiaReadDetail> {
 //   return res.json() as Promise<DiaRead[]>
 // }
 
-// POST: 
-export async function createDia(dia: DiaCreate): Promise<DiaRead> {
-  const res = await fetch(`${URL}`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(dia),
-  })
-  if (!res.ok) throw new Error('Error al crear el día')
-  return res.json() as Promise<DiaRead>
-}
-
+// POST? NO, se supone que 'todos' los dias ya están creados solo falta actualizarlos
 
 export async function updateDia(
   fecha: string,
