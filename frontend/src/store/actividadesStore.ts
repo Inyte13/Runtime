@@ -20,14 +20,6 @@ interface ActividadState {
 
 export const useActividadesStore = create<ActividadState>(set => ({
   actividades: [],
-  crearActividad: async (actividad) => {
-    try {
-      await createActividad(actividad)
-      await get().traerActividades()
-    } catch (err) {
-      console.error('Error al crear la actividad', err)
-    }
-  },
 
   traerActividades: async () => {
     try {
@@ -42,6 +34,15 @@ export const useActividadesStore = create<ActividadState>(set => ({
     }
   },
   actualizarActividad: async (id, actividad) => {
+  crearActividad: async actividad => {
+    try {
+      const actividadNew = await createActividad(actividad)
+      set(state => ({ actividades: [...state.actividades, actividadNew] }))
+    } catch (err) {
+      console.error('Error al crear la actividad', err)
+    }
+  },
+  actualizarActividad: async (id, actividadNew) => {
     try {
       await updateActividad(id, actividad)
       await get().traerActividades()
