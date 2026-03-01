@@ -16,8 +16,6 @@ export interface Dia extends DiaBase {
   bloques: Bloque[]
 }
 
-export type DiaCreate = DiaBase
-
 export type DiaRead = DiaBase
 
 export interface DiaReadDetail extends DiaRead {
