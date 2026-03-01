@@ -15,7 +15,7 @@ export default function Dia() {
     <section className='flex flex-col min-w-90 h-full gap-y-2 p-4'>
       <DiaHeader />
       <div className='flex-1 min-h-0'>
-        <ListaBloques bloques={bloques} />
+        <ListaBloques />
       </div>
     </section>
   )
