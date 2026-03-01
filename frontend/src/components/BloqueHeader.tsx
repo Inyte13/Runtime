@@ -6,8 +6,16 @@ import { Button } from './ui/button'
 import { memo } from 'react'
 import ControlesDuracion from './ControlesDuracion'
 
-export default function BloqueHeader({ bloque }: { bloque: BloqueRead }) {
   const actualizarBloque = useDiasStore(state => state.actualizarBloque)
+export default memo(function BloqueHeader({
+  bloque,
+  duracion,
+  manejarDuracion,
+}: {
+  bloque: BloqueRead
+  duracion: number
+  manejarDuracion: (newDuracion: number) => void
+}) {
   const eliminarBloque = useDiasStore(state => state.eliminarBloque)
   const [duracion, setDuracion] = useState(bloque.duracion || 0)
 
@@ -53,4 +61,4 @@ export default function BloqueHeader({ bloque }: { bloque: BloqueRead }) {
       </Button>
     </header>
   )
-}
+})
