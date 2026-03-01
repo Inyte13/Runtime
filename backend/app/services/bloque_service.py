@@ -16,6 +16,11 @@ from app.models.dia import Dia
 from app.schemas.bloque_schema import BloqueCreate, BloqueUpdate
 
 
+def _ultimo_bloque(session: Session, fecha) -> Bloque | None:
+  statement = (
+    select(Bloque).where(Bloque.fecha == fecha).order_by(desc(Bloque.hora))
+  )
+  return session.exec(statement).first()
 
 
 def _calcular_hora_fin(
