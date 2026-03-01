@@ -25,10 +25,8 @@ export const useActividadesStore = create<ActividadState>(set => ({
     try {
       const data = await readActividades()
       set({ actividades: data })
-      // sincronizar colores en el store global
-      // useColorStore.setState({
-      //   colores: Object.fromEntries(data.map(a => [a.id, a.color])),
-      // })
+      // Store Hydration: Para guardar los los colores para no repetirlos
+      useColorStore.getState().setColores(data)
     } catch (err) {
       console.error('Error trayendo actividades:', err)
     }
