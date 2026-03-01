@@ -1,9 +1,8 @@
 from datetime import date, datetime
-from typing import Annotated
 
-from fastapi import APIRouter, Path, Query
+from fastapi import APIRouter, Body, Query
 
-from app.core.database import SessionDep
+from app.core.database import PathDate, QueryDate, SessionDep
 from app.schemas.dia_schema import DiaRead, DiaReadDetail, DiaUpdate
 from app.services.dia_services import (
   actualizar_dia,
@@ -11,6 +10,7 @@ from app.services.dia_services import (
   buscar_dia_detail,
   eliminar_dia,
   mostrar_dias,
+  recalcular_hora_final,
 )
 
 dia_router = APIRouter(tags=['Dia'])
@@ -50,7 +50,7 @@ def get_dias_range(
 # POST? NO, se supone que 'todos' los dias ya están creados solo falta actualizarlos
 
 
-# PATCH: Si 'actualiza' el titulo o el estado y el dia no existe lo crear automaticamente
+# PATCH: Si 'actualiza' el titulo o el estado y si el dia no existe lo crear automaticamente
 @dia_router.patch('/dias/{fecha}', response_model=DiaRead)
 def patch_dia(
   session: SessionDep,
