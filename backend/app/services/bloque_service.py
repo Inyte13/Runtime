@@ -1,8 +1,9 @@
 from datetime import date, datetime, time, timedelta
 
 from fastapi import HTTPException, status
-from sqlmodel import Session, asc, desc, select
+from sqlmodel import Session, desc, select
 
+from app.crud.actividad_crud import read_actividad_by_id
 from app.crud.bloque_crud import (
   create_bloque,
   delete_bloque,
@@ -10,7 +11,6 @@ from app.crud.bloque_crud import (
   update_bloque,
 )
 from app.crud.dia_crud import create_dia, read_dia
-from app.models.actividad import Actividad
 from app.models.bloque import Bloque
 from app.models.dia import Dia
 from app.schemas.bloque_schema import BloqueCreate, BloqueUpdate
