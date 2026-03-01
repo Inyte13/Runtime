@@ -61,5 +61,4 @@ export async function updateDia(
 export async function deleteDia(fecha: string): Promise<void> {
   const res = await fetch(`${URL}/${fecha}`, { method: 'DELETE' })
   if (!res.ok) throw new Error('Error al eliminar el día por fecha')
-  // TODO: esperamos que el backend retorne algo
 }
