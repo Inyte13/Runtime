@@ -24,3 +24,5 @@ def get_session():
 
 SessionDep = Annotated[Session, Depends(get_session)]
 
+PathDate = Annotated[date, Path(..., example='2026-02-25')]
+QueryDate = Annotated[date, Query(..., example='2026-02-25')]
