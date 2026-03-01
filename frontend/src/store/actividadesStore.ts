@@ -13,12 +13,12 @@ import { useColorStore } from './colorStore'
 
 interface ActividadState {
   actividades: ActividadRead[]
-  crearActividad: (actividad: ActividadCreate) => Promise<void>
   traerActividades: () => Promise<void>
+  crearActividad: (actividad: ActividadCreate) => Promise<void>
   actualizarActividad: (id: number, actividad: ActividadUpdate) => Promise<void>
 }
 
-export const useActividadesStore = create<ActividadState>((set, get) => ({
+export const useActividadesStore = create<ActividadState>(set => ({
   actividades: [],
   crearActividad: async (actividad) => {
     try {
