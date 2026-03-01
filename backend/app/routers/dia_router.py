@@ -57,6 +57,13 @@ def patch_dia(
   return actualizar_dia(session, fecha, dia)
 
 
+# PATCH: Para actualizar las horas cuando se haga drag and drop
+@dia_router.patch('/dias/{fecha}/reordenar', status_code=200)
+def sort_bloques(session: SessionDep, fecha: date, ids: list[int] = Body(...)):
+  recalcular_hora_final(session, fecha, ids)
+  return
+
+
 # DELETE: Elimina el dia y los bloques que esten dentro
 @dia_router.delete('/dias/{fecha}', status_code=204)
 def delete_dia(session: SessionDep, fecha: PathDate):
