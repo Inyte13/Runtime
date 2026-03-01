@@ -11,7 +11,6 @@ export default function ListaActividades() {
     traerActividades()
   }, [traerActividades])
 
-  const crearActividad = useActividadesStore(state => state.crearActividad)
   return (
     <section className='flex flex-col h-full overflow-hidden p-4 gap-y-2 justify-content'>
       <div className='flex-1 min-h-0 overflow-y-auto border border-border rounded-lg bg-card text-card-foreground [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]'>
@@ -23,19 +22,7 @@ export default function ListaActividades() {
           ))}
         </ul>
       </div>
-      <footer className='w-full' >
-        <Button
-          size='icon-md'
-          className='w-full'
-          onClick={
-            () =>
-              crearActividad({ nombre: 'Test', color: 'red', is_active: true })
-            // TODO: Crear menu para crear actividad
-          }
-        >
-          <Plus />
-        </Button>
-      </footer>
+      <ListaActividadesFooter />
     </section>
   )
 }
