@@ -13,7 +13,9 @@ export async function createActividad(actividad: ActividadCreate): Promise<Activ
 }
 
 export async function readActividades(isActive?: boolean): Promise<ActividadRead[]> {
+  // Si es undefined no tiene params directamente
   const params = new URLSearchParams()
+  // Si los tiene lo agregamos
   if (isActive !== undefined) {
     params.append('is_active', String(isActive))
   }
