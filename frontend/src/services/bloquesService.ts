@@ -25,5 +25,4 @@ export async function updateBloque(id: number, bloque: BloqueUpdate): Promise<Bl
 export async function deleteBloque(id: number): Promise<void> {
   const res = await fetch(`${URL}/${id}`, { method: 'DELETE' })
   if (!res.ok) throw new Error('Error al eliminar el bloque por id')
-  // TODO: esperando al backend que retorne algo
 }
