@@ -42,9 +42,9 @@ export default function SelectorActividad({ bloque }: { bloque: BloqueRead }) {
       items={items}
       onValueChange={manejarSelector}
       value={bloque.actividad?.id.toString()}
-      onOpenChange={isOpen => {
-        if (isOpen && actividades.length === 0) traerActividades()
-      }}
+      // onOpenChange={isOpen => {
+      //   if (isOpen && actividades.length === 0) traerActividades()
+      // }}
     >
       <ComboboxTrigger
         render={
