@@ -11,7 +11,7 @@ export default memo(function ListaBloques() {
   const crearBloque = useDiasStore(state => state.crearBloque)
 
   return (
-    <section className='flex flex-col h-full' >
+    <section className='flex flex-col h-full'>
       <div className='flex-1 min-h-0 overflow-y-auto px-4 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]'>
         <ul className='flex flex-col gap-y-2'>
           {bloques.map(bloque => (
@@ -20,7 +20,7 @@ export default memo(function ListaBloques() {
             </li>
           ))}
         </ul>
-        <Button className='w-full mt-2'onClick={crearBloque}>
+        <Button className='w-full mt-2' onClick={crearBloque}>
           <Plus />
         </Button>
       </div>
