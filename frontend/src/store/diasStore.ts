@@ -104,7 +104,15 @@ export const useDiasStore = create<DiasState>(set => ({
   eliminarBloque: async id => {
     try {
       await deleteBloque(id)
-      await get().traerDiaDetail()
+      set(state => {
+        if (!state.diaDetail) return state
+        return {
+          diaDetail: {
+            ...state.diaDetail,
+            bloques: state.diaDetail.bloques.filter(bloque => bloque.id !== id),
+          },
+        }
+      })
     } catch (err) {
       console.error('Error eliminando el bloque', err)
     }
