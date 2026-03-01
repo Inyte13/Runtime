@@ -6,7 +6,7 @@ import { memo } from 'react'
 import useDuracionBloque from '../hooks/useDuracionBloque'
 import BloqueColor from './BloqueColor'
 
-export default function Bloque({ bloque }: { bloque: BloqueRead }) {
+export default memo(function Bloque({ bloque }: { bloque: BloqueRead }) {
   const actualizarBloque = useDiasStore(state => state.actualizarBloque)
   const color = useColorStore(
     state => state.colores[bloque.actividad.id] || bloque.actividad.color
@@ -36,4 +36,4 @@ export default function Bloque({ bloque }: { bloque: BloqueRead }) {
       />
     </article>
   )
-}
+})
