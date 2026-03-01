@@ -5,6 +5,9 @@ import { Button } from './ui/button'
 import { memo } from 'react'
 
 export default memo(function ListaBloques() {
+  // (?.): Lo usamos porque diaDetail puede no estar creado
+  // (|| []): Lo usamos porque los bloques puede no tener bloques ([])
+  const bloques = useDiasStore(state => state.diaDetail?.bloques) || []
   const crearBloque = useDiasStore(state => state.crearBloque)
 
   return (
