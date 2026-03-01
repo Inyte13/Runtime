@@ -54,8 +54,28 @@ export const useDiasStore = create<DiasState>(set => ({
     const fecha = useFechaStore.getState().fecha
     const fechaISO = formatFechaISO(fecha)
     try {
-      await createBloque({ fecha: fechaISO })
-      await get().traerDiaDetail()
+      const bloque = await createBloque({ fecha: fechaISO })
+      set(state => {
+        if (state.diaDetail) {
+          return {
+            diaDetail: {
+              // Conservamos título, estado y fecha
+              ...state.diaDetail,
+              // Hacemos una copia en una dirección diferente de memoria
+              // Los elementos copiados mantienen su misma referencia de memoria
+              bloques: [...state.diaDetail.bloques, bloque],
+            },
+          }
+        }
+        // Si no hay diaDetail crearmos uno falso confiando en que el backend lo creo para ser rapido
+        return {
+          diaDetail: {
+            fecha: fechaISO,
+            estado: 2,
+            bloques: [bloque],
+          },
+        }
+      })
     } catch (err) {
       console.error('Error al crear el bloque', err)
     }
