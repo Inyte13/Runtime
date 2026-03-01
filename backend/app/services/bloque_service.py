@@ -16,32 +16,6 @@ from app.models.dia import Dia
 from app.schemas.bloque_schema import BloqueCreate, BloqueUpdate
 
 
-def _bloque_anterior(
-  session: Session, fecha: date, hora: time
-) -> Bloque | None:
-  anterior = session.exec(
-    select(Bloque)
-    .where(
-      Bloque.fecha == fecha,
-      Bloque.hora < hora,
-    )
-    .order_by(desc(Bloque.hora))
-  ).first()
-  return anterior
-
-
-def _bloque_siguiente(
-  session: Session, fecha: date, hora: time
-) -> Bloque | None:
-  siguiente = session.exec(
-    select(Bloque)
-    .where(
-      Bloque.fecha == fecha,
-      Bloque.hora > hora,
-    )
-    .order_by(asc(Bloque.hora))
-  ).first()
-  return siguiente
 
 
 def _calcular_hora_fin(
@@ -52,66 +26,6 @@ def _calcular_hora_fin(
   inicio = datetime.combine(fecha, hora)
   fin = inicio + timedelta(hours=duracion)
   return fin.time()
-
-
-# Horas: 3600, minutos: 60
-def _calcular_duracion(
-  session: Session, actual: Bloque, unidad_tiempo=3600
-) -> None:
-  inicio = datetime.combine(actual.fecha, actual.hora)
-  # Si ya tiene una duración, solo calculo la hora_fin
-  if actual.duracion:
-    actual.hora_fin = _calcular_hora_fin(
-      actual.fecha, actual.hora, actual.duracion
-    )
-  else:
-    # Si no hay duración uso al siguiente para calcularla
-    siguiente = _bloque_siguiente(session, actual.fecha, actual.hora)
-    if siguiente:
-      fin = datetime.combine(siguiente.fecha, siguiente.hora)
-      actual.duracion = (fin - inicio).total_seconds() / unidad_tiempo
-      actual.hora_fin = fin.time()
-    else:
-      # Si no hay siguiente
-      actual.duracion = None
-      actual.hora_fin = None
-  session.add(actual)
-
-  anterior = _bloque_anterior(session, actual.fecha, actual.hora)
-  if anterior:
-    inicio_ant = datetime.combine(anterior.fecha, anterior.hora)
-    fin_ant = datetime.combine(actual.fecha, actual.hora)
-    anterior.duracion = (fin_ant - inicio_ant).total_seconds() / unidad_tiempo
-    anterior.hora_fin = actual.hora
-    session.add(anterior)
-
-  session.commit()
-  return
-
-
-def _validar_hora(
-  session: Session, fecha: date, hora: time, duracion: float | None
-) -> None:
-  hora_fin = _calcular_hora_fin(fecha, hora, duracion)
-  anterior = _bloque_anterior(session, fecha, hora)
-  if anterior:
-    if anterior.hora_fin and hora < anterior.hora_fin:
-      raise HTTPException(
-        status_code=status.HTTP_400_BAD_REQUEST,
-        detail=f'La hora debe ser posterior a {anterior.hora.strftime("%H:%M")}',
-      )
-    if anterior.hora_fin and hora != anterior.hora_fin:
-      raise HTTPException(
-        status_code=status.HTTP_400_BAD_REQUEST,
-        detail=f'La hora final debe ser igual a la hora inicio del anterior bloque ({anterior.hora_fin.strftime("%H:%M")})',
-      )
-  siguiente = _bloque_siguiente(session, fecha, hora)
-  if siguiente and hora_fin and hora_fin > siguiente.hora:
-    raise HTTPException(
-      status_code=status.HTTP_400_BAD_REQUEST,
-      detail=f'La hora_fin debe ser anterior a {siguiente.hora.strftime("%H:%M")}',
-    )
-  return
 
 
 def _validar_actividad(session: Session, id: int) -> None:
@@ -158,34 +72,32 @@ def registrar_bloque(session: Session, bloque: BloqueCreate) -> Bloque:
   if not dia:
     dia = create_dia(session, Dia(fecha=fecha))
 
-  # Segundo revisamos el último bloque del día
-  statement = (
-    select(Bloque).where(Bloque.fecha == fecha).order_by(desc(Bloque.hora))
-  )
-  ultimo_bloque = session.exec(statement).first()
 
   # Si el usuario manda
   id_actividad = bloque.id_actividad
 
-  # Si no hay ningún bloque
-  if not ultimo_bloque:
+  # Si es el primer bloque
+  if not ultimo:
     # Le ponemos hora 00:00
     hora = time(0, 0)
     if id_actividad is None:
+      # Actividad 'Dormir'
       id_actividad = 1
   else:
-    if ultimo_bloque.hora_fin is None:
+    # Si el ultimo bloque no tiene una hora_fin declarado 400
+    if ultimo.hora_fin is None:
       raise HTTPException(
         status_code=status.HTTP_400_BAD_REQUEST,
         detail='No se puede crear un bloque sin antes definir la duración del anterior',
       )
-    hora = ultimo_bloque.hora_fin
+    # Si lo tiene lo asignamos como hora al bloque creado
+    hora = ultimo.hora_fin
     if id_actividad is None:
+      # Actividad 'Empty'
       id_actividad = 2
 
   _validar_actividad(session, id_actividad)
   _validar_hora_granulidad(hora, unidad_bloque=30)
-  _validar_hora(session, fecha, hora, bloque.duracion)
 
   new_bloque = Bloque(
     hora=hora,
@@ -195,8 +107,6 @@ def registrar_bloque(session: Session, bloque: BloqueCreate) -> Bloque:
     duracion=bloque.duracion,
   )
   bloque_bd = create_bloque(session, new_bloque)
-
-  _calcular_duracion(session, bloque_bd)
   return bloque_bd
 
 
@@ -207,14 +117,8 @@ def actualizar_bloque(
   if bloque.id_actividad:
     # Validamos la actividad ingresada
     _validar_actividad(session, bloque.id_actividad)
-  # Si la hora se ingresó
-  if bloque.hora:
-    _validar_hora_granulidad(bloque.hora, unidad_bloque=30)
-
-    _validar_hora(session, bloque_bd.fecha, bloque.hora, bloque.duracion)
 
   bloque_bd = update_bloque(session, bloque_bd, bloque)
-  _calcular_duracion(session, bloque_bd)
   return bloque_bd
 
 
@@ -222,3 +126,5 @@ def eliminar_bloque(session: Session, id: int) -> None:
   bloque = buscar_bloque(session, id)
   delete_bloque(session, bloque)
   return
+
+
