@@ -13,7 +13,6 @@ import { formatFechaISO } from '../utils/formatDate'
 interface DiasState {
   dia: DiaRead | null
   diaDetail: DiaReadDetail | null
-  traerDia: () => Promise<void>
   traerDiaDetail: () => Promise<void>
   actualizarDia: (fechaISO: string, dia: DiaUpdate) => Promise<void>
   crearBloque: () => Promise<void>
@@ -24,18 +23,6 @@ interface DiasState {
 export const useDiasStore = create<DiasState>(set => ({
   dia: null,
   diaDetail: null,
-
-  traerDia: async () => {
-    const fecha = useFechaStore.getState().fecha
-    const fechaISO = formatFechaISO(fecha)
-    try {
-      const data = await readDia(fechaISO)
-      set({ dia: data })
-    } catch (err) {
-      console.error('Error trayendo el dia', err)
-      set({ dia: null })
-    }
-  },
 
   traerDiaDetail: async () => {
     const fecha = useFechaStore.getState().fecha
