@@ -61,6 +61,47 @@ def actualizar_dia(session: Session, fecha: date, dia: DiaUpdate) -> Dia:
   return update_dia(session, dia_bd, dia)
 
 
+def recalcular_hora_final(
+  session: Session, fecha: date, ids: list[int]
+) -> None:
+  bloques = read_bloques_by_fecha(session, fecha)
+
+  if not bloques:
+    raise HTTPException(
+      status_code=status.HTTP_404_NOT_FOUND, detail='No hay bloques que ordenar'
+    )
+
+  # Sacamos los id y lo convertimos a set para comparar con los que nos viene
+  if {bloque.id for bloque in bloques} != set(ids):
+    raise HTTPException(
+      status_code=status.HTTP_400_BAD_REQUEST, detail='Los bloques no coinciden'
+    )
+
+  # Dict para búsqueda rapida
+  bloques_dict = {bloque.id: bloque for bloque in bloques}
+
+  hora_temp = datetime.combine(fecha, time(0, 0))
+
+  for i, id in enumerate(ids):
+    bloque = bloques_dict[id]
+    bloque.hora = hora_temp.time()
+
+    if bloque.duracion is not None:
+      hora_temp += timedelta(hours=bloque.duracion)
+      bloque.hora_fin = hora_temp.time()
+
+    else:
+      bloque.hora_fin = None
+      if i != len(ids) - 1:
+        raise HTTPException(
+          status_code=status.HTTP_400_BAD_REQUEST,
+          detail='El bloque sin duración solo puede ir al final del día',
+        )
+    session.add(bloque)
+  session.commit()
+  return
+
+
 def eliminar_dia(session: Session, fecha: date) -> None:
   dia = buscar_dia(session, fecha)
   delete_dia(session, dia)
