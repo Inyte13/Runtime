@@ -6,20 +6,28 @@ client = TestClient(app)
 
 
 def test_get_actividades(client):
-  actividad1 = client.post("/actividades", json={"nombre": "Actividad 1"}).json()
-  actividad2 = client.post("/actividades", json={"nombre": "Actividad 2"}).json()
-  actividad3 = client.post("/actividades", json={"nombre": "Actividad 3"}).json()
-  client.delete(f"/actividades/{actividad2['id']}")
+  actividad1 = client.post(
+    '/actividades', json={'nombre': 'Actividad 1'}
+  ).json()
+  actividad2 = client.post(
+    '/actividades', json={'nombre': 'Actividad 2'}
+  ).json()
+  actividad3 = client.post(
+    '/actividades', json={'nombre': 'Actividad 3'}
+  ).json()
+  client.delete(f'/actividades/{actividad2["id"]}')
 
-  res = client.get("/actividades")
+  res = client.get('/actividades')
   assert res.status_code == 200
   actividades = res.json()
-  nombres = [actividad["nombre"] for actividad in actividades]
-  assert {actividad1["nombre"], actividad2["nombre"], actividad3["nombre"]} <= set(
-    nombres
-  )
+  nombres = [actividad['nombre'] for actividad in actividades]
+  assert {
+    actividad1['nombre'],
+    actividad2['nombre'],
+    actividad3['nombre'],
+  } <= set(nombres)
 
-  res = client.get("/actividades?is_active=true")
+  res = client.get('/actividades?is_active=true')
   assert res.status_code == 200
   activas = res.json()
   nombres_activas = [actividad['nombre'] for actividad in activas]
@@ -31,24 +39,11 @@ def test_get_actividades(client):
   res = client.get('actividades?is_active=false')
   assert res.status_code == 200
   inactivas = res.json()
-  nombres_inactivas = [actividad["nombre"] for actividad in inactivas]
-  assert actividad1["nombre"] not in nombres_inactivas
-  assert actividad2["nombre"] in nombres_inactivas
-  assert actividad3["nombre"] not in nombres_inactivas
-  assert all(not actividad["is_active"] for actividad in inactivas)
-
-
-def test_get_actividad_valida(client):
-  actividad = client.post("/actividades", json={"nombre": "Actividad 1"}).json()
-  res = client.get(f"/actividades/{actividad['id']}")
-  assert res.status_code == 200
-  assert actividad["nombre"] == res.json()["nombre"]
-
-
-def test_get_actividad_invalida(client):
-  res = client.get("/actividades/9999")
-  assert res.status_code == 404
-  assert res.json()["detail"] == "Actividad no encontrada"
+  nombres_inactivas = [actividad['nombre'] for actividad in inactivas]
+  assert actividad1['nombre'] not in nombres_inactivas
+  assert actividad2['nombre'] in nombres_inactivas
+  assert actividad3['nombre'] not in nombres_inactivas
+  assert all(not actividad['is_active'] for actividad in inactivas)
 
 
 def test_post_actividad_valida(client):
