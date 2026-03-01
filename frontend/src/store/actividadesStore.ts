@@ -41,12 +41,12 @@ export const useActividadesStore = create<ActividadState>(set => ({
   },
   actualizarActividad: async (id, actividadNew) => {
     try {
-      await updateActividad(id, actividad)
-      await get().traerActividades()
-      // sincronizar colores en el store global
-      // useColorStore.setState({
-      //   colores: Object.fromEntries(data.map(a => [a.id, a.color])),
-      // })
+      await updateActividad(id, actividadNew)
+      set(state => ({
+        actividades: state.actividades.map(actividad =>
+          actividad.id === id ? { ...actividad, ...actividadNew } : actividad
+        ),
+      }))
     } catch (err) {
       console.error('Error actualizando la actividad', err)
     }
