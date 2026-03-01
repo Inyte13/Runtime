@@ -41,7 +41,6 @@ class BloqueRead(SQLModel):
 
 
 class BloqueUpdate(SQLModel):
-  hora: time | None = None
   descripcion: str | None = None
   id_actividad: int | None = None
   duracion: float | None = None
