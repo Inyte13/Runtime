@@ -83,8 +83,19 @@ export const useDiasStore = create<DiasState>(set => ({
 
   actualizarBloque: async (id, bloque) => {
     try {
-      await updateBloque(id, bloque)
-      await get().traerDiaDetail()
+      const bloqueUpdate = await updateBloque(id, bloque)
+      set(state => {
+        if (!state.diaDetail) return state
+        return {
+          diaDetail: {
+            // Conservamos título, estado y fecha
+            ...state.diaDetail,
+            bloques: state.diaDetail.bloques.map(bloque =>
+              bloque.id === id ? { ...bloque, ...bloqueUpdate } : bloque
+            ),
+          },
+        }
+      })
     } catch (err) {
       console.error('Error actualizando el bloque', err)
     }
