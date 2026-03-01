@@ -18,8 +18,6 @@ import { ChevronDown } from 'lucide-react'
 export default function SelectorActividad({ bloque }: { bloque: BloqueRead }) {
   const actualizarBloque = useDiasStore(state => state.actualizarBloque)
   const actividades = useActividadesStore(state => state.actividades)
-  const traerActividades = useActividadesStore(state => state.traerActividades)
-  const setColor = useColorStore(state => state.setColor)
   const color = useColorStore(
     state => state.colores[bloque.actividad.id] || bloque.actividad.color
   )
@@ -31,7 +29,6 @@ export default function SelectorActividad({ bloque }: { bloque: BloqueRead }) {
     )
     if (!actividad) return
     await actualizarBloque(bloque.id, { id_actividad: actividad.id })
-    setColor(actividad.id, actividad.color)
   }
 
   const items = actividades.map(act => ({
