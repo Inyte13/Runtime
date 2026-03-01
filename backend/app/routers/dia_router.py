@@ -21,7 +21,7 @@ dia_router = APIRouter(tags=['Dia'])
 def get_dia(
   session: SessionDep,
   fecha: PathDate,
-  detail: bool = Query(False),
+  detail: bool = False,
 ):
   if detail:
     dia_db = buscar_dia_detail(session, fecha)
