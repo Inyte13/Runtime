@@ -21,7 +21,7 @@ interface DiasState {
   eliminarBloque: (id: number) => Promise<void>
 }
 
-export const useDiasStore = create<DiasState>((set, get) => ({
+export const useDiasStore = create<DiasState>(set => ({
   dia: null,
   diaDetail: null,
 
