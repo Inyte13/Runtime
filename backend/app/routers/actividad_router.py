@@ -23,11 +23,6 @@ def get_actividades(session: SessionDep, is_active: bool | None = None):
   return read_actividades(session, is_active)
 
 
-@actividad_router.get("/actividades/{id}", response_model=ActividadRead)
-def get_actividad(session: SessionDep, id: int):
-  return buscar_actividad(session, id)
-
-
 @actividad_router.post(
   '/actividades', status_code=201, response_model=ActividadRead
 )
