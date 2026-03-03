@@ -154,5 +154,12 @@ def actualizar_bloque(
 
 def eliminar_bloque(session: Session, id: int) -> None:
   bloque = buscar_bloque(session, id)
+  ultimo = _ultimo_bloque(session, bloque.fecha)
+
+  if not ultimo or ultimo.id != id:
+    raise HTTPException(
+      status_code=status.HTTP_403_FORBIDDEN,
+      detail='Solo puedes borrar el último bloque.',
+    )
   delete_bloque(session, bloque)
   return
