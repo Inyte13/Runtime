@@ -50,6 +50,21 @@ export async function updateDia(
   return res.json() as Promise<DiaRead>
 }
 
+// PATCH: Reordena los bloques y manda al backend a recalcular las horas
+export async function sortDia(
+  fecha: string,
+  ids: number[]
+): Promise<BloqueRead[]> {
+  const res = await fetch(`${URL}/${fecha}/reordenar`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(ids), // FastAPI lo recibe como tu list[int]
+  })
+  
+  if (!res.ok) throw new Error('Error al reordenar los bloques en el servidor')
+  return res.json() as Promise<BloqueRead[]>
+}
+
 export async function deleteDia(fecha: string): Promise<void> {
   const res = await fetch(`${URL}/${fecha}`, { method: 'DELETE' })
   if (!res.ok) throw new Error('Error al eliminar el día por fecha')
