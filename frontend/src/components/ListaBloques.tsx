@@ -23,6 +23,12 @@ export default memo(function ListaBloques() {
 
   const crearBloque = useDiasStore(state => state.crearBloque)
   const reordenarBloques = useDiasStore(state => state.reordenarBloques)
+  // Que actue solo si se mueve mas de 5px
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: { distance: 5 },
+    })
+  )
   return (
     <section className='flex flex-col h-full flex-1 min-h-0 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]'>
       <DndContext
