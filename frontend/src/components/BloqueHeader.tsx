@@ -15,6 +15,8 @@ export default memo(function BloqueHeader({
   manejarDuracion: (newDuracion: number) => void
 }) {
   const eliminarBloque = useDiasStore(state => state.eliminarBloque)
+
+  
   return (
     <header className='flex justify-between'>
       <SelectorActividad id={id} />
