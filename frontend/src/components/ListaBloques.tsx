@@ -21,6 +21,8 @@ export default memo(function ListaBloques() {
     )
   )
 
+  const crearBloque = useDiasStore(state => state.crearBloque)
+  const reordenarBloques = useDiasStore(state => state.reordenarBloques)
   return (
     <section className='flex flex-col h-full flex-1 min-h-0 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]'>
       <DndContext
