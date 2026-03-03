@@ -62,15 +62,8 @@ def actualizar_dia(session: Session, fecha: date, dia: DiaUpdate) -> Dia:
   return update_dia(session, dia_bd, dia)
 
 
-def recalcular_hora_final(
-  session: Session, fecha: date, ids: list[int]
-) -> None:
-  bloques = read_bloques_by_fecha(session, fecha)
-
-  if not bloques:
-    raise HTTPException(
-      status_code=status.HTTP_404_NOT_FOUND, detail='No hay bloques que ordenar'
-    )
+def recalcular_horas(session: Session, fecha: date, ids: list[int]):
+  bloques = mostrar_bloques(session, fecha)
 
   # Sacamos los id y lo convertimos a set para comparar con los que nos viene
   if {bloque.id for bloque in bloques} != set(ids):
