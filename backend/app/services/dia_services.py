@@ -100,7 +100,7 @@ def recalcular_horas(session: Session, fecha: date, ids: list[int]):
     session.add(bloque)
     bloques_actualizados.append(bloque)
   session.commit()
-  return
+  return bloques_actualizados
 
 
 def eliminar_dia(session: Session, fecha: date) -> None:
