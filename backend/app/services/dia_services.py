@@ -90,12 +90,13 @@ def recalcular_horas(session: Session, fecha: date, ids: list[int]):
       bloque.hora_fin = hora_temp.time()
 
     else:
-      bloque.hora_fin = None
+      # Si no es el último ERROR
       if i != len(ids) - 1:
         raise HTTPException(
           status_code=status.HTTP_400_BAD_REQUEST,
           detail='El bloque sin duración solo puede ir al final del día',
         )
+      bloque.hora_fin = None
     session.add(bloque)
     bloques_actualizados.append(bloque)
   session.commit()
