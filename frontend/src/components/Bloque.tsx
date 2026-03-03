@@ -36,11 +36,9 @@ export default memo(function Bloque({ id }: { id: number }) {
         duracion={duracionLocal}
         manejarDuracion={manejarDuracion}
       />
-      <div>
-        <span className='pl-1 text-foreground/70'>
-          {bloque.hora} {horaFin && `- ${horaFin}`}
-        </span>
-      </div>
+      <span className='pl-1 text-foreground/70'>
+        {bloque.hora} {horaFin && `- ${horaFin}`}
+      </span>
       <Input
         className='border-0 border-b border-transparent focus:border-(--color) outline-none rounded-none italic h-[1.6rem] text-base pr-0 pl-1 mt-1'
         defaultValue={descripcion}
