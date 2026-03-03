@@ -15,20 +15,23 @@ import { Button } from './ui/button.js'
 import { ChevronDown } from 'lucide-react'
 import { memo } from 'react'
 
-export default function SelectorActividad({ bloque }: { bloque: BloqueRead }) {
+export default memo(function SelectorActividad({ id }: { id: number }) {
+  const actividad = useDiasStore(state =>
+    state.diaDetail?.bloques.find(bloque => bloque.id === id)?.actividad
+  )
   const actualizarBloque = useDiasStore(state => state.actualizarBloque)
   const actividades = useActividadesStore(state => state.actividades)
   const color = useColorStore(
-    state => state.colores[bloque.actividad.id] || bloque.actividad.color
+    state => state.colores[actividad.id] || actividad.color
   )
 
-  const manejarSelector = async (id: string | null) => {
-    if (!id) return
+  const manejarSelector = async (idStr: string | null) => {
+    if (!idStr) return
     const actividad = actividades.find(
-      actividad => actividad.id.toString() === id
+      actividad => actividad.id.toString() === idStr
     )
     if (!actividad) return
-    await actualizarBloque(bloque.id, { id_actividad: actividad.id })
+    await actualizarBloque(id, { id_actividad: actividad.id })
   }
 
   const items = actividades.map(act => ({
@@ -41,7 +44,7 @@ export default function SelectorActividad({ bloque }: { bloque: BloqueRead }) {
     <Combobox
       items={items}
       onValueChange={manejarSelector}
-      value={bloque.actividad?.id.toString()}
+      value={actividad?.id.toString()}
       // onOpenChange={isOpen => {
       //   if (isOpen && actividades.length === 0) traerActividades()
       // }}
@@ -50,7 +53,7 @@ export default function SelectorActividad({ bloque }: { bloque: BloqueRead }) {
         render={
           <Button variant='ghost' className='p-1! gap-1'>
             <div className='flex items-center gap-2'>
-              {bloque.actividad && (
+              {actividad && (
                 <span
                   className='size-4 rounded-full shrink-0'
                   style={{ backgroundColor: color }}
@@ -92,4 +95,4 @@ export default function SelectorActividad({ bloque }: { bloque: BloqueRead }) {
       </ComboboxContent>
     </Combobox>
   )
-}
+})
