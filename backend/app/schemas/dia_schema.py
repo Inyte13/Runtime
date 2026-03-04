@@ -1,4 +1,4 @@
-from pydantic import ConfigDict, field_validator
+from pydantic import field_validator
 from sqlmodel import SQLModel
 
 from app.models.dia import DiaBase, Estado

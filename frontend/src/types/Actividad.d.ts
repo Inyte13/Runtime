@@ -1,4 +1,4 @@
-export interface ActividadBase {
+export interface ActividadCreate {
   nombre: string
   color?: string
   is_active?: boolean

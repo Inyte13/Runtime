@@ -1,4 +1,4 @@
-import { Bloque, BloqueRead } from './Bloque'
+import { BloqueRead } from './Bloque'
 
 export enum Estado {
   MAL = 1,

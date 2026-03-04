@@ -1,5 +1,3 @@
-import { Actividad, ActividadRead } from './Actividad'
-import { Dia } from './Dia'
 export interface BloqueBase {
   hora: string
   descripcion?: string | null
