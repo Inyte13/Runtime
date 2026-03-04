@@ -17,13 +17,17 @@ export default memo(function Bloque({
 }: {
   id: number
   attributes: DraggableAttributes
-  listeners: SyntheticListenerMap
+  listeners?: SyntheticListenerMap
 }) {
   const bloque = useDiasStore(state =>
     state.diaDetail?.bloques.find(bloque => bloque.id === id)
   )
   const actualizarBloque = useDiasStore(state => state.actualizarBloque)
-  const descripcion = bloque.descripcion || ''
+  const eliminarBloque = useDiasStore(state => state.eliminarBloque)
+
+  const { manejarDuracion } = useDuracionBloque(id)
+
+  const descripcion = bloque?.descripcion || ''
   const manejarDescripcion = useCallback(
     async (e: React.FocusEvent<HTMLInputElement>) => {
       const newDescripcion = e.target.value
@@ -32,10 +36,7 @@ export default memo(function Bloque({
     },
     [id, descripcion, actualizarBloque]
   )
-  const eliminarBloque = useDiasStore(state => state.eliminarBloque)
-
-  const { manejarDuracion } = useDuracionBloque(bloque.id)
-
+  if (!bloque) return null
   return (
     <BloqueColor
       id={bloque.actividad.id}
@@ -46,7 +47,7 @@ export default memo(function Bloque({
     >
       <BloqueHeader
         id={id}
-        duracion={bloque.duracion}
+        duracion={bloque.duracion || 0}
         manejarDuracion={manejarDuracion}
       />
 
@@ -69,7 +70,7 @@ export default memo(function Bloque({
       </div>
 
       <span className='pl-1 text-foreground/70'>
-        {bloque.hora} {bloque.duracion > 0 && `- ${bloque.hora_fin}`}
+        {bloque.hora} {(bloque.duracion ?? 0) > 0 && `- ${bloque.hora_fin}`}
       </span>
 
       <Input
