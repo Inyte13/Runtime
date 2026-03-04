@@ -7,8 +7,12 @@ from app.schemas.bloque_schema import BloqueRead
 # DiaCreate? NO por que ya no valido el json que recibia POST(ya no existe)
 
 
+class DiaRead(DiaBase):
+  pass
 
 
+class DiaReadDetail(DiaBase):
+  bloques: list[BloqueRead] = []
 
 
 class DiaUpdate(SQLModel):
@@ -22,6 +26,3 @@ class DiaUpdate(SQLModel):
     if v == '':
       return None
     return v
-class DiaRead(DiaBase):
-class DiaReadDetail(DiaBase):
-  bloques: list[BloqueRead] = []
