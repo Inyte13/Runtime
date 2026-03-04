@@ -1,4 +1,4 @@
-export function calcularHoraFin(inicio: string, duracion: number): string {
+export function modificarHora(inicio: string, duracion: number): string {
   // Map number lo convierte a number
   const [hora, minutos] = inicio.split(':').map(Number)
   const totalMinutos = hora * 60 + minutos + duracion * 60

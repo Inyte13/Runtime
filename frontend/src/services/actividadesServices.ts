@@ -6,17 +6,21 @@ import {
 
 const URL = '/actividades'
 
-export async function createActividad(actividad: ActividadCreate): Promise<ActividadRead> {
+export async function createActividad(
+  actividad: ActividadCreate
+): Promise<ActividadRead> {
   const res = await fetch(URL, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json'},
-    body: JSON.stringify(actividad)
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(actividad),
   })
   if (!res.ok) throw new Error('Error al crear la actividad')
   return res.json() as Promise<ActividadRead>
 }
 
-export async function readActividades(isActive?: boolean): Promise<ActividadRead[]> {
+export async function readActividades(
+  isActive?: boolean
+): Promise<ActividadRead[]> {
   // Si es undefined no tiene params directamente
   const params = new URLSearchParams()
   // Si los tiene lo agregamos
@@ -35,7 +39,7 @@ export async function updateActividad(
   const res = await fetch(`${URL}/${id}`, {
     method: 'PATCH',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(actividad)
+    body: JSON.stringify(actividad),
   })
   if (!res.ok) throw new Error('Error al actualizar la actividad')
   return res.json() as Promise<ActividadRead>

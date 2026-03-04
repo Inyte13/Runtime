@@ -32,6 +32,7 @@ export const useActividadesStore = create<ActividadState>(set => ({
       console.error('Error trayendo actividades:', err)
     }
   },
+
   crearActividad: async actividad => {
     try {
       const actividadNew = await createActividad(actividad)
@@ -40,6 +41,7 @@ export const useActividadesStore = create<ActividadState>(set => ({
       console.error('Error al crear la actividad', err)
     }
   },
+
   actualizarActividad: async (id, actividadNew) => {
     try {
       await updateActividad(id, actividadNew)
