@@ -143,29 +143,42 @@ def actualizar_bloque(
     # Validamos la actividad ingresada
     _validar_actividad(session, bloque.id_actividad)
 
-  ultimo = _ultimo_bloque(session, bloque_bd.fecha)
-  # Si manda una duración nueva
-  if ultimo and bloque.duracion is not None:
-    if ultimo.id != bloque_bd.id:
-      raise HTTPException(
-        status_code=status.HTTP_400_BAD_REQUEST,
-        detail='Solo puedes modificar la duración del último bloque',
-      )
-    bloque_bd.hora_fin = _calcular_hora_fin(
-      bloque_bd.fecha, bloque_bd.hora, bloque.duracion
+  # Siempre que tenga duracion y no sea la misma
+  if bloque.duracion is not None and bloque.duracion != bloque_bd.duracion:
+    # Por en la bd la duracion es null
+    duracion = bloque_bd.duracion or 0.0
+    # El delta que tendra que cambiar en los bloques siguientes
+    diferencia = bloque.duracion - duracion
+    
+    # Actualizamos la duracion 
+    bloque_bd.duracion = bloque.duracion
+    # Actualizamos la hora_fin
+    bloque_bd.hora_fin = _modificar_hora(bloque_bd.hora, bloque.duracion)
+
+    # Traemos los siguientes sin incluir el actual
+    bloques_siguientes = read_bloques_by_range(
+      session=session,
+      fecha=bloque_bd.fecha,
+      hora_desde=bloque_bd.hora,
+      incluir_desde=False,
     )
+    # modificamos la duracion de todos los siguientes
+    _modificar_horas(session, bloques_siguientes, diferencia)
+
   bloque_bd = update_bloque(session, bloque_bd, bloque)
   return bloque_bd
 
 
 def eliminar_bloque(session: Session, id: int) -> None:
   bloque = buscar_bloque(session, id)
-  ultimo = _ultimo_bloque(session, bloque.fecha)
-
-  if not ultimo or ultimo.id != id:
-    raise HTTPException(
-      status_code=status.HTTP_403_FORBIDDEN,
-      detail='Solo puedes borrar el último bloque.',
+  if bloque.duracion is not None:
+    diferencia = -bloque.duracion
+    bloques_siguientes = read_bloques_by_range(
+      session=session,
+      fecha=bloque.fecha,
+      hora_desde=bloque.hora,
+      incluir_desde=False,
     )
+    _modificar_horas(session, bloques_siguientes, diferencia)
   delete_bloque(session, bloque)
   return
