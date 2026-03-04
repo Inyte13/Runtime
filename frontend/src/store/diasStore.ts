@@ -105,7 +105,6 @@ export const useDiasStore = create<DiasState>(set => ({
     }
   },
 
-  reordenarBloques: async (event: DragEndEvent) => {
   actualizarHoras: (id, duracion) => {
     set(state => {
       if (!state.diaDetail) return state
@@ -152,6 +151,7 @@ export const useDiasStore = create<DiasState>(set => ({
     })
   },
 
+  reordenarBloques: async event => {
     // active: lo que tienes agarrado
     // over: donde cayó
     const { active, over } = event
