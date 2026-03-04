@@ -7,7 +7,7 @@ class ActividadBase(SQLModel):
     unique=True,
     max_length=50,
   )
-  color: str = Field(max_length=7, default="#0191f1")
+  color: str = Field(max_length=7, default='#0191f1')
   is_active: bool = Field(default=True)
 
 

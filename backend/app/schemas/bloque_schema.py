@@ -14,6 +14,7 @@ class BloqueCreate(SQLModel):
   id_actividad: int | None = None
   fecha: date | None = None
   duracion: float | None = None
+
   # Validator para que el '' se convierta en None
   @field_validator('descripcion')
   @classmethod
@@ -25,7 +26,7 @@ class BloqueCreate(SQLModel):
 
 class BloqueRead(SQLModel):
   id: int | None
-  hora: time | None 
+  hora: time | None
   descripcion: str | None = None
   actividad: ActividadRead | None
   duracion: float | None = None
@@ -44,6 +45,7 @@ class BloqueUpdate(SQLModel):
   descripcion: str | None = None
   id_actividad: int | None = None
   duracion: float | None = None
+
   # Validator para que el '' se convierta en None
   @field_validator('descripcion')
   @classmethod

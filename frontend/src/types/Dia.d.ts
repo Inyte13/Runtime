@@ -15,12 +15,11 @@ export interface DiaBase {
 export interface Dia extends DiaBase {
   bloques: Bloque[]
 }
-
 export type DiaRead = DiaBase
-
 export interface DiaReadDetail extends DiaRead {
   bloques: BloqueRead[]
 }
+
 export interface DiaUpdate {
   titulo?: string | null
   estado?: Estado | null

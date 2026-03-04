@@ -1,6 +1,5 @@
 import { Actividad, ActividadRead } from './Actividad'
 import { Dia } from './Dia'
-
 export interface BloqueBase {
   hora: string
   descripcion?: string | null
@@ -8,7 +7,6 @@ export interface BloqueBase {
   duracion?: number | null
   hora_fin?: string | null
 }
-
 export interface Bloque extends BloqueBase {
   id: number
   fecha: string
@@ -23,7 +21,6 @@ export interface BloqueCreate {
   fecha?: string | null
   duracion?: number | null
 }
-
 export interface BloqueRead {
   id?: number | null
   hora?: string | null
