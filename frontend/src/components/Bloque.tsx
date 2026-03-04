@@ -44,11 +44,11 @@ export default memo(function Bloque({
     >
       <BloqueHeader
         id={id}
-        duracion={duracionLocal}
+        duracion={bloque.duracion || 0}
         manejarDuracion={manejarDuracion}
       />
       <span className='pl-1 text-foreground/70'>
-        {bloque.hora} {horaFin && `- ${horaFin}`}
+        {bloque.hora} {bloque.hora_fin && `- ${bloque.hora_fin}`}
       </span>
       <Input
         className='border-0 border-b border-transparent focus:border-(--color) outline-none rounded-none italic h-[1.6rem] text-base pr-0 pl-1 mt-1'
