@@ -17,6 +17,7 @@ interface ActividadState {
   traerActividades: () => Promise<void>
   crearActividad: (actividad: ActividadCreate) => Promise<void>
   actualizarActividad: (id: number, actividad: ActividadUpdate) => Promise<void>
+  eliminarActividadSoft: (id: number) => Promise<void>
 }
 
 export const useActividadesStore = create<ActividadState>(set => ({
@@ -52,6 +53,22 @@ export const useActividadesStore = create<ActividadState>(set => ({
       }))
     } catch (err) {
       console.error('Error actualizando la actividad', err)
+    }
+  },
+
+  eliminarActividadSoft: async id => {
+    try {
+      await deleteActividadSoft(id)
+      set(state => {
+        if (!state.actividades) return state
+        return {
+          actividades: state.actividades.filter(
+            actividad => actividad.id !== id
+          ),
+        }
+      })
+    } catch (err) {
+      console.error('Error eliminando la actividad', err)
     }
   },
 }))
