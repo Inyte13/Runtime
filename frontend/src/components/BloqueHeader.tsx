@@ -14,11 +14,7 @@ export default memo(function BloqueHeader({
   return (
     <header className='flex justify-between'>
       <SelectorActividad id={id} />
-      <ControlesDuracion
-        duracion={duracion}
-        manejarDuracion={manejarDuracion}
-        isLast={isLast}
-      />
+      <Duracion duracion={duracion} manejarDuracion={manejarDuracion} />
     </header>
   )
 })
