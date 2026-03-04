@@ -102,6 +102,7 @@ export const useDiasStore = create<DiasState>(set => ({
       })
     } catch (err) {
       console.error('Error actualizando el bloque', err)
+      // TODO: Por si falla podriamos usar el get
     }
   },
 
