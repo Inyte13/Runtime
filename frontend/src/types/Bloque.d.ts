@@ -14,18 +14,9 @@ export interface BloqueCreate {
   fecha: string
   duracion?: number | null
 }
-export interface BloqueRead {
-  id?: number | null
-  hora?: string | null
-  descripcion?: string | null
-  actividad?: ActividadRead | null
-  duracion?: number | null
-  hora_fin?: string | null
-}
 
 export interface BloqueUpdate {
-  hora?: string | null
   descripcion?: string | null
-  id_actividad?: number | null
+  id_actividad?: number
   duracion?: number | null
 }
