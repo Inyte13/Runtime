@@ -4,12 +4,6 @@ export interface ActividadCreate {
   is_active?: boolean
 }
 
-export interface Actividad {
-  id: number
-}
-export type ActividadCreate = ActividadBase
-
-export interface ActividadRead extends ActividadBase {
   id: number
 }
 

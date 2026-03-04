@@ -6,19 +6,12 @@ export enum Estado {
   BIEN = 3,
 }
 
-export interface DiaBase {
-  titulo?: string | null
-  estado: Estado
 export interface DiaRead {
   titulo: string | null
   estado: Estado | null
   fecha: string
 }
 
-export interface Dia extends DiaBase {
-  bloques: Bloque[]
-}
-export type DiaRead = DiaBase
 export interface DiaReadDetail extends DiaRead {
   bloques: BloqueRead[]
 }
