@@ -19,6 +19,7 @@ interface DiasState {
   actualizarDia: (fechaISO: string, dia: DiaUpdate) => Promise<void>
   crearBloque: () => Promise<void>
   actualizarBloque: (id: number, bloque: BloqueUpdate) => Promise<void>
+  actualizarHoras: (id: number, duracion: number) => void
   reordenarBloques: (event: DragEndEvent) => Promise<void>
   eliminarBloque: (id: number) => Promise<void>
 }
@@ -105,6 +106,52 @@ export const useDiasStore = create<DiasState>(set => ({
   },
 
   reordenarBloques: async (event: DragEndEvent) => {
+  actualizarHoras: (id, duracion) => {
+    set(state => {
+      if (!state.diaDetail) return state
+      const bloques = state.diaDetail.bloques
+
+      // La posición del índice del bloque actualizado
+      const indice = bloques.findIndex(bloque => bloque.id === id)
+      if (indice === -1) return state
+
+      const diferencia = duracion - (bloques[indice].duracion || 0)
+
+      // Si la diferencia es la misma
+      if (diferencia === 0) return state
+
+      const newBloques = bloques.map((bloque, i) => {
+        if (i === indice) {
+          return {
+            ...bloque,
+            // Solo le cambiamos la duracion y la hora_fin la hora se queda como está
+            duracion: duracion,
+            hora_fin: modificarHora(bloque.hora, duracion),
+          }
+        }
+
+        if (i > indice) {
+          return {
+            ...bloque,
+            // Modificamos la hora y hora_fin
+            hora: modificarHora(bloque.hora, diferencia),
+            hora_fin: bloque.hora_fin
+              ? modificarHora(bloque.hora_fin, diferencia)
+              : bloque.hora_fin,
+          }
+        }
+        return bloque
+      })
+
+      return {
+        diaDetail: {
+          ...state.diaDetail,
+          bloques: newBloques,
+        },
+      }
+    })
+  },
+
     // active: lo que tienes agarrado
     // over: donde cayó
     const { active, over } = event
