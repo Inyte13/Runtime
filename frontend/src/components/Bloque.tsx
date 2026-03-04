@@ -39,7 +39,7 @@ export default memo(function Bloque({
       id={bloque.actividad.id}
       colorDefault={bloque.actividad.color}
       className={
-        'flex flex-col border border-border border-l-2 rounded-md px-2 pb-2 pt-1 relative bg-card w-full'
+        'group flex flex-col border border-border border-l-2 rounded-md px-2 pb-2 pt-1 relative bg-card w-full'
       }
     >
       <BloqueHeader
