@@ -10,7 +10,15 @@ import { GripVertical, XIcon } from 'lucide-react'
 import { DraggableAttributes } from '@dnd-kit/core'
 import { SyntheticListenerMap } from '@dnd-kit/core/dist/hooks/utilities'
 
-export default memo(function Bloque({ id }: { id: number }) {
+export default memo(function Bloque({
+  id,
+  attributes,
+  listeners,
+}: {
+  id: number
+  attributes: DraggableAttributes
+  listeners: SyntheticListenerMap
+}) {
   const bloque = useDiasStore(state =>
     state.diaDetail?.bloques.find(bloque => bloque.id === id)
   )
