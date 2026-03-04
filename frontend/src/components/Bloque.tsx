@@ -78,6 +78,7 @@ export default memo(function Bloque({
         placeholder='Añadir descripción'
         onBlur={manejarDescripcion}
         maxLength={255}
+        onKeyDown={manejarEnter}
       />
     </BloqueColor>
   )
