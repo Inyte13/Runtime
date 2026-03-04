@@ -32,6 +32,8 @@ export default memo(function Bloque({
     },
     [id, descripcion, actualizarBloque]
   )
+  const eliminarBloque = useDiasStore(state => state.eliminarBloque)
+
   const { manejarDuracion } = useDuracionBloque(bloque.id)
 
   return (
@@ -47,6 +49,15 @@ export default memo(function Bloque({
         duracion={bloque.duracion || 0}
         manejarDuracion={manejarDuracion}
       />
+
+      <Button
+        size='icon-xxs'
+        variant='ghost'
+        className='top-[0.2rem] right-[0.2rem] absolute opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none group-hover:pointer-events-auto'
+        onClick={() => eliminarBloque(id)}
+      >
+        <XIcon />
+      </Button>
       <span className='pl-1 text-foreground/70'>
         {bloque.hora} {bloque.hora_fin && `- ${bloque.hora_fin}`}
       </span>
