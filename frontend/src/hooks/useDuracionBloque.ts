@@ -1,24 +1,20 @@
 import { useCallback, useEffect, useRef } from 'react'
 import { useDiasStore } from '../store/diasStore'
 
-export default function useDuracionBloque(
-  id: number,
-  duracion: number,
-  hora: string
-) {
+export default function useDuracionBloque(id: number) {
+  const actualizarHoras = useDiasStore(state => state.actualizarHoras)
   const actualizarBloque = useDiasStore(state => state.actualizarBloque)
-  const [duracionLocal, setDuracionLocal] = useState(duracion || 0)
   const debounceTimer = useRef<number | null>(null)
 
   const manejarDuracion = useCallback(
     (newDuracion: number) => {
-      setDuracionLocal(newDuracion)
+      actualizarHoras(id, newDuracion)
       if (debounceTimer.current) clearTimeout(debounceTimer.current)
       debounceTimer.current = setTimeout(() => {
         actualizarBloque(id, { duracion: newDuracion })
       }, 600)
     },
-    [id, actualizarBloque]
+    [id, actualizarHoras, actualizarBloque]
   )
   // Antes de morir apaga el 600ms
   useEffect(() => {
@@ -27,11 +23,7 @@ export default function useDuracionBloque(
     }
   }, [])
 
-  const horaFin =
-    duracionLocal === 0 ? '' : calcularHoraFin(hora, duracionLocal)
   return {
-    duracionLocal,
     manejarDuracion,
-    horaFin,
   }
 }
