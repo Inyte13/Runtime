@@ -1,7 +1,7 @@
 export interface ActividadBase {
   nombre: string
-  color: string
-  is_active: boolean
+  color?: string
+  is_active?: boolean
 }
 
 export interface Actividad {
