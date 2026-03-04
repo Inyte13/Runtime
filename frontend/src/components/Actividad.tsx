@@ -14,6 +14,19 @@ export default memo(function Actividad({ id }: { id: number }) {
     state =>
       state.actividades.find(actividad => actividad.id === id)?.color || ''
   )
+
+  const actualizarActividad = useActividadesStore(
+    state => state.actualizarActividad
+  )
+  const manejarNombre = async (e: React.FocusEvent<HTMLInputElement>) => {
+    const newNombre = e.target.value.toLowerCase().trim()
+    // Si el newNombre es '' o es igual al inicial
+    if (!newNombre || newNombre === nombre) {
+      e.target.value = nombre
+      return
+    }
+    await actualizarActividad(id, { nombre: newNombre })
+  }
   return (
     <div className='flex items-center p-1.5 hover:bg-accent hover:text-accent-foreground rounded-lg'>
       <ColorPicker id={id} colorFallback={colorFallback} />
