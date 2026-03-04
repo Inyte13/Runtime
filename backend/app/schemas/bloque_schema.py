@@ -35,10 +35,6 @@ class BloqueRead(SQLModel):
   @field_serializer('hora', 'hora_fin')
   def formatear_hora(self, value: time | None) -> str | None:
     return value.strftime('%H:%M') if value else None
-  
-  model_config = ConfigDict(from_attributes=True) # type: ignore
-  # class Config:
-  #   orm_mode = True
 
 
 class BloqueUpdate(SQLModel):
