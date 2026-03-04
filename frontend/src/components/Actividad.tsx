@@ -15,7 +15,7 @@ export default memo(function Actividad({ id }: { id: number }) {
       state.actividades.find(actividad => actividad.id === id)?.color || ''
   )
   return (
-    <div className='flex items-center gap-2 p-1.5 hover:bg-accent hover:text-accent-foreground cursor-pointer rounded-lg'>
+    <div className='flex items-center p-1.5 hover:bg-accent hover:text-accent-foreground rounded-lg'>
       <ColorPicker id={id} colorFallback={colorFallback} />
       <span className='capitalize'>{nombre}</span>
     </div>
