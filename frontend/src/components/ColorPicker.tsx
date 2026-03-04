@@ -19,12 +19,10 @@ export default function ColorPicker({
   return (
     <input
       className='rounded-full size-4'
+      style={{ background: color }}
       type='color'
       value={color}
-      style={{ background: color }}
-      // onChange solo para cambiar en el frontend
       onChange={e => setColor(id, e.target.value)}
-      // onBlur se ejecuta cuando cambia el foco
       onBlur={manejarCambioColor}
     />
   )
