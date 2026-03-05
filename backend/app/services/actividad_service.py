@@ -29,14 +29,6 @@ def validar_nombre_unico(session: Session, nombre: str) -> None:
   return
 
 
-def registrar_actividad(
-  session: Session, actividad: ActividadCreate
-) -> Actividad:
-  validar_nombre_unico(session, actividad.nombre)
-  new_actividad = Actividad.model_validate(actividad)
-  return create_actividad(session, new_actividad)
-
-
 def buscar_actividad(session: Session, id: int) -> Actividad:
   # Leemos la actividad con la fx de actividad_crud, sino existe devuelve None
   actividad = read_actividad_by_id(session, id)
@@ -61,6 +53,16 @@ def mostrar_actividades(
     new_actividad = ActividadReadDetail(**actividad)
     actividades.append(new_actividad)
   return actividades
+
+
+def registrar_actividad(
+  session: Session, actividad: ActividadCreate
+) -> Actividad:
+  _validar_nombre_unico(session, actividad.nombre)
+  new_actividad = Actividad.model_validate(actividad)
+  return create_actividad(session, new_actividad)
+
+
 def actualizar_actividad(
   session, id: int, actividad: ActividadUpdate
 ) -> Actividad:
