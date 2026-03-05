@@ -19,6 +19,7 @@ actividad_router = APIRouter(tags=['Actividades'])
 
 # GET: Todas las actividades, puede ser None para traer activos/inactivos
 @actividad_router.get('/actividades', response_model=list[ActividadRead])
+@actividad_router.get('/actividades', response_model=list[ActividadReadDetail])
 def get_actividades(session: SessionDep, is_active: bool | None = None):
   return mostrar_actividades(session, is_active)
 
