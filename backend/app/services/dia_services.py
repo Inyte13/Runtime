@@ -62,7 +62,7 @@ def actualizar_dia(session: Session, fecha: date, dia: DiaUpdate) -> Dia:
 
 
 def recalcular_horas(session: Session, fecha: date, ids: list[int]):
-  bloques = mostrar_bloques(session, fecha)
+  bloques = read_bloques_by_range(session, fecha)
 
   # Sacamos los id y lo convertimos a set para comparar con los que nos viene
   if {bloque.id for bloque in bloques} != set(ids):

@@ -77,15 +77,6 @@ def buscar_bloque(session: Session, id: int) -> Bloque:
   return bloque
 
 
-def mostrar_bloques(session: Session, fecha: date) -> Sequence[Bloque]:
-  bloques = read_bloques_by_range(session, fecha)
-  if not bloques:
-    raise HTTPException(
-      status_code=status.HTTP_404_NOT_FOUND, detail='Bloques no encontrados'
-    )
-  return bloques
-
-
 def registrar_bloque(session: Session, bloque: BloqueCreate) -> Bloque:
   # Patrón Get or Create
   # Usamos la fecha que nos mandan o la de hoy
