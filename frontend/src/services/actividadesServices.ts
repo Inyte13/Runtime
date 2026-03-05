@@ -21,7 +21,7 @@ export async function createActividad(
 
 export async function readActividades(
   isActive?: boolean
-): Promise<ActividadRead[]> {
+): Promise<ActividadReadDetail[]> {
   // Si es undefined no tiene params directamente
   const params = new URLSearchParams()
   // Si los tiene lo agregamos
@@ -30,7 +30,7 @@ export async function readActividades(
   }
   const res = await fetch(`${URL}?${params.toString()}`)
   if (!res.ok) throw new Error('Error al cargar las actividades')
-  return res.json() as Promise<ActividadRead[]>
+  return res.json() as Promise<ActividadReadDetail[]>
 }
 
 export async function updateActividad(
