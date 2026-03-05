@@ -14,7 +14,6 @@ from app.crud.actividad_crud import (
 from app.models.actividad import Actividad
 from app.schemas.actividad_schema import (
   ActividadCreate,
-  ActividadRead,
   ActividadReadDetail,
   ActividadUpdate,
 )
@@ -39,6 +38,7 @@ def buscar_actividad(session: Session, id: int) -> Actividad:
   return actividad
 
 
+# Especificamos el ActividadReadDetail porque es el único que tiene el atributo tiene_bloques
 def mostrar_actividades(
   session: Session, is_active: bool | None = None
 ) -> Sequence[ActividadReadDetail]:
