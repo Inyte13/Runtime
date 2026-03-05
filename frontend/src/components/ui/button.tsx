@@ -20,12 +20,12 @@ export const buttonVariants = cva(
   {
     variants: {
       variant: {
-        primary: 'bg-primary text-primary-foreground hover:bg-primary/80',
+        primary: 'bg-primary text-primary-foreground hover:bg-primary/90',
         secondary:
           'bg-secondary text-secondary-foreground hover:bg-secondary/80',
-        ghost: 'hover:bg-accent/50 hover:text-accent-foreground',
+        ghost: 'bg-transparent text-foreground hover:bg-accent hover:text-accent-foreground',
         destructive:
-          'bg-destructive text-white hover:bg-destructive/70 focus-visible:ring-destructive/20 ',
+          'bg-transparent text-destructive/80 hover:bg-destructive/5 focus-visible:ring-destructive/20',
       },
       size: {
         xs: 'text-xs py-1 min-h-6 px-2 gap-1 has-[>svg]:px-1.5',
