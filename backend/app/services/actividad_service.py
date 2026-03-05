@@ -47,6 +47,20 @@ def buscar_actividad(session: Session, id: int) -> Actividad:
   return actividad
 
 
+def mostrar_actividades(
+  session: Session, is_active: bool | None = None
+) -> Sequence[ActividadReadDetail]:
+  # Actividades con el tiene_bloques a lado: [(Actividad, True), (Actividad, False)])
+  actividades_bd_con_estado = read_actividades(session, is_active)
+  actividades = []
+  for actividad_bd, tiene_bloques in actividades_bd_con_estado:
+    # Lo convertimos en dict
+    actividad = actividad_bd.model_dump()
+    # Metemos el atributo tiene_bloques
+    actividad['tiene_bloques'] = tiene_bloques
+    new_actividad = ActividadReadDetail(**actividad)
+    actividades.append(new_actividad)
+  return actividades
 def actualizar_actividad(
   session, id: int, actividad: ActividadUpdate
 ) -> Actividad:
