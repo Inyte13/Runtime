@@ -54,7 +54,7 @@ export default memo(function Bloque({
       <Button
         size='icon-xs'
         variant='ghost'
-        className='top-[0.2rem] right-[0.2rem] absolute opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none group-hover:pointer-events-auto'
+        className='top-[0.2rem] right-[0.2rem] absolute opacity-0 group-hover:opacity-100 focus-visible:opacity-100'
         onClick={() => eliminarBloque(id)}
       >
         <X />
