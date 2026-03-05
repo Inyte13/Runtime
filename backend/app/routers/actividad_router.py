@@ -1,15 +1,16 @@
 from fastapi import APIRouter
 
 from app.core.database import SessionDep
-from app.crud.actividad_crud import read_actividades
 from app.schemas.actividad_schema import (
   ActividadCreate,
   ActividadRead,
+  ActividadReadDetail,
   ActividadUpdate,
 )
 from app.services.actividad_service import (
   actualizar_actividad,
   eliminar_actividad,
+  mostrar_actividades,
   registrar_actividad,
 )
 

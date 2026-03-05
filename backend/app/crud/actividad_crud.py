@@ -3,6 +3,7 @@ from typing import Sequence
 from sqlmodel import Session, col, select
 
 from app.models.actividad import Actividad
+from app.models.bloque import Bloque
 from app.schemas.actividad_schema import ActividadUpdate
 
 
