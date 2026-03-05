@@ -13,7 +13,7 @@ export default memo(function Duracion({
   const prevTime = () => manejarDuracion(Math.max(0, duracion - 0.5))
   return (
     <div className='flex mr-5 justify-center items-center'>
-      <span className='text-3xl font-extralight'>{duracion}h</span>
+      <span className='text-3xl font-extralight text-card-foreground'>{duracion}h</span>
       <div className='flex flex-col '>
         <Button
           size='icon-xs'
