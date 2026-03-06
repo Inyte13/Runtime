@@ -42,6 +42,7 @@ export default memo(function SelectorActividad({ id }: { id: number }) {
     label: act.nombre,
     value: act.id.toString(),
     color: act.color,
+    isActive: act.is_active,
   }))
 
   return (
@@ -84,7 +85,12 @@ export default memo(function SelectorActividad({ id }: { id: number }) {
 
         <ComboboxList className='[&::-webkit-scrollbar]:hidden [scrollbar-width:none] '>
           {item => (
-            <ComboboxItem key={item.value} value={item.value} className='py-1'>
+            <ComboboxItem
+              key={item.value}
+              value={item.value}
+              className='py-1'
+              disabled={!item.isActive}
+            >
               <div className='flex items-center gap-2'>
                 <span
                   className='size-3 rounded-full shrink-0'
