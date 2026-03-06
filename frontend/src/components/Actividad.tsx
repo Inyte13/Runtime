@@ -9,18 +9,14 @@ import { cn } from '@/lib/utils'
 
 // TODO: El primer cambio si renderiza todos los
 export default memo(function Actividad({ id }: { id: number }) {
-  const nombre = useActividadesStore(
-    state =>
-      state.actividades.find(actividad => actividad.id === id)?.nombre || ''
+  const actividad = useActividadesStore(state =>
+    state.actividadesDetail.find(actividad => actividad.id === id)
   )
-  const colorFallback = useActividadesStore(
-    state =>
-      state.actividades.find(actividad => actividad.id === id)?.color || ''
-  )
-
   const actualizarActividad = useActividadesStore(
     state => state.actualizarActividad
   )
+  const { nombre, color: colorFallback, tiene_bloques } = actividad
+
   const manejarNombre = async (e: React.FocusEvent<HTMLInputElement>) => {
     const newNombre = e.target.value.toLowerCase().trim()
     // Si el newNombre es '' o es igual al inicial
