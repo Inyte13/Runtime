@@ -18,6 +18,7 @@ export default memo(function Actividad({ id }: { id: number }) {
   const eliminarActividad = useActividadesStore(
     state => state.eliminarActividad
   )
+  if (!actividad) return null
   const { nombre, color: colorFallback, tiene_bloques } = actividad
 
   const manejarNombre = async (e: React.FocusEvent<HTMLInputElement>) => {
