@@ -14,6 +14,7 @@ import {
 import { Button } from './ui/button.js'
 import { ChevronDown } from 'lucide-react'
 import { memo } from 'react'
+import { cn } from '@/lib/utils.js'
 
 export default memo(function SelectorActividad({ id }: { id: number }) {
   const actividad = useDiasStore(state =>

@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react'
 import { useActividadesStore } from '../store/actividadesStore'
-import Actividad from './Actividad'
 import ListaActividadesFooter from './ListaActividadesFooter'
-import { useShallow } from 'zustand/react/shallow'
-import ActividadTemp from './ActividadTemp'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs'
+import { Archive, CircleCheck } from 'lucide-react'
+import Activas from './Activas'
+import Archivadas from './Archivadas'
+import { Input } from './ui/input'
 
 export default function ListaActividades() {
   const actividadesIds = useActividadesStore(

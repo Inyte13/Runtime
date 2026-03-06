@@ -2,12 +2,12 @@ import { create } from 'zustand'
 import {
   createActividad,
   deleteActividad,
-  readActividades,
+  readActividadesDetail,
   updateActividad,
 } from '../services/actividadesServices'
 import {
   ActividadCreate,
-  ActividadRead,
+  ActividadReadDetail,
   ActividadUpdate,
 } from '../types/Actividad'
 import { useColorStore } from './colorStore'

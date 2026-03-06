@@ -4,7 +4,8 @@ import { useActividadesStore } from '../store/actividadesStore'
 import { Input } from './ui/input'
 import { manejarEnter } from '../utils/keyboard'
 import { Button } from './ui/button'
-import { Archive, Trash2} from 'lucide-react'
+import { Archive, ArchiveRestore, Trash2 } from 'lucide-react'
+import { cn } from '@/lib/utils'
 
 // TODO: El primer cambio si renderiza todos los
 export default memo(function Actividad({ id }: { id: number }) {
