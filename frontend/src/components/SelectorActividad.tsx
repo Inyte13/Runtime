@@ -27,6 +27,7 @@ export default memo(function SelectorActividad({ id }: { id: number }) {
     state => state.colores[actividad.id] || actividad.color
   )
 
+  // Puede ser null al limpiar con el btn X
   const manejarSelector = async (idStr: string | null) => {
     if (!idStr) return
     const actividad = actividades.find(
@@ -36,6 +37,7 @@ export default memo(function SelectorActividad({ id }: { id: number }) {
     await actualizarBloque(id, { id_actividad: actividad.id })
   }
   
+  // label y value son nombres que espera Base UI
   const items = actividades.map(act => ({
     label: act.nombre,
     value: act.id.toString(),
@@ -47,9 +49,6 @@ export default memo(function SelectorActividad({ id }: { id: number }) {
       items={items}
       onValueChange={manejarSelector}
       value={actividad?.id.toString()}
-      // onOpenChange={isOpen => {
-      //   if (isOpen && actividades.length === 0) traerActividades()
-      // }}
     >
       <ComboboxTrigger
         render={
