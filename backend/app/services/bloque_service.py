@@ -140,8 +140,8 @@ def actualizar_bloque(
     duracion = bloque_bd.duracion or 0.0
     # El delta que tendra que cambiar en los bloques siguientes
     diferencia = bloque.duracion - duracion
-    
-    # Actualizamos la duracion 
+
+    # Actualizamos la duracion
     bloque_bd.duracion = bloque.duracion
     # Actualizamos la hora_fin
     bloque_bd.hora_fin = _modificar_hora(bloque_bd.hora, bloque.duracion)
