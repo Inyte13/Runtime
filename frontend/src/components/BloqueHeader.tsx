@@ -12,7 +12,7 @@ export default memo(function BloqueHeader({
   manejarDuracion: (newDuracion: number) => void
 }) {
   return (
-    <header className='flex justify-between'>
+    <header className='flex justify-between items-center'>
       <SelectorActividad id={id} />
       <Duracion duracion={duracion} manejarDuracion={manejarDuracion} />
     </header>

@@ -34,7 +34,7 @@ export default memo(function SelectorActividad({ id }: { id: number }) {
     if (!actividad) return
     await actualizarBloque(id, { id_actividad: actividad.id })
   }
-
+  
   const items = actividades.map(act => ({
     label: act.nombre,
     value: act.id.toString(),
@@ -60,7 +60,9 @@ export default memo(function SelectorActividad({ id }: { id: number }) {
                   style={{ backgroundColor: color }}
                 />
               )}
-              <span className='capitalize text-2xl font-light'>
+              <span
+                className='capitalize text-2xl font-light'
+              >
                 <ComboboxValue />
               </span>
             </div>
@@ -69,7 +71,7 @@ export default memo(function SelectorActividad({ id }: { id: number }) {
         }
       />
 
-      <ComboboxContent className='w-[17ch] text-popover-foreground/90'>
+      <ComboboxContent className='w-[17ch] text-popover-foreground'>
         <ComboboxInput
           showTrigger={false}
           showClear={true}

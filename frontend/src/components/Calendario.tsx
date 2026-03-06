@@ -23,13 +23,13 @@ function CalendarioToolbar() {
         <Button className=''>Semana</Button>
       </div>
       <div className='flex'>
-        <Button size='icon-md' className='' onClick={prevDia}>
+        <Button size='icon' className='' onClick={prevDia}>
           <ChevronLeft />
         </Button>
         <Button className='' onClick={irHoy}>
           Hoy
         </Button>
-        <Button size='icon-md' className='' onClick={nextDia}>
+        <Button size='icon' className='' onClick={nextDia}>
           <ChevronRight />
         </Button>
       </div>

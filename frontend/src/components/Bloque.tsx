@@ -41,16 +41,14 @@ export default memo(function Bloque({
     <BloqueColor
       id={bloque.actividad.id}
       colorDefault={bloque.actividad.color}
-      className={
-        'group flex flex-col border border-border border-l-2 rounded-md px-2 pb-2 pt-1 relative bg-card w-full'
-      }
+      className='group flex flex-col border border-border border-l-2 rounded-md px-2 pb-2 pt-1 relative bg-card w-full'
     >
       <BloqueHeader
         id={id}
         duracion={bloque.duracion || 0}
         manejarDuracion={manejarDuracion}
       />
-      
+
       <Button
         size='icon-xs'
         variant='ghost'

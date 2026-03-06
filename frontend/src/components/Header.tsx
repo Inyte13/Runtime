@@ -24,7 +24,7 @@ export function Header() {
       <nav>
         <ul className='flex justify-center items-center gap-x-2'>
           <li>
-            <Button asChild size='icon-md' className='rounded-full'>
+            <Button asChild size='icon' className='rounded-full'>
               <Link to='/configuraciones'>
                 <Settings />
               </Link>

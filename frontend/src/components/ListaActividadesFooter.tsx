@@ -6,11 +6,7 @@ import { Plus } from 'lucide-react'
 export default memo(function ListaActividadesFooter({onCreate}: {onCreate: () => void}) {
   return (
     <footer className='w-full'>
-      <Button
-        size='icon-md'
-        className='w-full'
-        onClick={onCreate}
-      >
+      <Button size='icon' className='w-full' onClick={onCreate}>
         <Plus />
       </Button>
     </footer>
