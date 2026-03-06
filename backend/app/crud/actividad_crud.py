@@ -15,7 +15,9 @@ def create_actividad(session: Session, actividad: Actividad) -> Actividad:
 
 
 # No especifico que devuelvo porque es esto [(Actividad, True), (Actividad, False)])
-def read_actividades(session: Session, is_active: bool | None = None):
+def read_actividades(
+  session: Session, is_active: bool | None = None
+) -> Sequence[tuple[Actividad, bool]]:
   subquery = select(Bloque.id).where(Bloque.id_actividad == Actividad.id)
   statement = select(Actividad, subquery.exists())
   if is_active is not None:
