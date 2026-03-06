@@ -4,7 +4,7 @@ import { cn } from '@/lib/utils'
 import { Slot } from '@radix-ui/react-slot'
 
 // Los valores por default
-export const buttonVariants = cva(
+const buttonVariants = cva(
   [
     'inline-flex items-center justify-center rounded-lg gap-2 cursor-pointer',
     'disabled:pointer-events-none disabled:opacity-50',
@@ -23,7 +23,8 @@ export const buttonVariants = cva(
         primary: 'bg-primary text-primary-foreground hover:bg-primary/90',
         secondary:
           'bg-secondary text-secondary-foreground hover:bg-secondary/80',
-        ghost: 'bg-transparent text-foreground hover:bg-accent hover:text-accent-foreground',
+        ghost:
+          'bg-transparent text-foreground hover:bg-accent hover:text-accent-foreground',
         destructive:
           'bg-transparent text-destructive/80 hover:bg-destructive/5 focus-visible:ring-destructive/20',
       },
@@ -47,7 +48,7 @@ export const buttonVariants = cva(
   }
 )
 
-export function Button({
+function Button({
   className,
   variant = 'primary',
   size = 'md',
@@ -66,3 +67,5 @@ export function Button({
     />
   )
 }
+
+export { Button, buttonVariants }

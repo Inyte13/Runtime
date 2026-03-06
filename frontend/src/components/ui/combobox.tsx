@@ -9,15 +9,16 @@ import {
 } from './input-group'
 import React from 'react'
 import { Button } from './button'
-export const Combobox = ComboboxPrimitive.Root
+
+const Combobox = ComboboxPrimitive.Root
 
 // Para inyectarle el data-slot
-export function ComboboxValue({ ...props }: ComboboxPrimitive.Value.Props) {
+function ComboboxValue({ ...props }: ComboboxPrimitive.Value.Props) {
   return <ComboboxPrimitive.Value data-slot='combobox-value' {...props} />
 }
 
 // La flechita de la derecha, si se usa con render, solo usamos sus funciones
-export function ComboboxTrigger({
+function ComboboxTrigger({
   className,
   children,
   ...props
@@ -37,23 +38,22 @@ export function ComboboxTrigger({
   )
 }
 // Para limpiar el input
-export function ComboboxClear({
-  className,
-  ...props
-}: ComboboxPrimitive.Clear.Props) {
+function ComboboxClear({ className, ...props }: ComboboxPrimitive.Clear.Props) {
   return (
     <ComboboxPrimitive.Clear
       data-slot='combobox-clear'
-      render={<InputGroupButton variant='ghost' size='icon-xs' />}
       className={cn(className)}
       {...props}
-    >
-      <XIcon className='pointer-events-none' />
-    </ComboboxPrimitive.Clear>
+      render={
+        <InputGroupButton variant='ghost' size='icon-xs'>
+          <XIcon className='pointer-events-none' />
+        </InputGroupButton>
+      }
+    />
   )
 }
 // Si existen el clear y el trigger agregamos el addon, y w-auto
-export function ComboboxInput({
+function ComboboxInput({
   className,
   children,
   disabled = false,
@@ -93,7 +93,7 @@ export function ComboboxInput({
 }
 
 // El popover
-export function ComboboxContent({
+function ComboboxContent({
   className,
   side = 'bottom',
   sideOffset = 6,
@@ -102,7 +102,8 @@ export function ComboboxContent({
   anchor,
   ...props
 }: ComboboxPrimitive.Popup.Props &
-  Pick< // Filtrame solo estas props
+  Pick<
+    // Filtrame solo estas props
     ComboboxPrimitive.Positioner.Props,
     'side' | 'align' | 'sideOffset' | 'alignOffset' | 'anchor'
   >) {
@@ -137,16 +138,13 @@ export function ComboboxContent({
             className
           )}
           {...props}
-          />
+        />
       </ComboboxPrimitive.Positioner>
     </ComboboxPrimitive.Portal>
   )
 }
 
-export function ComboboxList({
-  className,
-  ...props
-}: ComboboxPrimitive.List.Props) {
+function ComboboxList({ className, ...props }: ComboboxPrimitive.List.Props) {
   return (
     <ComboboxPrimitive.List
       data-slot='combobox-list'
@@ -161,7 +159,7 @@ export function ComboboxList({
 }
 
 // El tamaño debe ser igual que el input
-export function ComboboxItem({
+function ComboboxItem({
   className,
   children,
   ...props
@@ -189,10 +187,7 @@ export function ComboboxItem({
 }
 
 // Cuando quiero agrupar opciones separar visualmente
-export function ComboboxGroup({
-  className,
-  ...props
-}: ComboboxPrimitive.Group.Props) {
+function ComboboxGroup({ className, ...props }: ComboboxPrimitive.Group.Props) {
   return (
     <ComboboxPrimitive.Group
       data-slot='combobox-group'
@@ -203,7 +198,7 @@ export function ComboboxGroup({
 }
 
 // El titulo de un group
-export function ComboboxLabel({
+function ComboboxLabel({
   className,
   ...props
 }: ComboboxPrimitive.GroupLabel.Props) {
@@ -220,19 +215,14 @@ export function ComboboxLabel({
 }
 
 // Idk
-export function ComboboxCollection({
-  ...props
-}: ComboboxPrimitive.Collection.Props) {
+function ComboboxCollection({ ...props }: ComboboxPrimitive.Collection.Props) {
   return (
     <ComboboxPrimitive.Collection data-slot='combobox-collection' {...props} />
   )
 }
 
 // Cuando no encuentra la busqueda
-export function ComboboxEmpty({
-  className,
-  ...props
-}: ComboboxPrimitive.Empty.Props) {
+function ComboboxEmpty({ className, ...props }: ComboboxPrimitive.Empty.Props) {
   return (
     <ComboboxPrimitive.Empty
       data-slot='combobox-empty'
@@ -246,7 +236,7 @@ export function ComboboxEmpty({
 }
 
 // Cuando hay grupos los separa visualmente
-export function ComboboxSeparator({
+function ComboboxSeparator({
   className,
   ...props
 }: ComboboxPrimitive.Separator.Props) {
@@ -260,7 +250,7 @@ export function ComboboxSeparator({
 }
 
 // Agrupa las selecciones cuando es un Combobox múltiple
-export function ComboboxChips({
+function ComboboxChips({
   className,
   ...props
 }: React.ComponentPropsWithRef<typeof ComboboxPrimitive.Chips> &
@@ -280,7 +270,7 @@ export function ComboboxChips({
 }
 
 // Cada una de las pildoras
-export function ComboboxChip({
+function ComboboxChip({
   className,
   children,
   showRemove = true,
@@ -312,7 +302,7 @@ export function ComboboxChip({
 }
 
 // Una chips dinámica
-export function ComboboxChipsInput({
+function ComboboxChipsInput({
   className,
   children,
   ...props
@@ -326,6 +316,25 @@ export function ComboboxChipsInput({
   )
 }
 
-export function useComboboxAnchor() {
+function useComboboxAnchor() {
   return React.useRef<HTMLDivElement | null>(null)
+}
+
+export {
+  Combobox,
+  ComboboxInput,
+  ComboboxContent,
+  ComboboxList,
+  ComboboxItem,
+  ComboboxGroup,
+  ComboboxLabel,
+  ComboboxCollection,
+  ComboboxEmpty,
+  ComboboxSeparator,
+  ComboboxChips,
+  ComboboxChip,
+  ComboboxChipsInput,
+  ComboboxTrigger,
+  ComboboxValue,
+  useComboboxAnchor,
 }

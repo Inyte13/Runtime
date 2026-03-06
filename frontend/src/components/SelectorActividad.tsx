@@ -17,8 +17,9 @@ import { memo } from 'react'
 import { cn } from '@/lib/utils.js'
 
 export default memo(function SelectorActividad({ id }: { id: number }) {
-  const actividad = useDiasStore(state =>
-    state.diaDetail?.bloques.find(bloque => bloque.id === id)?.actividad
+  const actividad = useDiasStore(
+    state =>
+      state.diaDetail?.bloques.find(bloque => bloque.id === id)?.actividad
   )
   const actualizarBloque = useDiasStore(state => state.actualizarBloque)
   const actividades = useActividadesStore(state => state.actividadesDetail)
