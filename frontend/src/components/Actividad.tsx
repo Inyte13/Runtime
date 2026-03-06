@@ -30,10 +30,6 @@ export default memo(function Actividad({ id }: { id: number }) {
     }
     await actualizarActividad(id, { nombre: newNombre })
   }
-  // TODO: Todavia no se agrego el lugar de la papelera para incluir el soft
-  const eliminarActividad = useActividadesStore(
-    state => state.eliminarActividad
-  )
 
   return (
     <div className='flex items-center p-1.5 hover:bg-accent hover:text-accent-foreground rounded-lg'>
