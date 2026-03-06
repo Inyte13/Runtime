@@ -31,6 +31,10 @@ export default memo(function Actividad({ id }: { id: number }) {
     await actualizarActividad(id, { nombre: newNombre })
   }
 
+  const manejarArchivar = async () => {
+    await actualizarActividad(id, { is_active: !actividad.is_active })
+  }
+
   return (
     <div className='flex items-center p-1.5 hover:bg-accent hover:text-accent-foreground rounded-lg'>
       <ColorPicker id={id} colorFallback={colorFallback} />
@@ -41,6 +45,15 @@ export default memo(function Actividad({ id }: { id: number }) {
         maxLength={50}
         onKeyDown={manejarEnter}
       />
+
+      <Button
+        size='icon-xs'
+        variant='ghost'
+        className='opacity-0 group-hover:opacity-100 transition-none pointer-events-none group-hover:pointer-events-auto'
+        onClick={manejarArchivar}
+      >
+        {actividad.is_active ? <Archive /> : <ArchiveRestore />}
+      </Button>
       {!tiene_bloques && (
         <Button
           size='icon-xs'
