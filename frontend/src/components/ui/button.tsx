@@ -6,15 +6,14 @@ import { Slot } from '@radix-ui/react-slot'
 // Los valores por default
 const buttonVariants = cva(
   [
-    'inline-flex items-center justify-center rounded-lg gap-2 cursor-pointer',
+    'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg cursor-pointer',
     'disabled:pointer-events-none disabled:opacity-50',
-    'outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]',
-    'whitespace-nowrap', // Mantenerse en una sola línea
+    'outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] [&_svg]:size-4',
     'shrink-0', // No me aplastes, yo mantengo mi tamaño
     // Para cualquier svg dentro
     '[&_svg]:pointer-events-none', // Evita que se haga click al svg, solo al btn
     '[&_svg]:shrink-0', // El icono mantiene su tamaño
-    'transition-all',
+    'transition-colors',
     // 'aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive',
   ],
   {
@@ -29,10 +28,10 @@ const buttonVariants = cva(
           'bg-transparent text-destructive/80 hover:bg-destructive/5 focus-visible:ring-destructive/20',
       },
       size: {
-        xs: 'text-xs py-1 min-h-6 px-2 gap-1 has-[>svg]:px-1.5',
-        sm: 'text-sm py-1.5 min-h-8 px-3 gap-1.5 has-[>svg]:px-2.5',
-        md: 'text-sm py-2 min-h-9 px-4 font-medium has-[>svg]:px-3',
-        lg: 'text-base py-2.5 min-h-10 px-6 has-[>svg]:px-4',
+        xs: 'text-xs py-1 h-6 px-2 gap-1 has-[>svg]:px-1.5',
+        sm: 'text-sm py-1.5 h-8 px-3 gap-1.5 has-[>svg]:px-2.5',
+        md: 'text-sm py-2 h-9 px-4 font-medium has-[>svg]:px-3',
+        lg: 'text-base py-2.5 h-10 px-6 has-[>svg]:px-4',
         'icon-xxs': 'size-5 [&_svg:not([class*="size-"])]:size-3',
         'icon-xs': 'size-6 [&_svg:not([class*="size-"])]:size-4',
         'icon-sm': 'size-8 [&_svg:not([class*="size-"])]:size-5',
