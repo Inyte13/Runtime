@@ -23,12 +23,27 @@ export default function ListaActividades() {
     traerActividadesDetail()
   }, [traerActividadesDetail])
   
+  const [search, setSearch] = useState('')
   // TODO: Filtros, por color, con/sin bloques y recientes/semana
   
   // h-auto en lugar de h-9 para evitar salto de layout al cambiar tabs
   return (
     <section className='flex flex-col max-w-60 min-w-60 h-full overflow-hidden p-4 gap-y-2 justify-content'>
-      <Input placeholder='Buscar' className='h-auto bg-input/30 border-input/30'/>
+      <InputGroup className='w-auto h-auto bg-input/30 border-input/30'>
+        <InputGroupInput
+          placeholder='Buscar'
+          value={search}
+          onChange={e => setSearch(e.target.value)}
+        />
+        {search && (
+          <InputGroupAddon align='inline-end'>
+            <InputGroupButton variant='ghost' size='icon-xs'>
+              <X />
+            </InputGroupButton>
+          </InputGroupAddon>
+        )}
+      </InputGroup>
+
       <Tabs defaultValue='activas' className='flex flex-col min-h-0 gap-2'>
         <TabsList className='w-fit'>
 
