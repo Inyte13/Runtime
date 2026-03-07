@@ -16,9 +16,7 @@ import { restrictToVerticalAxis } from '@dnd-kit/modifiers'
 
 export default memo(function ListaBloques() {
   const bloquesIds = useDiasStore(
-    useShallow(
-      state => state.diaDetail?.bloques?.map(bloque => bloque.id)
-    )
+    useShallow(state => state.diaDetail?.bloques?.map(bloque => bloque.id))
   )
 
   const crearBloque = useDiasStore(state => state.crearBloque)

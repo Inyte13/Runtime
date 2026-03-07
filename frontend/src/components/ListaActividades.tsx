@@ -22,10 +22,10 @@ export default function ListaActividades() {
   useEffect(() => {
     traerActividadesDetail()
   }, [traerActividadesDetail])
-  
+
   const [search, setSearch] = useState('')
   // TODO: Filtros, por color, con/sin bloques y recientes/semana
-  
+
   // h-auto en lugar de h-9 para evitar salto de layout al cambiar tabs
   return (
     <section className='flex flex-col max-w-60 min-w-60 h-full overflow-hidden p-4 gap-y-2 justify-content'>
@@ -46,7 +46,6 @@ export default function ListaActividades() {
 
       <Tabs defaultValue='activas' className='flex flex-col min-h-0 gap-2'>
         <TabsList className='w-fit'>
-
           <TabsTrigger value='activas' className='flex gap-1'>
             <CircleCheck className='size-3.5' />
             Activas
@@ -56,7 +55,6 @@ export default function ListaActividades() {
             <Archive className='size-3.5' />
             Archivadas
           </TabsTrigger>
-
         </TabsList>
 
         <TabsContent
