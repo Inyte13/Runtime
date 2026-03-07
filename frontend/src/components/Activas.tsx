@@ -30,8 +30,17 @@ export default memo(function Activas({
     <>
       {activasIds.length === 0 ? (
         <div className='h-full flex flex-col items-center justify-center gap-1 text-muted-foreground p-4 border border-border rounded-lg bg-card'>
-          <Ghost className='size-4' />
-          <p className='text-sm'>Sin actividades aún</p>
+          {search ? (
+            <>
+              <Search className='size-4' />
+              <p className='text-sm'>Sin resultados</p>
+            </>
+          ) : (
+            <>
+              <Ghost className='size-4' />
+              <p className='text-sm'>Sin actividades aún</p>
+            </>
+          )}
         </div>
       ) : (
         <ul className='flex flex-col divide-y divide-border/50 px-4 flex-1 overflow-y-auto border border-border rounded-lg bg-card text-card-foreground [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none][scrollbar-width:none]'>
