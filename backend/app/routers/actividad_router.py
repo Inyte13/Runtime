@@ -24,7 +24,7 @@ def get_actividades(session: SessionDep, is_active: bool | None = None):
 
 
 @actividad_router.post(
-  '/actividades', status_code=201, response_model=ActividadReadDetail 
+  '/actividades', status_code=201, response_model=ActividadReadDetail
 )
 def post_actividad(session: SessionDep, actividad: ActividadCreate):
   return registrar_actividad(session, actividad)

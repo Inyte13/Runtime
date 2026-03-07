@@ -15,20 +15,20 @@ async def lifespan(app: FastAPI):
   yield
 
 
-app = FastAPI(lifespan=lifespan, title="Runtime App")
+app = FastAPI(lifespan=lifespan, title='Runtime App')
 app.include_router(dia_router)
 app.include_router(bloque_router)
 app.include_router(actividad_router)
 
 origins = [
-  "http://localhost:5173", 
-  "*",  # Para pruebas, permitimos todo
+  'http://localhost:5173',
+  '*',  # Para pruebas, permitimos todo
 ]
 
 app.add_middleware(
   CORSMiddleware,
   allow_origins=origins,
   allow_credentials=True,
-  allow_methods=["*"],
-  allow_headers=["*"],
+  allow_methods=['*'],
+  allow_headers=['*'],
 )

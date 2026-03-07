@@ -8,8 +8,8 @@ from app.core.database import get_session
 from app.main import app
 
 sqlite_engine = create_engine(
-  "sqlite:///:memory:",
-  connect_args={"check_same_thread": False},
+  'sqlite:///:memory:',
+  connect_args={'check_same_thread': False},
   poolclass=StaticPool,
   echo=False,
 )
@@ -25,12 +25,14 @@ def session_sqlite():
 
 @pytest.fixture
 def client():
-  SQLModel.metadata.create_all(mysql_engine)
+  SQLModel.metadata.create_all(sqlite_engine)
+
   def override_get_session():
-    with Session(mysql_engine) as session:
+    with Session(sqlite_engine) as session:
       yield session
+
   app.dependency_overrides[get_session] = override_get_session
   client = TestClient(app)
   yield client
   app.dependency_overrides.clear()
-  SQLModel.metadata.drop_all(mysql_engine)
+  SQLModel.metadata.drop_all(sqlite_engine)
