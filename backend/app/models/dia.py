@@ -14,13 +14,10 @@ class Estado(IntEnum):
   BIEN = 3
 
 
-class DiaBase(SQLModel):
+class Dia(SQLModel, table=True):
   titulo: str | None = Field(max_length=150, default=None)
   estado: Estado | None = Field(default=None)
   fecha: date = Field(primary_key=True)
-
-
-class Dia(DiaBase, table=True):
   bloques: list['Bloque'] = Relationship(
     back_populates='dia',
     sa_relationship_kwargs={

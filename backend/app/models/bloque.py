@@ -9,19 +9,24 @@ if TYPE_CHECKING:
   from app.models.dia import Dia
 
 
-class BloqueBase(SQLModel):
-  hora: time = Field(index=True)
-  descripcion: str | None = Field(default=None, max_length=255)
-  # Foreign key, relación 1-1
-  id_actividad: int = Field(foreign_key="actividad.id", nullable=False)
-  duracion: float | None = Field(default=None)
-  hora_fin: time | None = Field(default=None)
-
-
-class Bloque(BloqueBase, table=True):
-  # Puede estar vacío en memoria antes de persistir
+class Bloque(SQLModel, table=True):
+  # Tiene que ser | None, porque sqlite le asigna el id
+  # No tiene el nullable=False porque sqlite lo gestiona
   id: int | None = Field(default=None, primary_key=True)
-  # Foreign key, heredamos la fecha de día
-  fecha: date = Field(foreign_key="dia.fecha", nullable=False)
-  dia: "Dia" = Relationship(back_populates="bloques")
-  actividad: Actividad | None = Relationship()
+  hora: time = Field(nullable=False)
+  hora_fin: time = Field(nullable=False)
+  duracion: float = Field(nullable=False)
+
+  descripcion: str | None = Field(default=None, max_length=255)
+
+  # Tenemos id_dia (fecha) a pesar de tener dia porque es FK
+  fecha: date = Field(foreign_key='dia.fecha', nullable=False)
+  # Tenemos id_actividad a pesar de tener actividad porque es FK
+  id_actividad: int = Field(foreign_key='actividad.id', nullable=False)
+  
+  # No tienen el nullable=False porque son Relationship
+  
+  # Bloque sabe su dia y Dia sabe sus bloques
+  dia: 'Dia' = Relationship(back_populates='bloques')
+  # Bloque sabe la actividad pero Actividad no sabe nada
+  actividad: Actividad = Relationship()
