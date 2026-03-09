@@ -28,7 +28,7 @@ export default memo(function BloqueOrdenable({
     <li
       ref={setNodeRef} // El contenedor que se movera
       style={style}
-      className='list-none w-full relative'
+      className='group/bloque list-none w-full relative'
     >
       <Bloque id={id} />
       <div className='absolute right-[-1.7rem] top-0 h-full flex flex-col items-center justify-center opacity-0 group-hover/bloque:opacity-80 transition-opacity'>

@@ -31,14 +31,14 @@ export default memo(function Bloque({ id }: { id: number }) {
     <BloqueColor
       id={bloque.actividad.id}
       colorDefault={bloque.actividad.color}
-      className='group flex flex-col border border-border border-l-2 rounded-md px-2 pb-2 pt-1 relative bg-card w-full'
+      className='group/bloque flex flex-col border border-border border-l-2 rounded-md px-2 pb-2 pt-1 relative bg-card w-full'
     >
       <BloqueHeader id={id} />
 
       <Button
         size='icon-xs'
         variant='ghost'
-        className='top-[0.2rem] right-[0.2rem] absolute opacity-0 group-hover:opacity-100 focus-visible:opacity-100'
+        className='top-[0.2rem] right-[0.2rem] absolute opacity-0 group-hover/bloque:opacity-100 focus-visible:opacity-100'
         onClick={() => eliminarBloque(id)}
       >
         <X />
