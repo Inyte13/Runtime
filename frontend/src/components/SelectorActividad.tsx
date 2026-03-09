@@ -23,6 +23,12 @@ export default memo(function SelectorActividad({ id }: { id: number }) {
         state.diaDetail?.bloques.find(bloque => bloque.id === id)?.actividad
     )
   )
+  const actividad = useActividadesStore(state =>
+    state.actividadesDetail.find(
+      actividad => actividad.id === bloque?.id_actividad
+    )
+  )! // non-null assertion seguro por el loading en App
+  
   const actualizarBloque = useDiasStore(state => state.actualizarBloque)
   const actividades = useActividadesStore(state => state.actividadesDetail)
   const color = useColorStore(

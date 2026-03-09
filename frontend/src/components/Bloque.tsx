@@ -7,6 +7,7 @@ import { manejarEnter } from '../utils/keyboard'
 import { Button } from './ui/button'
 import { X } from 'lucide-react'
 import { useShallow } from 'zustand/react/shallow'
+import { useActividadesStore } from '@/store/actividadesStore'
 
 export default memo(function Bloque({ id }: { id: number }) {
   const bloque = useDiasStore(
@@ -14,6 +15,12 @@ export default memo(function Bloque({ id }: { id: number }) {
       state.diaDetail?.bloques.find(bloque => bloque.id === id)
     )
   )
+  const actividad = useActividadesStore(state =>
+    state.actividadesDetail.find(
+      actividad => actividad.id === bloque?.id_actividad
+    )
+  )! // non-null assertion seguro por el loading en App
+
   const actualizarBloque = useDiasStore(state => state.actualizarBloque)
   const eliminarBloque = useDiasStore(state => state.eliminarBloque)
 
@@ -29,8 +36,8 @@ export default memo(function Bloque({ id }: { id: number }) {
   if (!bloque) return null
   return (
     <BloqueColor
-      id={bloque.actividad.id}
-      colorDefault={bloque.actividad.color}
+      id={actividad.id}
+      colorDefault={actividad.color}
       className='group/bloque flex flex-col border border-border border-l-2 rounded-md px-2 pb-2 pt-1 relative bg-card w-full'
     >
       <BloqueHeader id={id} />

@@ -41,9 +41,9 @@ class BloqueRead(SQLModel):
   id: int
   hora: time
   descripcion: str | None = None
-  actividad: ActividadRead
   duracion: float
   hora_fin: time
+  id_actividad: int
 
   # Transforma el time(8,30) en '08:30'
   @field_serializer('hora', 'hora_fin')

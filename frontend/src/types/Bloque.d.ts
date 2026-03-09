@@ -10,7 +10,7 @@ export interface BloqueRead {
   id: number
   hora: string
   descripcion: string | null
-  actividad: ActividadRead
+  id_actividad: number
   duracion: number
   hora_fin: string
 }
