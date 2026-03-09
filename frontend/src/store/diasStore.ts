@@ -61,6 +61,7 @@ export const useDiasStore = create<DiasState>(set => ({
       const bloque = await createBloque({ fecha: fechaISO, id_ref: id })
       set(state => {
         // Si no hay diaDetail crearmos uno falso confiando en que el backend lo creo para ser rapido
+        if (!state.diaDetail) {
           return {
             diaDetail: {
               fecha: fechaISO,
@@ -220,42 +221,19 @@ export const useDiasStore = create<DiasState>(set => ({
       if (!state.diaDetail) return state
 
       const bloques = state.diaDetail.bloques
-      const indice = bloques.findIndex(bloque => bloque.id === id)
-      if (indice === -1) return state
+      const indiceRef = bloques.findIndex(bloque => bloque.id === id)
+      if (indiceRef === -1) return state
 
-      // Si la duracion es 0 no hay bloques debajo por lo tanto solo lo quitamos
-      if (!bloques[indice].duracion) {
-        return {
-          diaDetail: {
-            ...state.diaDetail,
-            bloques: bloques.filter(bloque => bloque.id !== id),
-          },
-        }
-      }
-
-      // Guardamos la duracion que tenia
-      const diferencia = -bloques[indice].duracion
-
-      const newBloques = bloques
-        .filter(bloque => bloque.id !== id)
-        .map((bloque, i) => {
-          // Como el filter quitó 1 elemento, los índices se han desplazado.
-          if (i >= indice) {
-            return {
-              ...bloque,
-              hora: modificarHora(bloque.hora, diferencia),
-              hora_fin: bloque.hora_fin
-                ? modificarHora(bloque.hora_fin, diferencia)
-                : bloque.hora_fin,
-            }
-          }
-          return bloque
-        })
+      const isLast = indiceRef === bloques.length - 1
+      const newBloques = bloques.filter(bloque => bloque.id !== id)
+      const duracion = bloques[indiceRef].duracion
 
       return {
         diaDetail: {
           ...state.diaDetail,
-          bloques: newBloques,
+          bloques: isLast
+            ? newBloques
+            : modificarHoras(newBloques, indiceRef, -duracion),
         },
       }
     })
