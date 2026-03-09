@@ -71,43 +71,66 @@ def registrar_bloque(session: Session, bloque: BloqueCreate) -> Bloque:
   if not dia:
     dia = create_dia(session, Dia(fecha=bloque.fecha))
 
-  # El último bloque del día
-  ultimo = _ultimo_bloque(session, fecha)
-
-  # Si el usuario manda
-  id_actividad = bloque.id_actividad
-
-  # Si es el primer bloque
-  if not ultimo:
-    # Le ponemos hora 00:00
-    hora = time(0, 0)
-    if id_actividad is None:
-      # Actividad 'Dormir'
-      id_actividad = 1
-  else:
-    # Si el ultimo bloque no tiene una hora_fin declarado 400
-    if ultimo.hora_fin is None:
-      raise HTTPException(
-        status_code=status.HTTP_400_BAD_REQUEST,
-        detail='No se puede crear un bloque sin antes definir la duración del anterior',
-      )
-    # Si lo tiene lo asignamos como hora al bloque creado
-    hora = ultimo.hora_fin
-    if id_actividad is None:
-      # Actividad 'Empty'
-      id_actividad = 2
-
+  # Si el usuario manda o 'Empty
+  id_actividad = bloque.id_actividad or 2
   _validar_actividad(session, id_actividad)
-  _validar_hora_granulidad(hora, unidad_bloque=30)
 
+  # Si no manda el id_ref del 'creador'
+  if bloque.id_ref is None:
+    ultimo = _ultimo_bloque(session, bloque.fecha)
+    # Si es el primer bloque usa el 00:00 sino la hora_fin del ultimo
+    hora = ultimo.hora_fin if ultimo else time(0, 0)
+    _validar_hora_granulidad(hora)
+
+    new_bloque = Bloque(
+      fecha=bloque.fecha,
+      duracion=bloque.duracion,
+      descripcion=bloque.descripcion,
+      hora=hora,
+      id_actividad=id_actividad,
+      hora_fin=_modificar_hora(hora, bloque.duracion),
+    )
+    return create_bloque(session, new_bloque)
+
+  if bloque.id_ref == 0:
+    # Insertar al inicio
+    hora = time(0, 0)
+    new_bloque = Bloque(
+      fecha=bloque.fecha,
+      duracion=bloque.duracion,
+      descripcion=bloque.descripcion,
+      hora=hora,
+      id_actividad=id_actividad,
+      hora_fin=_modificar_hora(hora, bloque.duracion),
+    )
+    bloque_bd = create_bloque(session, new_bloque)
+    siguientes = read_bloques_by_range(
+      session, bloque.fecha, hora_desde=time(0, 0)
+    )
+    siguientes = [bloque for bloque in siguientes if bloque.id != bloque_bd.id]
+    _modificar_horas(session, siguientes, bloque.duracion)
+    session.commit()
+    return bloque_bd
+
+  # Si existe el id_ref del 'creador'
+  bloque_ref = buscar_bloque(session, bloque.id_ref)
+  hora = bloque_ref.hora_fin
+  _validar_hora_granulidad(hora)
   new_bloque = Bloque(
-    hora=hora,
-    descripcion=bloque.descripcion,
-    id_actividad=id_actividad,
-    fecha=fecha,
+    fecha=bloque.fecha,
     duracion=bloque.duracion,
+    descripcion=bloque.descripcion,
+    hora=hora,
+    id_actividad=id_actividad,
+    hora_fin=_modificar_hora(hora, bloque.duracion),
   )
   bloque_bd = create_bloque(session, new_bloque)
+  # Si lo incluimos porque hora es la hora_fin o sea la hora de inicio de los siguientes
+  siguientes = read_bloques_by_range(session, bloque.fecha, hora_desde=hora)
+  # Excluimos el nuevo bloque
+  siguientes = [bloque for bloque in siguientes if bloque.id != bloque_bd.id]
+  _modificar_horas(session, siguientes, new_bloque.duracion)
+  session.commit()
   return bloque_bd
 
 
