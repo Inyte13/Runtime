@@ -44,9 +44,7 @@ export default memo(function ListaBloques() {
           </ul>
         </SortableContext>
       </DndContext>
-      <Button className='w-full mt-2' size='icon' onClick={crearBloque}>
-        <Plus />
-      </Button>
+      <ListaBloquesFooter />
     </section>
   )
 })
