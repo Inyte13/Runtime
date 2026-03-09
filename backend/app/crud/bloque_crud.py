@@ -14,11 +14,10 @@ def create_bloque(session: Session, bloque: Bloque) -> Bloque:
   return bloque
 
 
-def read_bloque_by_id(session: Session, id: int) -> Bloque | None:
+def read_bloque(session: Session, id: int) -> Bloque | None:
   return session.get(Bloque, id)
 
 
-# TODO: Sobre ingenieria?
 def read_bloques_by_range(
   session: Session,
   fecha: date,
@@ -56,4 +55,3 @@ def update_bloque(
 def delete_bloque(session: Session, bloque: Bloque) -> None:
   session.delete(bloque)
   session.commit()
-  return

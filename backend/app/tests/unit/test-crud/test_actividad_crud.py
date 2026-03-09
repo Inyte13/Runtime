@@ -46,12 +46,12 @@ def test_create_actividad(session_sqlite):
   assert actividad.is_active is False
 
 
-def test_read_actividades(session_sqlite):
+def test_read_actividades_detail(session_sqlite):
   actividad1, *demas = crear_actividades(
     session_sqlite, 'Actividad 1', 'Actividad 2', 'Actividad 3'
   )
   update_actividad(session_sqlite, actividad1, ActividadUpdate(is_active=False))
-  actividades = read_actividades(session_sqlite)
+  actividades = read_actividades_detail(session_sqlite)
 
   assert len(actividades) == 3
   nombres = [act.nombre for act in actividades]
@@ -61,28 +61,28 @@ def test_read_actividades(session_sqlite):
   # assert "Actividad 3" in nombres
   assert {'Actividad 1', 'Actividad 2', 'Actividad 3'} <= set(nombres)
 
-  activas = read_actividades(session_sqlite, is_active=True)
+  activas = read_actividades_detail(session_sqlite, is_active=True)
   nombres_activas = [act.nombre for act in activas]
   assert 'Actividad 1' not in nombres_activas
   assert 'Actividad 2' in nombres_activas
   assert 'Actividad 3' in nombres_activas
 
-  inactivas = read_actividades(session_sqlite, is_active=False)
+  inactivas = read_actividades_detail(session_sqlite, is_active=False)
   nombres_inactivas = [inac.nombre for inac in inactivas]
   assert 'Actividad 1' in nombres_inactivas
   assert 'Actividad 2' not in nombres_inactivas
   assert 'Actividad 3' not in nombres_inactivas
 
 
-def test_read_actividad_by_id(session_sqlite):
+def test_read_actividad(session_sqlite):
   actividad1 = crear_actividades(session_sqlite, 'Actividad 1')[0]
 
   # Si encuentra la actividad
-  resultado = read_actividad_by_id(session_sqlite, actividad1.id)
+  resultado = read_actividad(session_sqlite, actividad1.id)
   assert resultado is not None
   assert resultado.nombre == 'Actividad 1'
   # Si no encuentra la actividad
-  resultado_none = read_actividad_by_id(session_sqlite, 999)
+  resultado_none = read_actividad(session_sqlite, 999)
   assert resultado_none is None
 
 
@@ -142,5 +142,5 @@ def test_delete_actividad(session_sqlite):
   actividad1 = crear_actividades(session_sqlite, 'Actividad 1')[0]
   id = actividad1.id
   delete_actividad(session_sqlite, actividad1)
-  eliminado = read_actividad_by_id(session_sqlite, id)
+  eliminado = read_actividad(session_sqlite, id)
   assert eliminado is None

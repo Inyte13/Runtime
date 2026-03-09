@@ -54,9 +54,9 @@ def _validar_actividad(session: Session, id: int) -> None:
   return
 
 
-def _validar_hora_granulidad(hora: time, unidad_bloque: int = 30) -> None:
+def _validar_hora_granulidad(hora: time, unidad_duracion: int = 30) -> None:
   if (
-    hora.minute % unidad_bloque != 0
+    hora.minute % unidad_duracion != 0
     or hora.second != 0
     or hora.microsecond != 0
   ):
@@ -64,11 +64,10 @@ def _validar_hora_granulidad(hora: time, unidad_bloque: int = 30) -> None:
       status_code=status.HTTP_400_BAD_REQUEST,
       detail=f'La hora debe estar en múltiplos de {unidad_bloque} minutos',
     )
-  return
 
 
 def buscar_bloque(session: Session, id: int) -> Bloque:
-  bloque = read_bloque_by_id(session, id)
+  bloque = read_bloque(session, id)
   if not bloque:
     raise HTTPException(
       status_code=status.HTTP_404_NOT_FOUND, detail='Bloque no encontrado'
@@ -145,12 +144,12 @@ def actualizar_bloque(
     # Actualizamos la hora_fin
     bloque_bd.hora_fin = _modificar_hora(bloque_bd.hora, bloque.duracion)
 
-    # Traemos los siguientes sin incluir el actual
+    # Traemos los siguientes
     bloques_siguientes = read_bloques_by_range(
       session=session,
       fecha=bloque_bd.fecha,
       hora_desde=bloque_bd.hora,
-      incluir_desde=False,
+      incluir_desde=False,  # Sin incluir el actual
     )
     # modificamos la duracion de todos los siguientes
     _modificar_horas(session, bloques_siguientes, diferencia)
@@ -171,4 +170,3 @@ def eliminar_bloque(session: Session, id: int) -> None:
     )
     _modificar_horas(session, bloques_siguientes, diferencia)
   delete_bloque(session, bloque)
-  return

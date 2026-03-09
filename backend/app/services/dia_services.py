@@ -35,7 +35,6 @@ def buscar_dia_detail(session: Session, fecha: date) -> Dia:
     )
   return dia
 
-
 def mostrar_dias(session: Session, inicio: date, final: date) -> Sequence[Dia]:
   nro_dias = (final - inicio).days
   # Solo se puede mostrar máximo 1 año
@@ -48,7 +47,7 @@ def mostrar_dias(session: Session, inicio: date, final: date) -> Sequence[Dia]:
 
 
 def actualizar_dia(session: Session, fecha: date, dia: DiaUpdate) -> Dia:
-  # No se utiliza buscar_dia, por que sale la exception
+  # No se utiliza buscar_dia, por que controlamos si no existe
   dia_bd = read_dia(session, fecha)
   # UPSERT: Si no existe lo creamos
   if not dia_bd:
@@ -105,4 +104,3 @@ def recalcular_horas(session: Session, fecha: date, ids: list[int]):
 def eliminar_dia(session: Session, fecha: date) -> None:
   dia = buscar_dia(session, fecha)
   delete_dia(session, dia)
-  return

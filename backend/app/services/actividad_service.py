@@ -15,8 +15,7 @@ from app.schemas.actividad_schema import (
 
 
 def buscar_actividad(session: Session, id: int) -> Actividad:
-  # Leemos la actividad con la fx de actividad_crud, sino existe devuelve None
-  actividad = read_actividad_by_id(session, id)
+  actividad = read_actividad(session, id)
   if not actividad:
     raise HTTPException(
       status_code=status.HTTP_404_NOT_FOUND, detail='Actividad no encontrada'
@@ -48,4 +47,3 @@ def actualizar_actividad(
 def eliminar_actividad(session: Session, id: int) -> None:
   actividad = buscar_actividad(session, id)
   delete_actividad(session, actividad)
-  return
