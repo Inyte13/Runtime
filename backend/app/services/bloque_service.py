@@ -144,10 +144,8 @@ def actualizar_bloque(
 
   # Siempre que tenga duracion y no sea la misma
   if bloque.duracion is not None and bloque.duracion != bloque_bd.duracion:
-    # Por en la bd la duracion es null
-    duracion = bloque_bd.duracion or 0.0
     # El delta que tendra que cambiar en los bloques siguientes
-    diferencia = bloque.duracion - duracion
+    diferencia = bloque.duracion - bloque_bd.duracion
 
     # Actualizamos la duracion
     bloque_bd.duracion = bloque.duracion
@@ -170,13 +168,14 @@ def actualizar_bloque(
 
 def eliminar_bloque(session: Session, id: int) -> None:
   bloque = buscar_bloque(session, id)
-  if bloque.duracion is not None:
+  ultimo = _ultimo_bloque(session, bloque.fecha)
+  if ultimo and bloque.id != ultimo.id:
     diferencia = -bloque.duracion
     bloques_siguientes = read_bloques_by_range(
       session=session,
       fecha=bloque.fecha,
       hora_desde=bloque.hora,
-      incluir_desde=False,
+      incluir_desde=False,  # Sin incluir el actual
     )
     _modificar_horas(session, bloques_siguientes, diferencia)
   delete_bloque(session, bloque)
