@@ -18,8 +18,10 @@ import { useShallow } from 'zustand/react/shallow'
 
 export default memo(function SelectorActividad({ id }: { id: number }) {
   const actividad = useDiasStore(
-    state =>
-      state.diaDetail?.bloques.find(bloque => bloque.id === id)?.actividad
+    useShallow(
+      state =>
+        state.diaDetail?.bloques.find(bloque => bloque.id === id)?.actividad
+    )
   )
   const actualizarBloque = useDiasStore(state => state.actualizarBloque)
   const actividades = useActividadesStore(state => state.actividadesDetail)
@@ -38,12 +40,16 @@ export default memo(function SelectorActividad({ id }: { id: number }) {
   }
 
   // label y value son nombres que espera Base UI
-  const items = actividades.map(act => ({
-    label: act.nombre,
-    value: act.id.toString(),
-    color: act.color,
-    isActive: act.is_active,
-  }))
+  const items = useMemo(
+    () =>
+      actividades.map(act => ({
+        label: act.nombre,
+        value: act.id.toString(),
+        color: act.color,
+        isActive: act.is_active,
+      })),
+    [actividades]
+  )
 
   return (
     <Combobox
