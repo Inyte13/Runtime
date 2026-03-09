@@ -25,7 +25,12 @@ def is_exists_bloque(session: Session, id: int) -> bool:
   return result.one()
 
 
+def read_actividades(
+  session: Session, is_active: bool | None = None
 ) -> Sequence[Actividad]:
+  statement = select(Actividad)
+  if is_active is not None:
+    statement = statement.where(Actividad.is_active == is_active)
   return session.exec(statement).all()
 
 
