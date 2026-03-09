@@ -66,12 +66,10 @@ def buscar_bloque(session: Session, id: int) -> Bloque:
 
 def registrar_bloque(session: Session, bloque: BloqueCreate) -> Bloque:
   # Patrón Get or Create
-  # Usamos la fecha que nos mandan o la de hoy
-  fecha = bloque.fecha or date.today()
-  # Revisaremos si existe un dia con esa fecha (rápido porque la fecha es PK de dia)
-  dia = read_dia(session, fecha)
+  # No usamos buscar_dia para controlar cuando no existe
+  dia = read_dia(session, bloque.fecha)
   if not dia:
-    dia = create_dia(session, Dia(fecha=fecha))
+    dia = create_dia(session, Dia(fecha=bloque.fecha))
 
   # El último bloque del día
   ultimo = _ultimo_bloque(session, fecha)
