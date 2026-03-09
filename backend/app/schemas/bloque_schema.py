@@ -8,13 +8,15 @@ from app.schemas.actividad_schema import ActividadRead
 
 # Necesita menos indicaciones porque no tiene tabla
 class BloqueCreate(SQLModel):
-  duracion: float = 0.5
-  # TODO: Validator para que envie mas del multiplo de 0.5 o lo que escoja
+  # Si no viene usa el la fecha actual
+  fecha: date = Field(default_factory=date.today)
 
   # Aquí si va porque es validación de datos, no indicaciones para la bd
   descripcion: str | None = Field(default=None, max_length=255)
-  # Si no viene usa el la fecha actual
-  fecha: date = Field(default_factory=date.today)
+
+  duracion: float = 0.5
+  # TODO: Validator para que envie mas del multiplo de 0.5 o lo que escoja
+
   # Podemos recibir None pero lo controlaremos en el backend
   id_actividad: int | None = None
   id_ref: int | None = None
@@ -53,8 +55,8 @@ class BloqueRead(SQLModel):
 
 class BloqueUpdate(SQLModel):
   descripcion: str | None = None
-  id_actividad: int | None = None
   duracion: float | None = None
+  id_actividad: int | None = None
 
   # Validator para que el '' se convierta en None
   @field_validator('descripcion')
