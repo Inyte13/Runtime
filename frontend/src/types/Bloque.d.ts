@@ -3,6 +3,7 @@ export interface BloqueCreate {
   descripcion?: string | null
   id_actividad?: number
   fecha: string
+  id_ref?: number
 }
 
 export interface BloqueRead {
