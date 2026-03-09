@@ -33,7 +33,17 @@ def get_actividades(session: SessionDep, is_active: bool | None = None):
   '/actividades', status_code=201, response_model=ActividadReadDetail
 )
 def post_actividad(session: SessionDep, actividad: ActividadCreate):
-  return registrar_actividad(session, actividad)
+  try:
+    actividad_detail = create_actividad(
+      session, Actividad.model_validate(actividad)
+    ).model_dump()
+    actividad_detail['tiene_bloques'] = False
+    return ActividadReadDetail(**actividad_detail)
+  # Usando el unique del schema
+  except IntegrityError:
+    raise HTTPException(
+      status_code=status.HTTP_400_BAD_REQUEST, detail='El nombre ya existe'
+    )
 
 
 @actividad_router.patch('/actividades/{id}', response_model=ActividadRead)
