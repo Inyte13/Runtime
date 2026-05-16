@@ -21,5 +21,5 @@ class Actividad(Base):
   id_usuario: Mapped[uuid.UUID] = mapped_column(ForeignKey('usuarios.id'))
   
   nombre: Mapped[str] = mapped_column(String(25))
-  is_active: Mapped[bool] = mapped_column(Boolean, default=True)
+  is_archived: Mapped[bool] = mapped_column(Boolean, default=True)
   id_categoria: Mapped[uuid.UUID] = mapped_column(ForeignKey('categorias.id'))

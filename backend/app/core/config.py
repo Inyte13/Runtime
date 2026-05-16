@@ -5,7 +5,6 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
-  model_config = SettingsConfigDict(env_file='.env')
   PORT: int = 8000
   POSTGRES_USER: str
   POSTGRES_PASSWORD: str
@@ -20,6 +19,10 @@ class Settings(BaseSettings):
   CORS_ORIGINS: Sequence[str]
   SALT_ROUNDS: int
   PRODUCTION: bool
+  GOOGLE_CLIENT_ID: str
+  GOOGLE_CLIENT_SECRET: str
+
+  model_config = SettingsConfigDict(env_file='.env')
 
 
 @lru_cache  # Para que no llame cada vez el mismo objeto, lo guarda en cache

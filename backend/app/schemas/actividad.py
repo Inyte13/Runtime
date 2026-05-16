@@ -19,7 +19,7 @@ class ActividadRead(BaseModel):
   model_config = {'from_attributes': True}
   id: uuid.UUID
   nombre: str = Field(min_length=2, max_length=25)
-  is_active: bool
+  is_archived: bool
 
 
 class ActividadReadDetail(ActividadRead):
@@ -35,7 +35,7 @@ class ActividadResumen(BaseModel):
 
 class ActividadUpdate(BaseModel):
   nombre: str | None = Field(default=None, min_length=2, max_length=25)
-  is_active: bool | None = None
+  is_archived: bool | None = None
   id_categoria: uuid.UUID | None = None
 
   @field_validator('nombre')

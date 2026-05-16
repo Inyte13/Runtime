@@ -16,7 +16,7 @@ class ActividadCreate(SQLModel):
 class ActividadRead(SQLModel):
   id: int
   nombre: str
-  is_active: bool
+  is_archived: bool
 
 
 class ActividadReadDetail(ActividadRead):
@@ -31,7 +31,7 @@ class ActividadResumen(SQLModel):
 
 class ActividadUpdate(SQLModel):
   nombre: str | None = None
-  is_active: bool | None = None
+  is_archived: bool | None = None
   id_categoria: int | None = None
 
   @field_validator('nombre')
