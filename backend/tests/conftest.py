@@ -1,0 +1,1 @@
+# TODO:  en sqlite no estan activados las fk

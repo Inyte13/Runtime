@@ -1,6 +1,6 @@
 from typing import Annotated
 
-from app.core.config import settings
+from app.core.settings import settings
 from fastapi import Depends
 from sqlalchemy.ext.asyncio import (
   AsyncSession,

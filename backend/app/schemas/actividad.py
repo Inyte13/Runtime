@@ -14,20 +14,19 @@ class ActividadCreate(BaseModel):
     return v.lower()
 
 
-class ActividadRead(BaseModel):
-  # Solo va en Read porque es lo que respondemos, mandamos al usuario
+class ActividadResponse(BaseModel):
+  # Si no lo armo yo, va
   model_config = {'from_attributes': True}
   id: uuid.UUID
-  nombre: str = Field(min_length=2, max_length=25)
-  is_archived: bool
+  nombre: str
 
 
-class ActividadReadDetail(ActividadRead):
+# Se justifica la creación de otro schema para ahorrarnos la consulta de tiene_bloques
+class ActividadResponseDetail(ActividadResponse):
   tiene_bloques: bool
 
 
 class ActividadResumen(BaseModel):
-  model_config = {'from_attributes': True}
   id: uuid.UUID
   duracion: float
   descripciones: list[str] = []
@@ -35,13 +34,19 @@ class ActividadResumen(BaseModel):
 
 class ActividadUpdate(BaseModel):
   nombre: str | None = Field(default=None, min_length=2, max_length=25)
-  is_archived: bool | None = None
   id_categoria: uuid.UUID | None = None
 
+  # Necesitamos el validator de None por si el usuario manda null y recordemos que los validators solo sirven para campos declarados explicitamente
   @field_validator('nombre')
-  def to_lowercase_and_not_empty(cls, v: str | None) -> str | None:
-    if v is not None:
-      if v.strip() == '':
-        raise ValueError('El nombre no puede estar vacío')
-      return v.lower()
+  def validar_nombre(cls, v: str | None) -> str:
+    if v is None:
+      raise ValueError('nombre no puede ser null')
+    if v.strip() == '':
+      raise ValueError('El nombre no puede estar vacío')
+    return v.lower()
+
+  @field_validator('id_categoria')
+  def validar_id_categoria(cls, v: uuid.UUID | None) -> uuid.UUID:
+    if v is None:
+      raise ValueError('id_categoria no puede ser null')
     return v

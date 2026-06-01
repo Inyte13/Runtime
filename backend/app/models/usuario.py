@@ -1,10 +1,9 @@
-from datetime import date
 import uuid
-
-from sqlalchemy import Uuid, func
-from sqlalchemy.orm import Mapped, mapped_column
+from datetime import date
 
 from app.core.database import Base
+from sqlalchemy import ForeignKey, Uuid, func
+from sqlalchemy.orm import Mapped, mapped_column
 
 
 class Usuario(Base):
@@ -15,8 +14,18 @@ class Usuario(Base):
   id_google: Mapped[str] = mapped_column(unique=True, index=True)
   email: Mapped[str] = mapped_column(unique=True, index=True)
   email_verified: Mapped[bool]
-  given_name: Mapped[str]
-  family_name: Mapped[str]
-  picture_url: Mapped[str]
+  given_name: Mapped[str | None]
+  family_name: Mapped[str | None]
+  picture_url: Mapped[str | None]
   is_active: Mapped[bool] = mapped_column(default=True)
-  create_at: Mapped[date] = mapped_column(default=func.now())
+  created_at: Mapped[date] = mapped_column(server_default=func.now())
+
+  # Solo es none para la bd, pero después controlamos
+  id_actividad_default: Mapped[uuid.UUID | None] = mapped_column(
+    ForeignKey(
+      'actividades.id',
+      name='fk_usuario_actividad_default',
+      ondelete='RESTRICT',  # Para que no pueda eliminar una actividad que se use en este campo
+      use_alter=True,  # Para solucionar las relaciones circulares
+    )
+  )

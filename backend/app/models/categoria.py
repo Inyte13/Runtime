@@ -15,16 +15,15 @@ class Categoria(Base):
     ),
   )
   id: Mapped[uuid.UUID] = mapped_column(
-    Uuid,  # cross-database
+    Uuid,
     primary_key=True,
     default=uuid.uuid4,
   )
   id_usuario: Mapped[uuid.UUID] = mapped_column(ForeignKey('usuarios.id'))
-  
-  nombre: Mapped[str] = mapped_column(String(25))
-  color: Mapped[str] = mapped_column(
-    String(7),
-    default='#A18072',  # Si cambias el #A18072, cambialo también en el frontend (categoriasStore y CategoriaTemp)
-  )
 
-  actividades: Mapped[list[Actividad]] = relationship()
+  nombre: Mapped[str] = mapped_column(String(25))
+  color: Mapped[str] = mapped_column(String(7))
+
+  actividades: Mapped[list[Actividad]] = relationship(
+    cascade='all, delete-orphan',  # Al eliminar Dia, sus bloques se eliminan
+  )
