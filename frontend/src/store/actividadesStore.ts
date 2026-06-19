@@ -4,7 +4,7 @@ import {
   deleteActividad,
   readActividadesDetail,
   updateActividad,
-} from '../services/actividadesServices'
+} from '../services/actividadServices'
 import {
   ActividadCreate,
   ActividadReadDetail,

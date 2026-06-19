@@ -1,9 +1,4 @@
 import { create } from 'zustand'
-import {
-  createActividad,
-  deleteActividad,
-  updateActividad,
-} from '../services/actividadService'
 import { ActividadCreate, ActividadUpdate } from '../types/Actividad'
 import { useColorStore } from './colorStore'
 import {
@@ -17,6 +12,7 @@ import {
   readCategoriasDetail,
   updateCategoria,
 } from '@/services/categoriaService'
+import { createActividad, deleteActividad, updateActividad } from '@/services/actividadServices'
 
 interface CategoriasState {
   categoriasDetail: CategoriaReadDetail[]
