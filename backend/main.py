@@ -33,10 +33,6 @@ app.include_router(bloque_router)
 app.include_router(categoria_router)
 app.include_router(actividad_router)
 
-if __name__ == '__main__':
-  import uvicorn
-
-  uvicorn.run('main:app', reload=True, port=settings.port)
 
 # Orígenes permitidos para CORS
 origins = [
@@ -51,3 +47,8 @@ app.add_middleware(
   allow_methods=['*'],
   allow_headers=['*'],
 )
+
+if __name__ == '__main__':
+  import uvicorn
+
+  uvicorn.run('main:app', reload=True, port=settings.port)
