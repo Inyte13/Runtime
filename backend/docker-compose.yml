@@ -1,5 +1,5 @@
 services:
-  db:
+  bd:
     image: postgres:16
     environment:
       POSTGRES_USER: luisg

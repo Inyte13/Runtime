@@ -1,6 +1,6 @@
 import uuid
+from collections.abc import Sequence
 from datetime import date
-from typing import Sequence
 
 from app.models.actividad import Actividad
 from app.models.actividad_oculta import ActividadOculta
@@ -40,9 +40,9 @@ class DiaRepository:
   async def get_resumen_by_range(
     self,
     session: AsyncSession,
-    id_usuario: uuid.UUID,
     inicio: date,
     final: date,
+    id_usuario: uuid.UUID,
   ) -> Sequence[Dia]:
     statement = (
       select(Dia)
@@ -87,14 +87,8 @@ class DiaRepository:
     await session.refresh(dia_obj)
     return dia_obj
 
-  async def delete(
-    self, session: AsyncSession, fecha: date, id_usuario: uuid.UUID
-  ) -> bool:
-    dia = await self.get(session, fecha, id_usuario)
-    if dia:
-      await session.delete(dia)
-      return True
-    return False
+  async def delete(self, session: AsyncSession, dia: Dia) -> None:
+    return await session.delete(dia)
 
 
 dia_repository = DiaRepository()

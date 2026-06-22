@@ -1,6 +1,6 @@
 import uuid
 
-from pydantic import BaseModel, field_validator
+from pydantic import BaseModel
 
 
 class UsuarioLoginGoogle(BaseModel):
@@ -19,12 +19,4 @@ class UsuarioResponse(BaseModel):
 
 
 class UsuarioUpdate(BaseModel):
-  id_actividad_default: uuid.UUID | None = None
-
-  @field_validator('id_actividad_default')
-  def validar_id_actividad_default(
-    cls, v: uuid.UUID | None
-  ) -> uuid.UUID | None:
-    if v is None:
-      raise ValueError('id_actividad_default no puede ser null')
-    return v
+  id_actividad_default: uuid.UUID

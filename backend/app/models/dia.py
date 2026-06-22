@@ -12,7 +12,9 @@ class Dia(Base):
   __table_args__ = (PrimaryKeyConstraint('fecha', 'id_usuario'),)
 
   fecha: Mapped[date]
-  id_usuario: Mapped[uuid.UUID] = mapped_column(ForeignKey('usuarios.id'))
+  id_usuario: Mapped[uuid.UUID] = mapped_column(
+    ForeignKey('usuarios.id', ondelete='CASCADE')
+  )
 
   titulo: Mapped[str | None] = mapped_column(String(50))
   bloques: Mapped[list[Bloque]] = relationship(

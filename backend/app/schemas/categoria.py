@@ -32,7 +32,7 @@ class CategoriaResponse(BaseModel):
 
 class CategoriaResponseDetail(CategoriaResponse):
   actividades: list[ActividadResponseDetail]
-
+  eliminable: bool = True
 
 class CategoriaResumen(BaseModel):
   id: uuid.UUID

@@ -1,21 +1,22 @@
 import uuid
+from collections.abc import Sequence
 from datetime import date, time
-from typing import Sequence
 
 from app.models.bloque import Bloque
 from app.repositories.base_respository import BaseRepository
-from app.schemas.bloque import BloqueCreate, BloqueUpdate
+from app.schemas.bloque import BloqueUpdate
 from sqlalchemy import desc, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 
-class BloqueRepository(BaseRepository[Bloque, BloqueCreate, BloqueUpdate]):
+class BloqueRepository(BaseRepository[Bloque, BloqueUpdate]):
   async def ultimo(
     self, session: AsyncSession, fecha: date, id_usuario: uuid.UUID
   ) -> Bloque | None:
     statement = (
       select(Bloque)
-      .where(Bloque.fecha == fecha, Bloque.id_usuario == id_usuario)
+      .where(Bloque.fecha == fecha)
+      .where(Bloque.id_usuario == id_usuario)
       .order_by(desc(Bloque.hora))
     )
     result = await session.execute(statement)
@@ -32,7 +33,8 @@ class BloqueRepository(BaseRepository[Bloque, BloqueCreate, BloqueUpdate]):
   ) -> Sequence[Bloque]:
     statement = (
       select(Bloque)
-      .where(Bloque.fecha == fecha, Bloque.id_usuario == id_usuario)
+      .where(Bloque.fecha == fecha)
+      .where(Bloque.id_usuario == id_usuario)
       .order_by(Bloque.hora)
     )
     if hora_desde is not None:

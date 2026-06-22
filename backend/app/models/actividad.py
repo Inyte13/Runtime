@@ -18,7 +18,11 @@ class Actividad(Base):
     primary_key=True,
     default=uuid.uuid4,
   )
-  id_usuario: Mapped[uuid.UUID] = mapped_column(ForeignKey('usuarios.id'))
-  id_categoria: Mapped[uuid.UUID] = mapped_column(ForeignKey('categorias.id'))
+  id_usuario: Mapped[uuid.UUID] = mapped_column(
+    ForeignKey('usuarios.id', ondelete='CASCADE')
+  )
+  id_categoria: Mapped[uuid.UUID] = mapped_column(
+    ForeignKey('categorias.id', ondelete='CASCADE')
+  )
 
   nombre: Mapped[str] = mapped_column(String(25))

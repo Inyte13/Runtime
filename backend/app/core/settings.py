@@ -1,5 +1,5 @@
+from collections.abc import Sequence
 from functools import lru_cache
-from typing import Sequence
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
@@ -21,6 +21,7 @@ class Settings(BaseSettings):
   PRODUCTION: bool
   GOOGLE_CLIENT_ID: str
   GOOGLE_CLIENT_SECRET: str
+  ADMIN_EMAILS: set[str]
 
   model_config = SettingsConfigDict(env_file='.env')
 

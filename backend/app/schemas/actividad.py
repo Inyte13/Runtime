@@ -23,7 +23,7 @@ class ActividadResponse(BaseModel):
 
 # Se justifica la creación de otro schema para ahorrarnos la consulta de tiene_bloques
 class ActividadResponseDetail(ActividadResponse):
-  tiene_bloques: bool
+  eliminable: bool = True
 
 
 class ActividadResumen(BaseModel):

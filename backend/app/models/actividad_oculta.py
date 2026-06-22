@@ -8,5 +8,9 @@ from sqlalchemy.orm import Mapped, mapped_column
 class ActividadOculta(Base):
   __tablename__ = 'actividades_ocultas'
   __table_args__ = (PrimaryKeyConstraint('id_usuario', 'id_actividad'),)
-  id_usuario: Mapped[uuid.UUID] = mapped_column(ForeignKey('usuarios.id'))
-  id_actividad: Mapped[uuid.UUID] = mapped_column(ForeignKey('actividades.id'))
+  id_usuario: Mapped[uuid.UUID] = mapped_column(
+    ForeignKey('usuarios.id', ondelete='CASCADE')
+  )
+  id_actividad: Mapped[uuid.UUID] = mapped_column(
+    ForeignKey('actividades.id', ondelete='CASCADE')
+  )

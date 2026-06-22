@@ -11,7 +11,9 @@ class Bloque(Base):
   __tablename__ = 'bloques'
   __table_args__ = (
     ForeignKeyConstraint(
-      ['fecha', 'id_usuario'], ['dias.fecha', 'dias.id_usuario']
+      ['fecha', 'id_usuario'],
+      ['dias.fecha', 'dias.id_usuario'],
+      ondelete='CASCADE',
     ),
   )
   id: Mapped[uuid.UUID] = mapped_column(
@@ -25,6 +27,11 @@ class Bloque(Base):
   hora_fin: Mapped[time]
   duracion: Mapped[float]
   descripcion: Mapped[str | None] = mapped_column(String(255))
-  id_actividad: Mapped[uuid.UUID] = mapped_column(ForeignKey('actividades.id'))
+  id_actividad: Mapped[uuid.UUID] = mapped_column(
+    ForeignKey(
+      'actividades.id',
+      ondelete='RESTRICT',  # No puedes eliminar una actividad si esta aquí
+    )
+  )
 
   actividad: Mapped[Actividad] = relationship()

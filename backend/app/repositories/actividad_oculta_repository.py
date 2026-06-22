@@ -30,3 +30,6 @@ class ActividadOcultaRepository:
       await session.delete(actividad_oculta)
       return True
     return False
+
+
+actividad_oculta_repository = ActividadOcultaRepository()

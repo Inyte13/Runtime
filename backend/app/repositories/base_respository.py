@@ -13,18 +13,17 @@ ModeloUpdate = TypeVar('ModeloUpdate', bound=BaseModel)
 # En los params tenemos:
 # Modelo SQLAlchemy
 # Schemas Pydantic
-class BaseRepository(Generic[Modelo, ModeloCreate, ModeloUpdate]):
+class BaseRepository(Generic[Modelo, ModeloUpdate]):
   """Base repository para el CRUD de nuetros repositories"""
 
   def __init__(self, modelo: type[Modelo]):
     self.modelo = modelo
 
-  async def create(self, session: AsyncSession, modelo: ModeloCreate) -> Modelo:
-    modelo_obj = self.modelo(**modelo.model_dump())
-    session.add(modelo_obj)
+  async def create(self, session: AsyncSession, modelo: Modelo) -> Modelo:
+    session.add(modelo)
     await session.flush()
-    await session.refresh(modelo_obj)
-    return modelo_obj
+    await session.refresh(modelo)
+    return modelo
 
   async def get(
     self, session: AsyncSession, id: uuid.UUID, id_usuario: uuid.UUID
@@ -48,11 +47,5 @@ class BaseRepository(Generic[Modelo, ModeloCreate, ModeloUpdate]):
     await session.refresh(modelo_obj)
     return modelo_obj
 
-  async def delete(
-    self, session: AsyncSession, id: uuid.UUID, id_usuario: uuid.UUID
-  ) -> bool:
-    modelo_obj = await self.get(session, id, id_usuario)
-    if modelo_obj:
-      await session.delete(modelo_obj)
-      return True
-    return False
+  async def delete(self, session: AsyncSession, modelo_obj: Modelo) -> None:
+    await session.delete(modelo_obj)

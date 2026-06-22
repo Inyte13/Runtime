@@ -9,7 +9,7 @@ class BloqueCreate(BaseModel):
   # Aqui si va el Field porque es validación de datos, no indicaciones para la bd
   descripcion: str | None = Field(default=None, max_length=255)
   fecha: date
-  id_actividad: uuid.UUID
+  id_actividad: uuid.UUID | None = None
 
   # Usamos la Alternativa A: Nil UUID para representar el inicio del día
   id_ref: uuid.UUID | None = None

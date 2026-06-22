@@ -1,7 +1,8 @@
+from datetime import date
 from typing import Annotated
 
 from app.core.settings import settings
-from fastapi import Depends
+from fastapi import Depends, Path, Query
 from sqlalchemy.ext.asyncio import (
   AsyncSession,
   async_sessionmaker,
@@ -11,7 +12,7 @@ from sqlalchemy.orm import DeclarativeBase
 
 engine = create_async_engine(
   settings.DATABASE_URL,
-  echo=True,
+  echo=False,
   pool_pre_ping=True,  # Verifica la conexión antes de usarla
 )
 
@@ -26,7 +27,7 @@ class Base(DeclarativeBase):
   pass
 
 
-async def get_db():
+async def get_session():
   """Dependency for database session."""
   async with AsyncSessionLocal() as session:
     try:
@@ -39,4 +40,13 @@ async def get_db():
       await session.close()
 
 
-DbDep = Annotated[AsyncSession, Depends(get_db)]
+SessionDep = Annotated[AsyncSession, Depends(get_session)]
+
+PathDate = Annotated[
+  date,
+  Path(..., openapi_examples={'example': {'value': date.today().isoformat()}}),
+]
+QueryDate = Annotated[
+  date,
+  Query(..., openapi_examples={'example': {'value': date.today().isoformat()}}),
+]

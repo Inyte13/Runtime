@@ -19,11 +19,13 @@ class Categoria(Base):
     primary_key=True,
     default=uuid.uuid4,
   )
-  id_usuario: Mapped[uuid.UUID] = mapped_column(ForeignKey('usuarios.id'))
+  id_usuario: Mapped[uuid.UUID] = mapped_column(
+    ForeignKey('usuarios.id', ondelete='CASCADE')
+  )
 
   nombre: Mapped[str] = mapped_column(String(25))
   color: Mapped[str] = mapped_column(String(7))
 
   actividades: Mapped[list[Actividad]] = relationship(
-    cascade='all, delete-orphan',  # Al eliminar Dia, sus bloques se eliminan
+    cascade='all, delete-orphan',  # Al eliminar Categoria, sus actividades se eliminan
   )

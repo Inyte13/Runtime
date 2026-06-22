@@ -4,7 +4,7 @@ from app.schemas.bloque import BloqueResponse
 from app.schemas.categoria import CategoriaResumen
 from pydantic import BaseModel, field_validator
 
-
+# Para el patch
 class DiaResponse(BaseModel):
   model_config = {'from_attributes': True}
 
