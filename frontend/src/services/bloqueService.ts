@@ -1,6 +1,7 @@
 import { BloqueCreate, BloqueRead, BloqueUpdate } from '../types/Bloque'
 
-const URL = '/bloques'
+const BASE_URL = import.meta.env.VITE_API_URL || ''
+const URL = `${BASE_URL}/bloques`
 
 export async function createBloque(bloque: BloqueCreate): Promise<BloqueRead> {
   const res = await fetch(URL, {

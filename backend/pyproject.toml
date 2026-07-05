@@ -38,3 +38,5 @@ dependencies = [
     "typing-inspection==0.4.2",
     "uvicorn==0.38.0",
 ]
+[tool.uv]
+package = false

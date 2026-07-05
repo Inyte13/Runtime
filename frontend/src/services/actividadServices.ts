@@ -5,7 +5,8 @@ import {
   ActividadUpdate,
 } from '../types/Actividad'
 
-const URL = '/actividades'
+const BASE_URL = import.meta.env.VITE_API_URL || ''
+const URL = `${BASE_URL}/actividades`
 
 export async function createActividad(
   actividad: ActividadCreate

@@ -1,7 +1,8 @@
 import { BloqueRead } from '../types/Bloque'
 import { DiaRead, DiaReadDetail, DiaResumen, DiaUpdate } from '../types/Dia'
 
-const URL = '/dias'
+const BASE_URL = import.meta.env.VITE_API_URL || ''
+const URL = `${BASE_URL}/dias`
 
 export async function readDiaDetail(fecha: string): Promise<DiaReadDetail> {
   const params = new URLSearchParams({

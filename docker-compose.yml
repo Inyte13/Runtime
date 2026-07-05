@@ -1,0 +1,22 @@
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "${BACKEND_PORT}:8000"
+    volumes:
+      - ./backend:/backend
+      - /backend/.venv
+    env_file:
+      - ./backend/.env
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "${FRONTEND_PORT}:5173"
+    environment:
+      - VITE_API_URL=http://localhost:${BACKEND_PORT}
+    volumes:
+      - ./frontend:/frontend
+      - /frontend/node_modules
+    depends_on:
+      - backend
