@@ -1,0 +1,14 @@
+name: runtime
+services:
+  backend:
+    build: .
+    ports:
+      - "${HOST_PORT}:${DOCKER_PORT}"
+    volumes:
+      - .:/backend
+      - backend-venv:/backend/.venv
+    env_file:
+      - .env
+
+volumes:
+  backend-venv:

@@ -10,6 +10,4 @@ RUN uv sync --frozen
 
 COPY . .
 
-EXPOSE 8000
-
 CMD ["uv", "run", "python", "main.py"]

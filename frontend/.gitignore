@@ -11,3 +11,4 @@ dist-ssr
 # Variables de entorno locales
 *.local
 .env
+.vscode
