@@ -6,12 +6,15 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 class Settings(BaseSettings):
   PORT: int = 8000
-  POSTGRES_DB: str
   POSTGRES_USER: str
   POSTGRES_PASSWORD: str
-  POSTGRES_HOST: str
+  POSTGRES_DB: str
+  POSTGRES_DB_TEST: str
   POSTGRES_PORT: str
+  POSTGRES_HOST: str
   DATABASE_URL: str
+  DATABASE_TEST_URL: str
+  DATABASE_ADMIN_URL: str
   SECRET_KEY: str
   ACCESS_TOKEN_DURATION_MINUTES: int
   REFRESH_TOKEN_DURATION_DAYS: int
@@ -30,5 +33,3 @@ class Settings(BaseSettings):
 def get_settings() -> Settings:
   return Settings()  # type: ignore
 
-
-settings = Settings()  # type: ignore

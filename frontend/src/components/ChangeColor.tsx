@@ -2,7 +2,7 @@ import { useCategoriasStore } from '../store/categoriasStore.js'
 import { useColorStore } from '../store/colorStore.js'
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover.js'
 import { Button } from './ui/button.js'
-import { colores } from '@/lib/colors.js'
+import { colores } from '@/utils/colors.js'
 import { HexColorPicker } from 'react-colorful'
 import { Separator } from './ui/separator.js'
 
@@ -28,7 +28,7 @@ export default function ChangeColor({
     >
       <PopoverTrigger asChild>
         <Button
-          className='rounded-full size-4'
+          className='size-4 rounded-full'
           size='icon'
           style={{ background: color }}
         />
@@ -36,11 +36,11 @@ export default function ChangeColor({
       <PopoverContent
         side='top'
         align='start'
-        className='w-44 p-1 flex flex-row items-center gap-x-1'
+        className='flex w-44 flex-row items-center gap-x-1 p-1'
         sideOffset={8}
         alignOffset={0}
       >
-        <ul className='flex overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]'>
+        <ul className='flex overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden'>
           {colores.map(({ nombre, hex }) => (
             <li key={nombre} className='flex px-0.5 py-1'>
               <Button
@@ -53,13 +53,13 @@ export default function ChangeColor({
           ))}
         </ul>
 
-        <Separator orientation='vertical' className='h-4 w-px ' />
+        <Separator orientation='vertical' className='h-4 w-px' />
 
         <Popover>
           <PopoverTrigger asChild>
-            <div data-slot='wrapper' className='flex ml-0.5'>
+            <div data-slot='wrapper' className='ml-0.5 flex'>
               <Button
-                className='rounded-full size-4'
+                className='size-4 rounded-full'
                 size='icon'
                 style={{ background: color }}
               />

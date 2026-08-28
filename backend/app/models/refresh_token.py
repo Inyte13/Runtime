@@ -11,7 +11,7 @@ class RefreshToken(Base):
   id: Mapped[uuid.UUID] = mapped_column(
     Uuid, primary_key=True, default=uuid.uuid4
   )
-  id_usuario: Mapped[uuid.UUID] = mapped_column(
-    ForeignKey('usuarios.id', ondelete='CASCADE')
+  user_id: Mapped[uuid.UUID] = mapped_column(
+    ForeignKey('users.id', ondelete='CASCADE')
   )
   expires_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))

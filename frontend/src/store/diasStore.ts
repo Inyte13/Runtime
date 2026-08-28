@@ -3,16 +3,16 @@ import {
   readDiasResumen,
   sortDia,
   updateDia,
-} from '../services/diaService'
+} from '../services/dia-service'
 import { create } from 'zustand'
 import { useFechaStore } from './fechaStore'
 import {
   createBloque,
   deleteBloque,
   updateBloque,
-} from '../services/bloqueService'
-import { DiaReadDetail, DiaResumen, DiaUpdate } from '../types/Dia'
-import { BloqueUpdate } from '../types/Bloque'
+} from '../services/bloque-service'
+import { DiaReadDetail, DiaResumen, DiaUpdate } from '../types/dia'
+import { BloqueUpdate } from '../types/bloque'
 import { formatFechaISO } from '../utils/formatDate'
 import { DragEndEvent } from '@dnd-kit/core'
 import { modificarHora } from '../utils/modificarHora'

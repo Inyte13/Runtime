@@ -5,6 +5,7 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.14"
 dependencies = [
+    "alembic>=1.19.1",
     "annotated-doc==0.0.4",
     "annotated-types==0.7.0",
     "anyio==4.12.0",
@@ -26,6 +27,7 @@ dependencies = [
     "pycparser==2.23",
     "pydantic==2.12.5",
     "pydantic-core==2.41.5",
+    "pydantic-extra-types>=2.11.1",
     "pydantic-settings==2.13.1",
     "pygments==2.19.2",
     "pytest==9.0.2",
@@ -38,3 +40,14 @@ dependencies = [
     "typing-inspection==0.4.2",
     "uvicorn==0.38.0",
 ]
+
+[dependency-groups]
+dev = [
+    "pyright>=1.1.411",
+    "pytest-asyncio>=1.4.0",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"

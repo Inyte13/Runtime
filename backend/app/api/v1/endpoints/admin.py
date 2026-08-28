@@ -1,15 +1,15 @@
-from app.api.dependencies import get_admin_usuario
+from app.api.dependencies import get_admin_user
 from app.core.database import SessionDep
-from app.repositories.usuario_repository import usuario_repository
-from app.schemas.usuario import UsuarioResponse
+from app.repositories.user_repository import user_repository
+from app.schemas.user_schema import UserResponse
 from fastapi import APIRouter, Depends
 
 router = APIRouter(
-  tags=['Admin'], prefix='/admin', dependencies=[Depends(get_admin_usuario)]
+  tags=['Admin'], prefix='/admin', dependencies=[Depends(get_admin_user)]
 )
 
 
 # list en lugar de Sequence porque es un JSON Array
-@router.get('/usuarios', response_model=list[UsuarioResponse])
-async def get_usuarios(session: SessionDep):
-  return await usuario_repository.get_all(session)
+@router.get('/users', response_model=list[UserResponse])
+async def get_users(session: SessionDep):
+  return await user_repository.get_all(session)

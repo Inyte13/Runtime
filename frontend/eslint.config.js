@@ -5,6 +5,7 @@ import reactRefresh from 'eslint-plugin-react-refresh'
 import reactPlugin from 'eslint-plugin-react'
 import tseslint from 'typescript-eslint'
 import prettierConfig from 'eslint-config-prettier'
+import unusedImports from 'eslint-plugin-unused-imports'
 
 export default tseslint.config(
   { ignores: ['dist', 'node_modules', 'public'] },
@@ -15,13 +16,14 @@ export default tseslint.config(
       ecmaVersion: 2020,
       globals: globals.browser,
       parserOptions: {
-        ecmaFeatures: { jsx: true }
-      }
+        ecmaFeatures: { jsx: true },
+      },
     },
     plugins: {
       'react-hooks': reactHooks,
       'react-refresh': reactRefresh,
-      react: reactPlugin
+      react: reactPlugin,
+      'unused-imports': unusedImports,
     },
     rules: {
       ...reactHooks.configs.recommended.rules,
@@ -29,14 +31,19 @@ export default tseslint.config(
       ...reactPlugin.configs['jsx-runtime'].rules, // Desactiva la necesidad de importar React
 
       // Regla obligatoria para Vite
-      'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
+      'react-refresh/only-export-components': [
+        'warn',
+        { allowConstantExport: true },
+      ],
+      // Typescript ya lo maneja
+      '@typescript-eslint/no-unused-vars': 'off',
 
-      // Ajuste opcional: TS ya detecta variables no usadas, ESLint a veces duplica el aviso
-      '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }]
+      'unused-imports/no-unused-imports': 'error',
+      
     },
     settings: {
-      react: { version: 'detect' } // Detecta tu versión de React automáticamente
-    }
+      react: { version: 'detect' }, // Detecta tu versión de React automáticamente
+    },
   },
 
   // IMPORTANTE: Prettier siempre al final

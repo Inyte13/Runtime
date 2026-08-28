@@ -1,8 +1,8 @@
 import uuid
 from datetime import datetime, timezone
 
-from app.core.exceptions.generic import NotFoundError
-from app.core.exceptions.token import (
+from app.core.exceptions.generic_exception import NotFoundError
+from app.core.exceptions.token_exception import (
   ExpiredRefreshTokenError,
   MalformedRefreshTokenError,
 )
@@ -15,12 +15,12 @@ class RefreshTokenService:
   def __init__(self):
     self.repository = refresh_token_repository
 
-  async def registrar(
-    self, session: AsyncSession, id_usuario: uuid.UUID
+  async def create(
+    self, session: AsyncSession, user_id: uuid.UUID
   ) -> RefreshToken:
-    return await self.repository.create(session, id_usuario)
+    return await self.repository.create(session, user_id)
 
-  async def buscar(self, session: AsyncSession, id: str) -> RefreshToken:
+  async def get(self, session: AsyncSession, id: str) -> RefreshToken:
     try:
       id_uuid = uuid.UUID(id)
     # Porque el de arriba tira ValueError
@@ -28,7 +28,7 @@ class RefreshTokenService:
       raise MalformedRefreshTokenError()
     refresh_token = await self.repository.get(session, id_uuid)
     if not refresh_token:
-      raise NotFoundError('RefreshToken not found')
+      raise NotFoundError()
     expires_at = refresh_token.expires_at
     # Si no tiene UTC, le inyectamos
     if expires_at.tzinfo is None:
@@ -38,8 +38,8 @@ class RefreshTokenService:
 
     return refresh_token
 
-  async def eliminar(self, session: AsyncSession, id: str) -> None:
-    refresh_token = await self.buscar(session, id)
+  async def delete(self, session: AsyncSession, id: str) -> None:
+    refresh_token = await self.get(session, id)
     await self.repository.delete(session, refresh_token)
 
 

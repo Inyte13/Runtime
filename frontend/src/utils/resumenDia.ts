@@ -1,6 +1,6 @@
-import { ActividadResumen } from '@/types/Actividad'
-import { CategoriaReadDetail, CategoriaResumen } from '@/types/Categoria'
-import { DiaReadDetail, DiaResumen } from '@/types/Dia'
+import { ActividadResumen } from '@/types/activity'
+import { CategoriaReadDetail, CategoriaResumen } from '@/types/category'
+import { DiaReadDetail, DiaResumen } from '@/types/dia'
 
 export function resumenDia(
   diaDetail: DiaReadDetail,
@@ -12,8 +12,8 @@ export function resumenDia(
   for (const bloque of diaDetail.bloques) {
     const { id_actividad, descripcion, duracion } = bloque
     // Ignoramos id=6, harcodeado, actividad 'Dormir'
-    if ([6].includes(id_actividad)) continue;
-    
+    if ([6].includes(id_actividad)) continue
+
     const id_categoria = categorias.find(categoria =>
       categoria.actividades.some(actividad => actividad.id === id_actividad)
     )?.id

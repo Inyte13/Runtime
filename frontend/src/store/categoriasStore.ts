@@ -1,22 +1,22 @@
 import { create } from 'zustand'
-import {
-  createActividad,
-  deleteActividad,
-  updateActividad,
-} from '../services/actividadService'
-import { ActividadCreate, ActividadUpdate } from '../types/Actividad'
+import { ActividadCreate, ActividadUpdate } from '../types/activity'
 import { useColorStore } from './colorStore'
 import {
   CategoriaCreate,
   CategoriaReadDetail,
   CategoriaUpdate,
-} from '@/types/Categoria'
+} from '@/types/category'
 import {
   createCategoria,
   deleteCategoria,
   readCategoriasDetail,
   updateCategoria,
-} from '@/services/categoriaService'
+} from '@/services/category-service'
+import {
+  createActividad,
+  deleteActividad,
+  updateActividad,
+} from '@/services/activity-service'
 
 interface CategoriasState {
   categoriasDetail: CategoriaReadDetail[]
@@ -48,7 +48,7 @@ export const useCategoriasStore = create<CategoriasState>(set => ({
       console.error('Error al cargar las categorias', err)
     }
   },
-  
+
   // Si cambias el #A18072, cambialo en el backend (categoria.py) models y schemas
   crearCategoria: async (categoriaNew: CategoriaCreate) => {
     // Optimistic update

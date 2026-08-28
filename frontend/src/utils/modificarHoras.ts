@@ -1,5 +1,5 @@
-import { BloqueRead } from "@/types/Bloque"
-import { modificarHora } from "./modificarHora"
+import { BloqueRead } from '@/types/bloque'
+import { modificarHora } from './modificarHora'
 
 export function modificarHoras(
   bloques: BloqueRead[],
