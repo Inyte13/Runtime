@@ -26,11 +26,13 @@ async def get_user(
     raise MissingAccessTokenError()
   payload = access_token_service.validate(access_token)
 
-  id_str = payload.get('id')
-  if id_str is None:
+  id_value = payload.get('id')
+  if id_value is None:
     raise AccessTokenMissingIdError()
+  if not isinstance(id_value, str):
+    raise AccessTokenInvalidIdError()
   try:
-    id_uuid = uuid.UUID(id_str)
+    id_uuid = uuid.UUID(id_value)
   except ValueError:
     raise AccessTokenInvalidIdError()
   user_bd = await user_service.get(session, id_uuid)

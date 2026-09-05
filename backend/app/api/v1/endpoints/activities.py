@@ -1,6 +1,6 @@
 import uuid
 
-from app.api.dependencies import UserIdDep
+from app.api.dependencies import UserDep, UserIdDep
 from app.core.database import SessionDep
 from app.schemas.activity_schema import (
   ActivityCreate,
@@ -32,5 +32,5 @@ async def patch(
 
 
 @router.delete('/{id}', status_code=204)
-async def delete(session: SessionDep, user_id: UserIdDep, id: uuid.UUID):
-  await activity_service.delete(session, user_id, id)
+async def delete(session: SessionDep, user: UserDep, id: uuid.UUID):
+  await activity_service.delete(session, user, id)

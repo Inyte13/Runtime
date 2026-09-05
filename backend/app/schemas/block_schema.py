@@ -34,7 +34,8 @@ class BlockCreate(BaseModel):
   @field_validator('description')
   def validate_description(cls, v: str | None) -> str | None:
     if v is not None:
-      if v.strip() == '':
+      v = v.strip()
+      if v == '':
         return None
     return v
 
@@ -74,7 +75,8 @@ class BlockUpdate(BaseModel):
   @field_validator('description')
   def validate_description(cls, v: str | None) -> str | None:
     if v is not None:
-      if v.strip() == '':
+      v = v.strip()
+      if v == '':
         return None
     return v
 

@@ -5,6 +5,7 @@ from app.api.v1.endpoints import (
   blocks,
   categories,
   days,
+  hidden_activities,
   users,
 )
 from fastapi import APIRouter
@@ -17,3 +18,4 @@ api_router.include_router(activities.router)
 api_router.include_router(categories.router)
 api_router.include_router(blocks.router)
 api_router.include_router(days.router)
+api_router.include_router(hidden_activities.router)

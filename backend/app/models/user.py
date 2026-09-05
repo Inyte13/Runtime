@@ -24,10 +24,10 @@ class User(Base):
   )
 
   # Solo es none para la bd, pero después controlamos
-  activity_default_id: Mapped[uuid.UUID | None] = mapped_column(
+  default_activity_id: Mapped[uuid.UUID | None] = mapped_column(
     ForeignKey(
       'activities.id',
-      name='fk_user_activity_default',
+      name='fk_user_default_activity',
       ondelete='RESTRICT',  # Para que no pueda delete una actividad que se use en este campo
       use_alter=True,  # Para solucionar las relaciones circulares
     )

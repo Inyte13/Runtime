@@ -15,8 +15,8 @@ class UserResponse(BaseModel):
   given_name: str | None = None
   family_name: str | None = None
   picture_url: str | None = None
-  activity_default_id: uuid.UUID
+  default_activity_id: uuid.UUID
 
 
 class UserUpdate(BaseModel):
-  activity_default_id: uuid.UUID
+  default_activity_id: uuid.UUID

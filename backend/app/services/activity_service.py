@@ -1,7 +1,9 @@
 import uuid
 
+from app.core.exceptions.activity_exception import DefaultActivityDeletionError
 from app.core.exceptions.generic_exception import ConflictError
 from app.models.activity import Activity
+from app.models.user import User
 from app.repositories.activity_repository import activity_repository
 from app.repositories.category_repository import category_repository
 from app.schemas.activity_schema import ActivityCreate, ActivityUpdate
@@ -46,11 +48,13 @@ class ActivityService:
   async def delete(
     self,
     session: AsyncSession,
-    user_id: uuid.UUID,
+    user: User,
     id: uuid.UUID,
   ) -> None:
-    activity_bd = await get_or_raise(session, self.repository, id, user_id)
-    if await self.repository.is_deletable(session, id):
+    activity_bd = await get_or_raise(session, self.repository, id, user.id)
+    if user.default_activity_id == id:
+      raise DefaultActivityDeletionError()
+    if not await self.repository.is_deletable(session, id):
       raise ConflictError(
         'No se puede delete una activity con al menos un bloque relacionado'
       )

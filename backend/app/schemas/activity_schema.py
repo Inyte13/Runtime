@@ -9,7 +9,8 @@ class ActivityCreate(BaseModel):
 
   @field_validator('name')
   def validate_name(cls, v: str) -> str:
-    if v.strip() == '':
+    v = v.strip()
+    if v == '':
       raise ValueError('name no puede estar vacío')
     return v.lower()
 
@@ -41,7 +42,8 @@ class ActivityUpdate(BaseModel):
   def validate_name(cls, v: str | None) -> str:
     if v is None:
       raise ValueError('name no puede ser null')
-    if v.strip() == '':
+    v = v.strip()
+    if v == '':
       raise ValueError('name no puede estar vacío')
     return v.lower()
 

@@ -24,13 +24,13 @@ class UserService:
 
   async def get(self, session: AsyncSession, id: uuid.UUID) -> User:
     user = await self.repository.get(session, id)
-    if not user:
+    if user is None:
       raise NotFoundError()
     return user
 
   async def get_by_google(self, session: AsyncSession, google_id: str) -> User:
     user = await user_repository.get_by_google(session, google_id)
-    if not user:
+    if user is None:
       raise NotFoundError()
     return user
 
@@ -44,24 +44,24 @@ class UserService:
       given_name=google_user_data.given_name,
       family_name=google_user_data.family_name,
       picture_url=google_user_data.picture_url,
-      activity_default_id=None,
+      default_activity_id=None,
     )
     user_bd = await self.repository.create(session, new_user)
 
-    category_default = Category(
+    default_category = Category(
       name=DEFAULT_CATEGORY_NAME,
       color=DEFAULT_CATEGORY_COLOR,
       user_id=user_bd.id,
     )
-    category_bd = await category_repository.create(session, category_default)
+    category_bd = await category_repository.create(session, default_category)
 
-    activity_default = Activity(
+    default_activity = Activity(
       name=DEFAULT_ACTIVITY_NAME,
       category_id=category_bd.id,
       user_id=user_bd.id,
     )
-    activity_bd = await activity_repository.create(session, activity_default)
-    user_bd.activity_default_id = activity_bd.id
+    activity_bd = await activity_repository.create(session, default_activity)
+    user_bd.default_activity_id = activity_bd.id
     await session.flush()  # Para flushear su activity default
     return user_bd
 
@@ -74,7 +74,7 @@ class UserService:
     await get_or_raise(
       session,
       activity_repository,
-      user_update.activity_default_id,
+      user_update.default_activity_id,
       user.id,
     )
     return await self.repository.update(session, user, user_update)

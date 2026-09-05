@@ -26,8 +26,8 @@ class AccessTokenService:
       return jwt.decode(
         token, get_settings().SECRET_KEY, algorithms=[JWT_ALGORITHM]
       )
-    except JWTError as error:
-      raise InvalidAccessTokenError() from error
+    except JWTError:
+      raise InvalidAccessTokenError()
 
 
 access_token_service = AccessTokenService()
