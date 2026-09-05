@@ -8,7 +8,6 @@ from app.repositories.base_repository import BaseRepository
 from app.schemas.category_schema import CategoryUpdate
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy.orm import selectinload
 
 
 class CategoryRepository(BaseRepository[Category, CategoryUpdate]):
@@ -29,19 +28,6 @@ class CategoryRepository(BaseRepository[Category, CategoryUpdate]):
       select(Category)
       .where(Category.user_id == user_id)
       .order_by(Category.name)
-    )
-    result = await session.execute(statement)
-    return result.scalars().all()
-
-  # get_all pero precarga las activities para añadirle tiene_bloques, necesita estar precargado
-  async def get_all_with_activities(
-    self, session: AsyncSession, user_id: uuid.UUID
-  ) -> Sequence[Category]:
-    statement = (
-      select(Category)
-      .where(Category.user_id == user_id)
-      .order_by(Category.name)
-      .options(selectinload(Category.activities))
     )
     result = await session.execute(statement)
     return result.scalars().all()

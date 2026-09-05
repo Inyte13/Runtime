@@ -1,6 +1,6 @@
 import uuid
 
-from app.api.dependencies import UserIdDep
+from app.api.dependencies import UserDep, UserIdDep
 from app.core.database import SessionDep
 from app.schemas.category_schema import (
   CategoryCreate,
@@ -15,8 +15,8 @@ router = APIRouter(tags=['Categories'], prefix='/categories')
 
 
 @router.get('/', response_model=list[CategoryResponseDetail])
-async def get_all(session: SessionDep, user_id: UserIdDep):
-  return await category_service.get_all_with_activities(session, user_id)
+async def get_all(session: SessionDep, user: UserDep):
+  return await category_service.get_all_with_activities(session, user)
 
 
 @router.post('/', status_code=201, response_model=CategoryResponse)
@@ -37,5 +37,5 @@ async def patch(
 
 
 @router.delete('/{id}', status_code=204)
-async def delete(session: SessionDep, user_id: UserIdDep, id: uuid.UUID):
-  await category_service.delete(session, user_id, id)
+async def delete(session: SessionDep, user: UserDep, id: uuid.UUID):
+  await category_service.delete(session, user, id)

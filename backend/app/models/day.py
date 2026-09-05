@@ -2,9 +2,8 @@ import uuid
 from datetime import date
 
 from app.core.database import Base
-from app.models.block import Block
 from sqlalchemy import ForeignKey, PrimaryKeyConstraint, String
-from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy.orm import Mapped, mapped_column
 
 
 class Day(Base):
@@ -17,7 +16,3 @@ class Day(Base):
   )
 
   title: Mapped[str | None] = mapped_column(String(50))
-  blocks: Mapped[list[Block]] = relationship(
-    cascade='all, delete-orphan',  # Al delete Day, sus blocks se eliminan
-    order_by=Block.hour,  # Trae los blocks ordenados
-  )

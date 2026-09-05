@@ -9,7 +9,6 @@ from app.models.hidden_activity import HiddenActivity
 from app.schemas.day_schema import DayUpdate
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy.orm import selectinload
 
 
 class DayRepository:
@@ -23,18 +22,6 @@ class DayRepository:
   ) -> Day | None:
     # Solo para pk compuesta
     return await session.get(Day, (date, user_id))
-
-  async def get_with_blocks(
-    self, session: AsyncSession, date: date, user_id: uuid.UUID
-  ) -> Day | None:
-    statement = (
-      select(Day)
-      .where(Day.date == date)
-      .where(Day.user_id == user_id)
-      .options(selectinload(Day.blocks))
-    )
-    result = await session.execute(statement)
-    return result.scalars().first()
 
   async def get_by_range(
     self,
@@ -79,11 +66,8 @@ class DayRepository:
       .where(Activity.id.notin_(subquery))
       .order_by(Block.date)
     )
-    result_with_row = await session.execute(statement)
-    result: list[tuple[date, uuid.UUID, float, str | None, uuid.UUID]] = []
-    for row in result_with_row.all():
-      result.append(tuple(row))
-    return result
+    result = await session.execute(statement)
+    return result.tuples().all()
 
   async def update(
     self, session: AsyncSession, day_obj: Day, day: DayUpdate
@@ -95,9 +79,6 @@ class DayRepository:
       setattr(day_obj, field, value)
     await session.flush()
     return day_obj
-
-  async def delete(self, session: AsyncSession, day: Day) -> None:
-    await session.delete(day)
 
 
 day_repository = DayRepository()

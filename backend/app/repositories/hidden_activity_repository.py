@@ -1,33 +1,27 @@
 import uuid
 
 from app.models.hidden_activity import HiddenActivity
-from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 
-class ActividadOcultaRepository:
+class HiddenActivityRepository:
   async def create(
-    self, session: AsyncSession, user_id: uuid.UUID, activity_id: uuid.UUID
+    self, session: AsyncSession, hidden_activity: HiddenActivity
   ) -> HiddenActivity:
-    actividad_oculta = HiddenActivity(user_id=user_id, activity_id=activity_id)
-    session.add(actividad_oculta)
+    session.add(hidden_activity)
     await session.flush()
-    return actividad_oculta
+    return hidden_activity
+
+  async def get(
+    self, session: AsyncSession, activity_id: uuid.UUID, user_id: uuid.UUID
+  ) -> HiddenActivity | None:
+    # Solo para pk compuesta
+    return await session.get(HiddenActivity, (activity_id, user_id))
 
   async def delete(
-    self, session: AsyncSession, user_id: uuid.UUID, activity_id: uuid.UUID
-  ) -> bool:
-    statement = (
-      select(HiddenActivity)
-      .where(HiddenActivity.user_id == user_id)
-      .where(HiddenActivity.activity_id == activity_id)
-    )
-    result = await session.execute(statement)
-    actividad_oculta = result.scalar_one_or_none()
-    if actividad_oculta:
-      await session.delete(actividad_oculta)
-      return True
-    return False
+    self, session: AsyncSession, hidden_activity: HiddenActivity
+  ) -> None:
+    await session.delete(hidden_activity)
 
 
-actividad_oculta_repository = ActividadOcultaRepository()
+hidden_activity_repository = HiddenActivityRepository()
