@@ -9,6 +9,7 @@ from app.models.category import Category
 from pydantic_extra_types import Color
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
+
 from tests.factories.user_factory import create_user
 
 
@@ -29,7 +30,7 @@ async def test_create_user(
   activities = activities_result.scalars().all()
 
   assert user.id is not None
-  assert user.activity_default_id is not None
+  assert user.default_activity_id is not None
 
   assert len(categories) == 1
   assert len(activities) == 1
@@ -38,4 +39,4 @@ async def test_create_user(
   assert categories[0].color == Color(DEFAULT_CATEGORY_COLOR)
   assert activities[0].name == DEFAULT_ACTIVITY_NAME
   assert activities[0].category_id == categories[0].id
-  assert activities[0].id == user.activity_default_id
+  assert activities[0].id == user.default_activity_id

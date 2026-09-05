@@ -16,18 +16,16 @@ async def create_block(
   duration: float = GRANULARITY_HOURS,
   description: str | None = None,
 ) -> Block:
-  if placement.position == 'end':
-    return await block_service.create(
-      session,
-      user,
-      BlockCreate(
-        date=date,
-        duration=duration,
-        description=description,
-        placement=EdgePosition(position='end'),
-      ),
-    )
-  raise ValueError(f'Position {placement.position} no declarada')
+  return await block_service.create(
+    session,
+    user,
+    BlockCreate(
+      date=date,
+      duration=duration,
+      description=description,
+      placement=placement,
+    ),
+  )
 
 
 async def create_blocks(
@@ -45,7 +43,7 @@ async def create_blocks(
     {} if overrides_description is None else overrides_description
   )
   blocks: list[Block] = []
-  for block_index in range(1, count + 1):
+  for block_index in range(count):
     block_duration = overrides_duration.get(block_index, duration)
     block_description = overrides_description.get(block_index, description)
     block_create = await create_block(
