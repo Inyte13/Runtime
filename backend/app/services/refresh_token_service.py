@@ -27,7 +27,7 @@ class RefreshTokenService:
     except ValueError:
       raise MalformedRefreshTokenError()
     refresh_token = await self.repository.get(session, id_uuid)
-    if not refresh_token:
+    if refresh_token is None:
       raise NotFoundError()
     expires_at = refresh_token.expires_at
     # Si no tiene UTC, le inyectamos

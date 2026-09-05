@@ -7,7 +7,6 @@ from sqlalchemy.orm import Mapped, mapped_column
 
 class Activity(Base):
   __tablename__ = 'activities'
-  # Pares únicos
   __table_args__ = (
     UniqueConstraint('name', 'user_id', name='uq_activity_name_user'),
   )

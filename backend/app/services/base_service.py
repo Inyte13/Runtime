@@ -15,6 +15,6 @@ async def get_or_raise(
   user_id: uuid.UUID,
 ) -> T:
   result = await repository.get(session, id, user_id)
-  if not result:
+  if result is None:
     raise NotFoundError(f'{repository.model.__name__} no se encontró')
   return result

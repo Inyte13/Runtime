@@ -40,6 +40,7 @@ async def upsert(
   return await day_service.upsert(session, user_id, day, date)
 
 
+# TODO: Nuestro dominio necesita mas un "move" que un "reorder" porque el caso más común es reordenar 1 block
 @router.patch('/{date}/reorder', response_model=list[BlockResponse])
 async def reorder(
   session: SessionDep,
@@ -48,8 +49,3 @@ async def reorder(
   block_ids: list[uuid.UUID] = Body(...),
 ):
   return await block_service.reorder(session, user_id, date, block_ids)
-
-
-@router.delete('/{date}', status_code=204)
-async def delete(session: SessionDep, user_id: UserIdDep, date: PathDate):
-  await day_service.delete(session, user_id, date)

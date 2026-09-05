@@ -8,7 +8,7 @@ router = APIRouter(
   tags=['Admin'], prefix='/admin', dependencies=[Depends(get_admin_user)]
 )
 
-
+# TODO: Crear pagination
 # list en lugar de Sequence porque es un JSON Array
 @router.get('/users', response_model=list[UserResponse])
 async def get_users(session: SessionDep):

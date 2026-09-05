@@ -1,7 +1,8 @@
 import uuid
-from collections.abc import Sequence
 from datetime import date, time
 
+from app.core.exceptions.activity_exception import DefaultActivityMissingError
+from app.core.exceptions.block_exception import BlockDateMismatchError
 from app.core.exceptions.generic_exception import ConflictError
 from app.core.exceptions.time_exception import TimeBoundaryError
 from app.models.block import Block
@@ -19,6 +20,7 @@ from app.utils.hours import (
 )
 from sqlalchemy.ext.asyncio import AsyncSession
 
+# TODO: Solucionar dos peticiones al mismo tiempo
 
 class BlockService:
   def __init__(self):
@@ -27,24 +29,24 @@ class BlockService:
   async def create(
     self, session: AsyncSession, user: User, block_create: BlockCreate
   ) -> Block:
+    if user.default_activity_id is None:
+      raise DefaultActivityMissingError('User no tiene default activity')
     await day_service.get_or_create(session, block_create.date, user.id)
-    if user.activity_default_id is None:
-      raise RuntimeError('User no tiene activity default')
     if block_create.placement.position == 'end':
-      return await self._create_end_position(
-        session, block_create, user.id, user.activity_default_id
+      return await self._create_end(
+        session, block_create, user.id, user.default_activity_id
       )
     if block_create.placement.position == 'after':
-      return await self._create_after_position(
-        session, block_create, user.id, user.activity_default_id
+      return await self._create_after(
+        session, block_create, user.id, user.default_activity_id
       )
     if block_create.placement.position == 'before':
-      return await self._create_before_position(
-        session, block_create, user.id, user.activity_default_id
+      return await self._create_before(
+        session, block_create, user.id, user.default_activity_id
       )
     raise ValueError(f'Position {block_create.placement.position} no declarada')
 
-  async def _create_end_position(
+  async def _create_end(
     self,
     session: AsyncSession,
     block_create: BlockCreate,
@@ -71,7 +73,7 @@ class BlockService:
     )
     return await self.repository.create(session, new_block)
 
-  async def _create_after_position(
+  async def _create_after(
     self,
     session: AsyncSession,
     block_create: BlockCreate,
@@ -82,6 +84,8 @@ class BlockService:
     target_block = await get_or_raise(
       session, self.repository, block_create.placement.target_id, user_id
     )
+    if target_block.date != block_create.date:
+      raise BlockDateMismatchError()
     last_block = await self.repository.get_last(
       session, block_create.date, user_id
     )
@@ -119,7 +123,7 @@ class BlockService:
     )
     return await self.repository.create(session, new_block)
 
-  async def _create_before_position(
+  async def _create_before(
     self,
     session: AsyncSession,
     block_create: BlockCreate,
@@ -130,6 +134,8 @@ class BlockService:
     target_block = await get_or_raise(
       session, self.repository, block_create.placement.target_id, user_id
     )
+    if target_block.date != block_create.date:
+      raise BlockDateMismatchError()
     new_block = Block(
       user_id=user_id,
       date=block_create.date,
@@ -145,18 +151,6 @@ class BlockService:
     recalculate_hours(affected_blocks, block_create.duration)
     return await self.repository.create(session, new_block)
 
-  def _validate_and_dict_blocks(
-    self,
-    blocks_ids: list[uuid.UUID],
-    blocks: Sequence[Block],
-  ) -> dict[uuid.UUID, Block]:
-    blocks_dict: dict[uuid.UUID, Block] = {}
-    for block in blocks:
-      blocks_dict[block.id] = block
-    if len(blocks_ids) != len(blocks) or set(blocks_ids) != blocks_dict.keys():
-      raise ConflictError('Los bloques no coinciden')
-    return blocks_dict
-
   async def reorder(
     self,
     session: AsyncSession,
@@ -165,8 +159,16 @@ class BlockService:
     blocks_ids: list[uuid.UUID],
   ) -> list[Block]:
     blocks = await block_repository.get_by_range(session, date, user_id)
-    blocks_dict = self._validate_and_dict_blocks(blocks_ids, blocks)
-
+    blocks_dict: dict[uuid.UUID, Block] = {}
+    blocks_ids_bd: list[uuid.UUID] = []
+    for block in blocks:
+      blocks_ids_bd.append(block.id)
+      blocks_dict[block.id] = block
+    if blocks_ids == blocks_ids_bd:
+      return list(blocks)
+    # set porque no importa el orden, solo los mismos elementos
+    if len(blocks_ids) != len(blocks) or set(blocks_ids) != blocks_dict.keys():
+      raise ConflictError('Los bloques no coinciden')
     minutes_temp = 0
     updated_blocks: list[Block] = []
     for block_id in blocks_ids:
