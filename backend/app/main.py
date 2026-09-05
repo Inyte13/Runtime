@@ -1,5 +1,4 @@
 import logging
-from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
@@ -7,26 +6,23 @@ from fastapi.responses import JSONResponse
 from sqlalchemy.exc import IntegrityError
 
 from app.api.v1.router import api_router
-from app.core.database import Base, engine
 from app.core.exceptions.base_exception import DomainError
 from app.core.exceptions.generic_exception import ConflictError
 from app.core.settings import get_settings
 
-
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-  """Application lifespan events"""
-  # Startup
-  async with engine.begin() as conn:
-    await conn.run_sync(Base.metadata.create_all)
-  yield
-  # Shutdown
-
-
+# @asynccontextmanager
+# async def lifespan(app: FastAPI):
+#   """Application lifespan events"""
+#   # Startup
+#   async with engine.begin() as conn:
+#     await conn.run_sync(Base.metadata.create_all)
+#   yield
+#   # Shutdown
+  
 app = FastAPI(
   title='Runtime App',
   version='1.0.0',
-  lifespan=lifespan,
+  # lifespan=lifespan,
 )
 
 
